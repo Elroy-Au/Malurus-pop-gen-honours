@@ -12,7 +12,7 @@
 \cf2 #SBATCH --partition=compute\cf3 \
 \cf2 #SBATCH --mem=10G\cf3 \
 \cf2 #SBATCH --cpus-per-task=1\cf3 \
-\cf2 #SBATCH --time=12:00:00\cf3 \
+\cf2 #SBATCH --time=04:00:00\cf3 \
 \cf2 #SBATCH --ntasks=1\cf3 \
 \cf2 ##SBATCH --mail-user=%u@oist.jp\cf3 \
 \cf2 ##SBATCH --mail-type=BEGIN,FAIL,END\cf3 \
@@ -23,33 +23,29 @@
 \cf4 . \cf5 $HOME\cf3 /.bashrc\
 \
 \cf2 #concatenate\cf3 \
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads SAM1*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads SAM1_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads SAM2*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads SAM2_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads SAM2*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads SAM2_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads SAM3*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads SAM3_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads SAM3*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads SAM3_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC100*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC100_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC100*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC100_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC101*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC101_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC101*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC101_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC102*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC102_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC102*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC102_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC103*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC103_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC103*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC103_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC104*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC104_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC104*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC104_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC105*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC105_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC105*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC105_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC106*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC106_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC106*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC106_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC107*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC107_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC107*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC107_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC108*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC108_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC108*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC108_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC109*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC109_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC109*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC109_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC110*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC110_R1.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC110*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC110_R2.fastq.gz\
-cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC111*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads ANWC111_R1.fastq.gz\
-\
-#continued}
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/SAM1*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/SAM1_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/SAM2*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/SAM2_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/SAM2*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/SAM2_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/SAM3*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/SAM3_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/SAM3*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/SAM3_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC100*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC100_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC100*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC100_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC101*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC101_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC101*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC101_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC102*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC102_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC102*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC102_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC103*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC103_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC103*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC103_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC104*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC104_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC104*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC104_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC105*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC105_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC105*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC105_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC106*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC106_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC106*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC106_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC107*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC107_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC107*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC107_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC108*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC108_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC108*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC108_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC109*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC109_R1.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC109*R2_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC109_R2.fastq.gz\
+cat /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC110*R1_001.fastq.gz \cf4 >\cf3  /\cb6 work\cb1 /MikheyevU/elroy/data/reads/ANWC110_R1.fastq.gz}
