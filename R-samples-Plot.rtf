@@ -5,28 +5,47 @@
 \paperw11900\paperh16840\margl1440\margr1440\vieww23120\viewh10540\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 #use rworldmap\
-library(rworldmap)\
-library(maps)\
-#these are other mapping tools that may come in use later on\
-library(ggplot2)\
-library(ggmap)\
-library(maps)\
-library(mapdata)\
-library(oz)\
-library(Rmisc)\
-#set objects from csv file\
-data <- read.csv(file.choose(), header = TRUE)\
-#set columns from csv data file as objects\
-latitude <- data$Latitude\
-longitude <- data$Longitude\
-#open a new map\
-newmap <- getMap(resolution = "low")\
-View(newmap)\
-plot(newmap)\
-#plot a map of Australia\
-plot(newmap, xlim = c(125, 145), ylim = c(-55, -10), asp = 1)\
-#plotting map of Australia with states lines\
-oz()\
-#plot data points onto a map\
-points(newdata$Longitude, newdata$Latitude, col = "red", cex = .6)}
+\f0\fs24 \cf0 > library(oz)\
+> oz()\
+> library(readxl)\
+> X1981_1985 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1981 - 1985.xlsx")\
+> View(X1981_1985)                                                                                            \
+> library(readxl)\
+> X1986_1990 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1986 - 1990.xlsx")\
+> View(X1986_1990)                                                                                            \
+> library(readxl)\
+> X1991_1995 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1991 - 1995.xlsx")\
+> View(X1991_1995)                                                                                            \
+> library(readxl)\
+> X1996_2000 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1996 - 2000.xlsx")\
+> View(X1996_2000)                                                                                            \
+> library(readxl)\
+> X2001_2005 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/2001 - 2005.xlsx")\
+> View(X2001_2005)                                                                                            \
+> library(readxl)\
+> X2006_2010 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/2006 - 2010.xlsx")\
+> View(X2006_2010)                                                                                            \
+> library(readxl)\
+> X2011_2015 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/2011 - 2015.xlsx")\
+> View(X2011_2015)                                                                                            \
+> lat1 <- X1986_1990$Latitude\
+> long1 <- X1986_1990$Longitude\
+> lat2 <- X1981_1985$Latitude\
+> long2 <- X1981_1985$Longitude\
+> lat3 <- X1991_1995$Latitude\
+> long3 <- X1991_1995$Longitude\
+> lat4 <- X1996_2000$Latitude\
+> long4 <- X1996_2000$Longitude\
+> lat5 <- X2001_2005$Latitude\
+> long5 <- X2001_2005$Longitude\
+> lat6 <- X2006_2010$Latitude\
+> long6 <- X2006_2010$Longitude\
+> lat7 <- X2011_2015$Latitude\
+> long7 <- X2011_2015$Longitude\
+> points(long2,lat2, col = "#62CFEF", bg = "#62CFEF", pch = 24)\
+> points(long1,lat1, col = "#62B1EF", bg = "#62B1EF", pch = 24)\
+> points(long3,lat3, col = "#62A8EF", bg = "#62A8EF", pch = 24)\
+> points(long4,lat4, col = "#629CEF", bg = "#629CEF", pch = 24)\
+> points(long5,lat5, col = "#6286EF", bg = "#6286EF", pch = 24)\
+> points(long6,lat6, col = "#6862EF", bg = "#6862EF", pch = 24)\
+> points(long7,lat7, col = "#8262EF", bg = "#8262EF", pch = 24)}
