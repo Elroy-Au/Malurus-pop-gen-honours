@@ -24,7 +24,7 @@
 \
 module load freebayes/1.0.2 vcftools/0.1.12b\
 \
-freebayes \cf6 -f\cf3  /work/MikheyevU/elroy/reference/genome/superb.fa \cf6 --use-best-n-alleles\cf3  \cf7 4\cf3  \cf6 -r\cf3  chrom01A_scaffold0001_wholechromosome \cf6 --max-coverage\cf3  \cf7 5000\cf3  /work/MikheyevU/elroy/data/alignments/*.bam | vcffilter \cf6 -f\cf3  \cf5 "\cf7 QUAL > 20\cf5 "\cf3  \cf5 >\cf3  var.vcf /work/MikheyevU/elroy/data/snp\
+freebayes \cf6 -f\cf3  /work/MikheyevU/elroy/reference/genome/superb.fa \cf6 --use-best-n-alleles\cf3  \cf7 4\cf3  \cf6 -r\cf3  chrom01A_scaffold0001_wholechromosome \cf6 --max-coverage\cf3  \cf7 5000\cf3  /work/MikheyevU/elroy/data/alignments/*.bam | vcffilter \cf6 -f\cf3  \cf5 "\cf7 QUAL > 20\cf5 "\cf3  \cf5 >\cf3  /work/MikheyevU/elroy/data/snp.results.vcf\
 \
 \cf2 #--use-best-n-alleles: reduce the number of alleles considered to 4 > rude runtime at the cost of sensitivity to lower-frequency alleles at multi allelic loci \
 # -r call variants on a specific chromosome \
