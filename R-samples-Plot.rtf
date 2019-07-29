@@ -1,51 +1,59 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1671
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf500
+{\fonttbl\f0\fnil\fcharset0 AndaleMono;}
+{\colortbl;\red255\green255\blue255;\red61\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c25530\c100000\c100000;}
 \paperw11900\paperh16840\margl1440\margr1440\vieww23120\viewh10540\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 > library(oz)\
-> oz()\
-> library(readxl)\
-> X1981_1985 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1981 - 1985.xlsx")\
-> View(X1981_1985)                                                                                            \
-> library(readxl)\
-> X1986_1990 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1986 - 1990.xlsx")\
-> View(X1986_1990)                                                                                            \
-> library(readxl)\
-> X1991_1995 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1991 - 1995.xlsx")\
-> View(X1991_1995)                                                                                            \
-> library(readxl)\
-> X1996_2000 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1996 - 2000.xlsx")\
-> View(X1996_2000)                                                                                            \
-> library(readxl)\
-> X2001_2005 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/2001 - 2005.xlsx")\
-> View(X2001_2005)                                                                                            \
-> library(readxl)\
-> X2006_2010 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/2006 - 2010.xlsx")\
-> View(X2006_2010)                                                                                            \
-> library(readxl)\
-> X2011_2015 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/2011 - 2015.xlsx")\
-> View(X2011_2015)                                                                                            \
-> lat1 <- X1981_1985$Latitude\
-> long1 <- X1981_1985$Longitude\
-> lat2 <- X1986_1990$Latitude\
-> long2 <- X1986_1990$Longitude\
-> lat3 <- X1991_1995$Latitude\
-> long3 <- X1991_1995$Longitude\
-> lat4 <- X1996_2000$Latitude\
-> long4 <- X1996_2000$Longitude\
-> lat5 <- X2001_2005$Latitude\
-> long5 <- X2001_2005$Longitude\
-> lat6 <- X2006_2010$Latitude\
-> long6 <- X2006_2010$Longitude\
-> lat7 <- X2011_2015$Latitude\
-> long7 <- X2011_2015$Longitude\
-> points(long1,lat1, col = "#85C1E9", bg = "#85C1E9", pch = 24)\
-> points(long2,lat2, col = "#5DADE2", bg = "#5DADE2", pch = 24)\
-> points(long3,lat3, col = "#3498DB", bg = "#3498DB", pch = 24)\
-> points(long4,lat4, col = "#2E86C1", bg = "#2E86C1", pch = 24)\
-> points(long5,lat5, col = "#2874A6", bg = "#2874A6", pch = 24)\
-> points(long6,lat6, col = "#21618C", bg = "#21618C", pch = 24)\
-> points(long7,lat7, col = "#1B4F72", bg = "#1B4F72", pch = 24)}
+\f0\fs24 \cf0 ### =====================\
+### SAMPLES MAP\
+### =====================\
+\
+library(oz)\
+\cf2 #plot a map of Australia using the oz package\cf0 \
+oz()\
+#load the excel files containing the lat, long data\
+library(readxl)\
+X1981_1985 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1981 - 1985.xlsx")\
+View(X1981_1985)                                                                                            \
+library(readxl)\
+X1986_1990 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1986 - 1990.xlsx")\
+View(X1986_1990)                                                                                            \
+library(readxl)\
+X1991_1995 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1991 - 1995.xlsx")\
+View(X1991_1995)                                                                                            \
+library(readxl)\
+X1996_2000 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/1996 - 2000.xlsx")\
+View(X1996_2000)                                                                                            \
+library(readxl)\
+X2001_2005 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/2001 - 2005.xlsx")\
+View(X2001_2005)                                                                                            \
+library(readxl)\
+X2006_2010 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/2006 - 2010.xlsx")\
+View(X2006_2010)                                                                                            \
+library(readxl)\
+X2011_2015 <- read_excel("Documents/University/Honours 2019/Australian Birds/tissues/tissue samples/samples-plot/2011 - 2015.xlsx")\
+View(X2011_2015)   \
+\cf2 #set the latititudes and longitudes as vectors\cf0 \
+lat1 <- X1981_1985$Latitude\
+long1 <- X1981_1985$Longitude\
+lat2 <- X1986_1990$Latitude\
+long2 <- X1986_1990$Longitude\
+lat3 <- X1991_1995$Latitude\
+long3 <- X1991_1995$Longitude\
+lat4 <- X1996_2000$Latitude\
+long4 <- X1996_2000$Longitude\
+lat5 <- X2001_2005$Latitude\
+long5 <- X2001_2005$Longitude\
+lat6 <- X2006_2010$Latitude\
+long6 <- X2006_2010$Longitude\
+lat7 <- X2011_2015$Latitude\
+long7 <- X2011_2015$Longitude\
+\cf2 #plot points \cf0 \
+points(long1,lat1, col = "#85C1E9", bg = "#85C1E9", pch = 24)\
+points(long2,lat2, col = "#5DADE2", bg = "#5DADE2", pch = 24)\
+points(long3,lat3, col = "#3498DB", bg = "#3498DB", pch = 24)\
+points(long4,lat4, col = "#2E86C1", bg = "#2E86C1", pch = 24)\
+points(long5,lat5, col = "#2874A6", bg = "#2874A6", pch = 24)\
+points(long6,lat6, col = "#21618C", bg = "#21618C", pch = 24)\
+points(long7,lat7, col = "#1B4F72", bg = "#1B4F72", pch = 24)}
