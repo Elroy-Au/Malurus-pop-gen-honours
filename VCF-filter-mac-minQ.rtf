@@ -1,0 +1,77 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fnil\fcharset0 Menlo-Bold;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red25\green162\blue221;\red0\green0\blue0;\red25\green162\blue221;
+}
+{\*\expandedcolortbl;;\cssrgb\c5821\c69898\c89230;\csgray\c0;\cssrgb\c5821\c69898\c89230;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww14400\viewh9780\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\b\fs22 \cf2 \CocoaLigature0 #DIRECTORY
+\f1\b0 \cf3 \
+/work/MikheyevU/elroy/data/snp\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\b \cf4 #VCF TOOLS
+\f1\b0 \cf3 \
+module load vcftools/0.1.12b\
+\
+
+\f0\b \cf4 #FILTER THE GZIPPED VCF FILE USING A MINOR ALLELE COUNT OF 10, A MINIMUM QUALITY FLAG OF 20 (99% CHANCE OF BEING POLYMORPHIC)\
+# --GZVCF: FILE IS IN GZIP FORMAT \
+# --MAC: MINOR ALLELE COUNT\
+# --MINQ: MINIMUM QUALITY PHRED SCORE OF 20 \
+# --RECODE: WRITE A NEW VCF FILE THE APPROPRIATE FILTERS \
+# --RECODE-INFO-ALL: KEEP ALL THE INFO FLAGS OF THE OLD VCF FILE IN THE NEW ONE \
+     
+\f1\b0 \cf3 \
+vcftools --gzvcf chr01.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr01.mac10\
+\
+vcftools --gzvcf chr02.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr02.mac10\
+\
+vcftools --gzvcf chr03.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr03.mac10\
+\
+vcftools --gzvcf chro01A.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr01A.mac10\
+\
+vcftools --gzvcf chro04A.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr04A.mac10\
+\
+vcftools --gzvcf chro04.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr04.mac10\
+\
+vcftools --gzvcf chro05.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr05.mac10\
+\
+vcftools --gzvcf chro06.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr06.mac10\
+\
+vcftools --gzvcf chro07.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr07.mac10\
+\
+vcftools --gzvcf chro08.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr08.mac10\
+\
+vcftools --gzvcf chro09.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr09.mac10\
+\
+vcftools --gzvcf chro10.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr10.mac10\
+\
+vcftools --gzvcf chro11.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr11.mac10\
+\
+vcftools --gzvcf chro12.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr12.mac10\
+\
+vcftools --gzvcf chro13.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr13.mac10\
+\
+vcftools --gzvcf chro14.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr14.mac10\
+\
+vcftools --gzvcf chro15.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr15.mac10\
+\
+vcftools --gzvcf chro17.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr17.mac10\
+\
+vcftools --gzvcf chro18.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr18.mac10\
+\
+vcftools --gzvcf chro20.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr20.mac10\
+\
+vcftools --gzvcf chro21.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr21.mac10\
+\
+vcftools --gzvcf chro23.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr23.mac10\
+\
+vcftools --gzvcf chro27.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr27.mac10\
+\
+vcftools --gzvcf chro28.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr28.mac10\
+\
+vcftools --gzvcf chroZ.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chrZ.mac10}
