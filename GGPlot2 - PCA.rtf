@@ -44,6 +44,11 @@ d <- b + geom_point(aes(color = depth)) + scale_color_continuous(high = "red", l
 a <- ggplot (chr27_sorted, aes(x=PC1, y=PC2, group = IndvMissing)) + geom_point(aes(shape = IndvMissing, color = Period), size = 2.5) + scale_shape_manual(values = c(15:19)) + theme_bw()\
 \cf2 #using manual shape selection + jitter to prevent overcrowding\cf3 \
 ggplot (chr27_sorted, aes(x=PC1, y=PC2, group = IndvMissing)) + geom_point(aes(shape = IndvMissing, color = Period), position = "jitter", size = 2) + scale_shape_manual(values = c(3, 4, 15, 17, 19)) + theme_bw()\
+\cf2 #separate the samples by date period (shape) using a gradient (individual missingness/depth)\cf3 \
+ggplot (chr27_sorted, aes(x=PC1, y=PC2, group = IndvMissing)) + geom_point(aes(shape = Period, color = Missingness), position = "jitter", size = 2.5) + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) + scale_color_continuous(high = "black", low = "turquoise2") + theme_bw()\
+\cf2 #depth\cf3 \
+ggplot (chr27_sorted, aes(x=PC1, y=PC2)) + geom_point(aes(shape = Period, color = Coverage), position = "jitter", size = 2.5) + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) + scale_color_continuous(high = "black", low = "gold") + theme_bw()\
+\cf2 #it doesn't seem like group identification is necessary here unless you want to sort missing/depth by group order, e.g. 2X, 3X, 4X ...\cf3 \
 \
 \
 \cf2 ### POTENTIALLY USEFUL COMMANDS\cf3 \
