@@ -35,17 +35,23 @@ a <- ggplot(chr27, aes(PC1, PC2)) + geom_point(color = 'blue') + theme_bw()\
 b <- a + geom_point(aes(shape = Period), size = 3) + scale_shape_manual(values = c(0:8))\
 \
 \cf2 #LAYER 3: Add a colour gradient scale to represent missingness\cf3 \
-c <- b + geom_point (aes(color = missingness)) + scale_color_continuous(high = "red", low = "yellow")\
+c <- b + geom_point(aes(color = missingness)) + scale_color_continuous(high = "red", low = "yellow")\
 \
 \cf2 #LAYER 4: Add a colour gradient scale to represent missingness\cf3 \
-d <- b + geom_point (aes(color = depth)) + scale_color_continuous(high = "red", low = "blue")\
+d <- b + geom_point(aes(color = depth)) + scale_color_continuous(high = "red", low = "blue")\
+\
+\cf2 #LAYER 5: Group by Individual Missingness and identify using time period (colour). \cf3 \
+a <- ggplot (chr27_sorted, aes(x=PC1, y=PC2, group = IndvMissing)) + geom_point(aes(shape = IndvMissing, color = Period), size = 2.5) + scale_shape_manual(values = c(15:19)) + theme_bw()\
+\cf2 #using manual shape selection + jitter to prevent overcrowding\cf3 \
+ggplot (chr27_sorted, aes(x=PC1, y=PC2, group = IndvMissing)) + geom_point(aes(shape = IndvMissing, color = Period), position = "jitter", size = 2) + scale_shape_manual(values = c(3, 4, 15, 17, 19)) + theme_bw()\
+\
 \
 \cf2 ### POTENTIALLY USEFUL COMMANDS\cf3 \
 \
 \cf2 #add the row names as individual labels\cf3 \
 a + geom_text(aes(label = rownames(PCA)), size = 3)\
 require("ggrepel")\
-set.seed(42) \cf2 #not sure what this means just yet or if it is necessary\cf3  \
+set.seed(42) #not sure what this means just yet or if it is necessary \
 \cf2 #add the row names as labels with a repel effect on the plot\cf3 \
 a + geom_text_repel(aes(label = rownames(PCA)), size = 3)\
 \
