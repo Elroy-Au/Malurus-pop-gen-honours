@@ -1,0 +1,20 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue11;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c100000\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww16300\viewh11640\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf2 ### ==============================\
+### LINEAR REGRESSION IN GGPLOT2\
+### ==============================\cf0 \
+\
+\cf2 #perform a linear regression analysis on PC1 (principal component 1 values) and age.\
+#here, the x-axis (Age) is the predictor variable and the y-axis (PC1) is the response variable\cf0 \
+regression <- lm(PC1~Age, data = chr27_trimmed)\
+summary(regression)\
+\cf2 #make a regression plot \
+#scatter plot\
+#linear model\cf0 \
+a <- ggplot(chr27_trimmed, aes(y=PC1, x=Age)) + geom_point() + geom_smooth(method="lm") + theme_bw()\
+}
