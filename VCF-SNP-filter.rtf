@@ -30,26 +30,29 @@ vcftools --gzvcf /work/MikheyevU/elroy/data/snp/chr01.vcf.gz --mac 10 --minQ 20 
 
 \f0\b \cf2 #FILTER THE GZIPPED VCF FILE USING A MAXIMUM MEAN DEPTH FILTER OF 6 \'97 THIS IS TO REMOVE 3 STANDARD DEVIATIONS FROM THE AVERAGE SITE DEPTH PER LOCUS (NOT INDIVIDUAL COVERAGE DEPTH). SNPs OVER THIS THRESHOLD TEND TO BE ERRORS LIKE PARALOGS.\
 \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
 \f1\b0 \cf3 vcftools --gzvcf chr01A.mac10.recode.vcf.gz --max-meanDP 6 --recode --recode-INFO-all --out chr01A.mac10.maxdp6\
 \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
 \f0\b \cf2 #FILTER THE GZIPPED VCF FILE USING A SITE MISSINGNESS CUTOFF OF 0.2% (--MAX-MISSING EXCLUDES SITES ON THE BASIS OF THE PROPORTION OF MISSING DATA WHERE 0 = ALLOW 100% MISSING DATA AND 1 ALLOWS 0% MISSING DATA)\
 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
 \f1\b0 \cf4 vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr01A.mac10.maxdp6.recode.vcf.gz --max-missing 0.8 --recode --recode-INFO-all --out chr01A.mac10.maxdp6.sitemiss\cf3 \
 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
 \f0\b \cf2 #FILTER BY A MINOR ALLELE FREQUENCY (MAF) OF 0.05 AND MINQ VALUE OF 30
 \f1\b0 \cf3 \
 \
 vcftools --gzvcf chr01A.mac10.maxdp6.sitemiss.recode.vcf.gz --maf 0.05 --minQ 30 --recode --recode-INFO-all --out chr01A.maf5.mac10.maxdp6.miss\
 \
+
+\f0\b \cf2 #FILTER THE GZIPPED VCF FILE USING A SITE MISSINGNESS CUTOFF OF 0.1% (--MAX-MISSING EXCLUDES SITES ON THE BASIS OF THE PROPORTION OF MISSING DATA WHERE 0 = ALLOW 100% MISSING DATA AND 1 ALLOWS 0% MISSING DATA)\
 \
-\
-\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\b0 \cf4 vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/\cf3 chr01A.maf5.mac10.maxdp6.miss.recode.vcf \cf4 --max-missing 0.9 --recode --recode-INFO-all --out chr01A.miss10.maf5.mac10.maxdp6\cf3 \
 \
 \
 \
