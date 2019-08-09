@@ -39,8 +39,11 @@ vcftools --gzvcf /work/MikheyevU/elroy/data/snp/chr01.vcf.gz --mac 10 --minQ 20 
 
 \f1\b0 \cf4 vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr01A.mac10.maxdp6.recode.vcf.gz --max-missing 0.8 --recode --recode-INFO-all --out chr01A.mac10.maxdp6.sitemiss\cf3 \
 \
+
+\f0\b \cf2 #FILTER BY A MINOR ALLELE FREQUENCY (MAF) OF 0.05 
+\f1\b0 \cf3 \
 \
-\
+vcftools --gzvcf chr01A.mac10.maxdp6.sitemiss.recode.vcf.gz --maf 0.05 --recode --recode-INFO-all --out chr01A.maf5.mac10.maxdp6.miss\
 \
 \
 \
