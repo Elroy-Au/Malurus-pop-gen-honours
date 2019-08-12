@@ -1,0 +1,278 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red25\green162\blue221;\red25\green162\blue221;\red0\green0\blue0;
+\red0\green0\blue0;\red0\green0\blue0;\red56\green185\blue199;\red219\green39\blue218;\red170\green171\blue37;
+\red202\green51\blue35;\red86\green32\blue244;\red252\green50\blue32;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c5821\c69898\c89230;\cssrgb\c5821\c69898\c89230;\cssrgb\c0\c0\c0;
+\csgray\c0\c0;\csgray\c0;\cssrgb\c25544\c77008\c82022;\cssrgb\c89513\c29738\c88483;\cssrgb\c72330\c71683\c18597;
+\cssrgb\c83898\c28665\c18024;\cssrgb\c41680\c25960\c96645;\cssrgb\c100000\c29541\c16201;\cssrgb\c100000\c100000\c100000\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww20500\viewh13740\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 ### \cf3 ===============================================\cf2 \
+### CONCATENATE GZ FILES\
+### \cf3 ===============================================\cf2 \
+\
+#CONCATENATE THE FORWARD READ (R1) AND REVERSE READ (R2) FASTQ FILES FROM SEQUENCING \
+#MULTIPLE FASTQ.GZ FILES EXIST BECAUSE SAMPLES WERE POOLED OVER DIFFERENT LANES\cf0 \
+\
+cat /work/MikheyevU/elroy/data/reads/ID*R2_001.fastq.gz > /work/MikheyevU/elroy/data/reads/ID_R2_fastq.gz\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 cat /work/MikheyevU/elroy/data/reads/ID*R1_001.fastq.gz > /work/MikheyevU/elroy/data/reads/ID_R1_fastq.gz\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 ### ===============================================\
+### ANALYSING FASTQ.GZ FILES\
+### ===============================================\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf4 \cb5 module load fastqc/0.11.5\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \cb1 #RUN THE FASTQC ANALYSIS FOR ALL FILES ENDING IN FASTQ.GZ\cf4 \cb5 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf4 \CocoaLigature0 fastqc -o /work/MikheyevU/elroy/data/reads/fastqc *fastq.gz\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \cb1 \CocoaLigature1 #ECHO THE NUMBER OF READS CONTAINED IN THE FASTQ FILE ID_R1.FASTQ.GZ\cf4 \cb5 \CocoaLigature0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \cb1 \CocoaLigature1 echo $(cat ID_R1.fastq.gz | wc-l)/4|bc\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 ### ===============================================\
+### INDEX THE GENOME\
+### ===============================================\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 \CocoaLigature0 module load bowtie2/2.3.4.3\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \CocoaLigature1 #BOWTIE2-BUILD <REFERENCE GENOME> <OUTPUT FILE>\cf6 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+bowtie2-build /work/MikheyevU/elroy/reference/genome/Malurus_cyaneus__wholegenome_version3.fa /work/MikheyevU/elroy/reference/genome/superb\cf0 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 ### ===============================================\
+### ALIGNMENT OF READS IN BOWTIE\
+### ===============================================\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 \CocoaLigature0 module load bowtie2/2.3.4.3 samtools/1.3.1\
+\
+\cf7 a\cf6 =\cf8 (\cf6 `\cf9 ls\cf6  \cf10 -1\cf6  /work/MikheyevU/elroy/data/reads/cat-reads/*_R1.fastq.gz`\cf8 )\cf6  \cf11 #group forward reads together\cf6 \
+\cf7 b\cf6 =\cf8 (\cf6 `\cf9 ls\cf6  \cf10 -1\cf6  /work/MikheyevU/elroy/data/reads/cat-reads/*_R2.fastq.gz`\cf8 )\cf6  \cf11 #group reverse reads together\cf6 \
+\
+\cf7 base\cf6 =\cf8 $(basename $\{a[\cf9 "\cf10 SLURM_ARRAY_TASK_ID\cf9 "\cf8 ]\} \cf9 "\cf10 -R1_001.fastq.gz\cf9 "\cf8 )\cf6  \cf11 #set the base name \cf6 \
+\cf7 f\cf6 =\cf8 $\{a[\cf9 "\cf10 SLURM_ARRAY_TASK_ID\cf9 "\cf8 ]\}\cf6  \cf11 #give all files from group a the identity f <forward-read>\cf6 \
+\cf9 r=\cf8 $\{b[\cf9 "\cf10 SLURM_ARRAY_TASK_ID\cf9 "\cf8 ]\}\cf6  \cf11 #give all files from group b the identity r <reverse-read>\cf6 \
+\cf9 echo\cf10  \cf8 $f\cf6 \
+\cf9 echo\cf10  \cf8 $r\cf6 \
+\
+\cf7 bowbase\cf6 =/work/MikheyevU/elroy/reference/genome/superb \cf11 #define the index genome \cf6 \
+\cf7 ref\cf6 =/work/MikheyevU/elroy/reference/genome/Malurus_cyaneus__wholegenome_version3.fa \cf11 #define the original reference genome \cf6 \
+\
+\cf7 outfile\cf6 =/work/MikheyevU/elroy/data/alignments/\cf8 `basename $f -R1_001.fastq.gz`\cf6 .bam \cf11 #define the outfile directory \cf6 \
+\
+\cf9 if [\cf6  \cf9 -s\cf6  \cf9 "\cf8 $outfile\cf9 "\cf6  \cf9 ]\cf6 \
+\cf9 then\cf6 \
+        \cf9 echo\cf10  \cf9 "\cf8 $outfile\cf10  has some data.\cf9 "\cf6  \cf11 #tell me if outfile has been successful\cf6 \
+        \cf9 sleep\cf6  10s\
+\cf9 else\cf6 \
+        \cf9 echo\cf10  \cf9 "\cf8 $outfile\cf10  is empty.\cf9 "\cf6  \cf11 #tell me if outfile is unsusccessful \cf6 \
+        bowtie2 \cf9 -p\cf6  \cf10 2\cf6  \cf8 --very-sensitive-local\cf6  \cf8 --sam-rg\cf6  ID:\cf8 $base\cf6  \cf8 --sam-rg\cf6  LB:Nextera \cf8 --sam-rg\cf6  SM:\cf8 $base\cf6  \cf8 --sam-rg\cf6  PL:ILLUMINA \cf9 -x\cf6  \cf8 $bowbase\cf6  \cf10 -1\cf6  \cf8 $f\cf6  \cf10 -2\cf6  \cf8 $r\cf6  | samtools view \cf8 -Su\cf6  \cf8 -F4\cf6  - | novosort  \cf9 -c\cf6  \cf10 2\cf6  \cf9 -m\cf6  10G \cf9 -i\cf6  \cf9 -o\cf6  /work/MikheyevU/elroy/data/alignments/\cf8 `basename $f -R1_001.fastq.gz`\cf6 .bam -\
+\cf9 fi\cf6 \
+\
+\cf11 #bowtie2 <options> -x reference -1 <forward read file> -2 <reverse read file>\cf6 \
+\cf11 #-p 2: number of alignment threads to launch\cf6 \
+\cf11 #--very-sensitive-local: trimming \cf6 \
+\cf11 #samtools view -Su -F4: convert output to BAM format. -S denotes .SAM file input, u denotes output is uncompressed BAM file, F4 removes unmapped reads \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \CocoaLigature1 ### ===============================================\
+### NORMALIZEFASTA - RE-INDEXING THE GENOME\
+### ===============================================\cf11 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf11 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\fs24 \cf0 \CocoaLigature1 module load picard/2.7.0\
+module load samtools\
+\cf6 \CocoaLigature0 picard NormalizeFasta LINE_LENGTH=80 I=/work/MikheyevU/elroy/reference/genome/Malurus_cyaneus__wholegenome_version3.fa O=/work/MikheyevU/elroy/reference/genome/superb.fa\
+samtools faidx superb.fa
+\fs22 \cf11 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \CocoaLigature1 ### ===============================================\
+### VARIANT CALLING IN FREEBAYES\
+### ===============================================\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 \CocoaLigature0 module use /work/.apps/unit/MikheyevU/.modulefiles\
+\
+module load freebayes/1.3.1 vcftools/0.1.12b vcflib/1.0.0-rc1\
+\
+freebayes \cf8 -f\cf6  /work/MikheyevU/elroy/reference/genome/superb.fa \cf8 --use-best-n-alleles\cf6  \cf10 4\cf6  \cf8 -r\cf6  chrom01A_scaffold0001_wholechromosome \cf8 --skip-coverage\cf6  \cf10 5000\cf6  /work/MikheyevU/elroy/data/alignments/*.bam | vcffilter \cf8 -f\cf6  \cf9 "\cf10 QUAL > 30\cf9 "\cf6  \cf9 >\cf6  /work/MikheyevU/elroy/data/snp/chr01A.results.vcf\cf11                                                                                                                                        \cf6 \
+\cf11                                                                                                                                                                                                                                                                  \cf6 \
+\
+\cf11 #--use-best-n-alleles: reduce the number of alleles considered to 4 > rude runtime at the cost of sensitivity to lower-frequency alleles at multi allelic loci \
+# -r call variants on a specific chromosome \
+# --max-coverage N: skip regions of coverage greater than N \'97 analysing these regions greatly increases runtime but does not provide much more useful detail\
+# vcffilter - remove any sites with estimated probability of not being polymorphic less than phred 20 (aka 0.01), or probability of polymorphism > 0.99\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \CocoaLigature1 ### ===============================================\
+### RECOMBINING SPLIT CHROMOSOMES\
+### ===============================================\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 \CocoaLigature0 module load bcftools/1.7\
+bcftools concat /work/MikheyevU/elroy/data/snp/chromosomes/\{chr.a\}.vcf.gz /work/MikheyevU/elroy/data/snp/chromosomes/\{chr.b\}.vcf.gz \cf9 >\cf6  /work/MikheyevU/elroy/data/snp/chromosomes/\{chr\}.vcf.gz\cf3 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \
+### ===============================================\
+### VARIANT CALLING ANALYSIS\
+### ===============================================\cf11 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \CocoaLigature1 ### ===============================================\
+### INDIVIDUAL MISSINGNESS\
+### ===============================================\cf3 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3      \cf6 \
+\cf3 #CALCULATE % OF MISSING DATA FOR INDIVIDUALS \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 vcftools --gzvcf \{chr\}.mac10.recode.vcf.gz --missing-indv --out \{chr\}\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 #TAKE THE FIFTH COLUMN FROM THE INDIVIDUAL MISSING FILE (MISSINGNESS %)\cf6 \
+awk '!/IN/' \{chr\}.imiss | cut -f5 > \{chr\}\
+\
+\cf3 #CONCATENATE INDIVIDUAL MISINGNESS FILES FOR SINGLE CHROMOSOMES\cf6 \
+cat chr01 chr01A chr02 chr03 chr04A chr04 chr05 chr06 chr07 chr08 chr09 chr10 chr11 chr12 chr13 chr14 chr15 chr17 chr18 chr20 chr21 chr23 chr27 chr28 chrZ > totalmissingness\
+\
+\cf3 #FILTER OUT INDIVIDUALS WHO HAVE POOR INDIVIDUAL MISSINGNESS \
+#TAKE THE LIST OF INDIVIDUALS FROM THE *.IMISS FILE\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 cut -f1 \{chr\}.imiss > individuals\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 #REMOVE THE INDIVIDUALS FROM THE FILE WITH POOR INDIVIDUAL MISSINGNESS \
+#HERE, REMOVE THE 8TH LINE FROM THE FILE \'91INDIVIDUALS\'92 AND PLACE IT INTO A NEW FILE CALLED OUTLIERS\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 sed -n 8p individuals > outliers\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 #HERE, REMOVE THE 8TH LINE FROM THE FILE \'91INDIVIDUALS\'92 AND APEEND IT TO THE END OF THE FILE CALLED OUTLIERS\cf6 \
+sed -n 12p individuals >> outliers\
+\
+\cf3 #OUTPUT VCF FILES EXCLUDING THE INDIVIDUALS LISTED IN \'91OUTLIERS\'92 USING THE COMMAND \'97-REMOVE\cf6 \
+vcftools --gzvcf \{chr\}.mac10.maxdp6.sitemiss.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/outliers --recode --recode-INFO-all --out \{chr\}.no.outliers\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \CocoaLigature1 ### ===============================================\
+### MEAN SITE DEPTH\
+### ===============================================\cf6 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 #CALCULATE THE DEPTH ACROSS LOCI \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 vcftools --gzvcf \{chr\}.mac10.recode.vcf.gz --site-depth --out \{chr\}DP\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 #TAKE ONLY THE THIRD COLUMN FROM THE DEPTH FILE, I.E. SUM DEPTH\cf6 \
+cut -f3 \{chr\}DP.ldepth > \{chr\}DP.site.ldepth\
+\
+\cf3 #CALCULATE AVERAGE DEPTH PER SITE \
+#DIVIDE SUM DEPTH BY NUMBER OF INDIVIDUALS \cf6 \
+awk '!/D/' \{chr\}DP.site.ldepth | awk -v x=133 '\{print $1/x\}' > \{chr\}meanDP\
+\
+\cf3 #CONCATENATE MEAN DEPTH FILES FOR ALL CHROMOSOMES \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 cat chr01meanDP chr01AmeanDP chr02meanDP chr03meanDP chr04AmeanDP chr04meanDP chr05meanDP chr06meanDP chr07meanDP chr08meanDP chr09meanDP chr10meanDP chr11meanDP chr12meanDP chr13meanDP chr14meanDP chr15meanDP chr17meanDP chr18meanDP chr20meanDP chr21meanDP chr23meanDP chr27meanDP chr28meanDP chrZmeanDP > meanDP\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 #TAKE 100,000 RANDOM INSTANCES \cf6 \
+shuf -n 100000 meanDP > meanDPsubset \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \CocoaLigature1 ### ===============================================\
+### SITE MISSINGNESS\
+### ===============================================\cf6 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 #CALCULATE THE MISSINGNESS PER SITE\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 vcftools --gzvcf \{chr\}.mac10.recode.vcf.gz --missing-site --out \{chr\}\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 #TAKE THE SIXTH COLUMN (F_MISS: % MISSINGNESS) FROM THE OUTPUT FILE \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 awk \'91!/CHR/\'91 \{chr\}.imiss | cut -f6 > \{chr\}\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 #CONCATENATE SITE MISINGNESS FILES FOR SINGLE CHROMOSOMES\cf6 \
+cat chr01 chr01A chr02 chr03 chr04A chr04 chr05 chr06 chr07 chr08 chr09 chr10 chr11 chr12 chr13 chr14 chr15 chr17 chr18 chr20 chr21 chr23 chr27 chr28 chrZ > sitemissingness\
+\
+\cf3 #TELL ME THE NUMBER OF LINES IN THIS DOCUMENT I.E. THE # OF OBSERVATIONS\cf6 \
+wc -l sitemissingness \
+12453032 sitemissingness\
+\
+\cf3 #TAKE 100,000 RANDOM INSTANCES \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 shuf -n 100000 sitemissingness > sitemissingset\cf3 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \
+### ===============================================\
+### SNP FILTERING\
+### ===============================================\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 \CocoaLigature0 module load vcftools/0.1.12b\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 #FILTER THE GZIPPED VCF FILE USING A MINOR ALLELE COUNT OF 10, A MINIMUM QUALITY FLAG OF 20 (99% CHANCE OF BEING POLYMORPHIC)\
+# --GZVCF: FILE IS IN GZIP FORMAT \
+# --MAC: MINOR ALLELE COUNT\
+# --MAF: MINOR ALLELE FREQUENCY \
+# --MINQ: MINIMUM QUALITY PHRED SCORE OF X\
+# --MAX-MEAN-DP: MAXIMUM MEAN DEPTH SCORE \
+# --MAX-MISSING: MAXIMUM SITE MISSINGNESS\
+# --RECODE: WRITE A NEW VCF FILE THE APPROPRIATE FILTERS \
+# --RECODE-INFO-ALL: KEEP ALL THE INFO FLAGS OF THE OLD VCF FILE IN THE NEW ONE \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 vcftools --gzvcf /work/MikheyevU/elroy/data/snp/\{chr\}.vcf.gz --mac 10 --maf 0.05 --minQ 30 \cf4 --max-missing 0.9 \cf6 --max-meanDP 6 --recode --recode-INFO-all --out \{chr\}.mac10.maf5.min30.miss10.maxdp6\cf3 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \
+### ===============================================\
+### VCF > BEAGLE\
+### ===============================================\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 \CocoaLigature0 vcftools \cf8 --gzvcf\cf6  \cf12 \{chr\}.vcf.gz\cf6  \cf8 --chr\cf6  \cf4 \cb13 \{chr.location\}\cf6 \cb1  \cf8 --BEAGLE-GL\cf6  \cf8 --out\cf6  \{chr\}\
+\
+e: vcftools \cf8 --gzvcf\cf6  \cf12 chr27.mac10.maxdp6.sitemiss.recode.vcf.gz\cf6  \cf8 --chr\cf6  \cf4 \cb13 chrom27_scaffold0023_wholechromosome\cf6 \cb1  \cf8 --BEAGLE-GL\cf6  \cf8 --out\cf6  chr27\cf3 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \
+### ===============================================\
+### COMBINE BEAGLE FILES\
+### ===============================================\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 \CocoaLigature0 (zcat *.BEAGLE.GL.gz | head -n1 ; for i in *BEAGLE.GL.gz; do zcat $i | sed 1d; done) | gzip > samples.beagle.gz\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \CocoaLigature1 ### ===============================================\
+### GENERATE A COVARIANCE MATRIX\
+### ===============================================\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf6 \CocoaLigature0 module load PCAngsd/f48b742\
+pcangsd.py -beagle \{input\}.BEAGLE.GL.gz -o \{output\} -threads 10\cf3 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf6 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+e: pcangsd.py -beagle PCA.BEAGLE.GL.gz -o PCA -threads 10\cf11 \
+}
