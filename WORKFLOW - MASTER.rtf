@@ -9,7 +9,7 @@
 \paperw11900\paperh16840\margl1440\margr1440\vieww20500\viewh13740\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
-\f0\fs22 \cf2 ### ===============================================\
+\f0\fs24 \cf2 ### ===============================================\
 ### CONCATENATE GZ FILES\
 ### ===============================================\
 \
@@ -88,12 +88,11 @@ bowtie2-build /work/MikheyevU/elroy/reference/genome/Malurus_cyaneus__wholegenom
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf10 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-
-\fs24 \cf0 \CocoaLigature1 module load picard/2.7.0\
+\cf0 \CocoaLigature1 module load picard/2.7.0\
 module load samtools\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf5 \CocoaLigature0 picard NormalizeFasta LINE_LENGTH=80 I=/work/MikheyevU/elroy/reference/genome/Malurus_cyaneus__wholegenome_version3.fa O=/work/MikheyevU/elroy/reference/genome/superb.fa\
-samtools faidx superb.fa
-\fs22 \cf10 \
+samtools faidx superb.fa\cf10 \
 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf2 \CocoaLigature1 ### ===============================================\
@@ -113,6 +112,10 @@ freebayes \cf7 -f\cf5  /work/MikheyevU/elroy/reference/genome/superb.fa \cf7 --u
 # -r call variants on a specific chromosome \
 # --max-coverage N: skip regions of coverage greater than N \'97 analysing these regions greatly increases runtime but does not provide much more useful detail\
 # vcffilter - remove any sites with estimated probability of not being polymorphic less than phred 20 (aka 0.01), or probability of polymorphism > 0.99\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf5 freebayes \cf7 -f\cf5  /work/MikheyevU/elroy/reference/genome/superb.fa \cf7 --use-best-n-alleles\cf5  \cf9 4\cf5  \cf7 -r\cf5  chrom01_scaffold0002_wholechromosome:\cf9 62663866-125327729\cf5  \cf7 --skip-coverage\cf5  \cf9 5000\cf5  /work/MikheyevU/elroy/data/alignments/*.bam | vcffilter \cf7 -f\cf5  \cf8 "\cf9 QUAL > 20\cf8 "\cf5  \cf8 >\cf5  /work/MikheyevU/elroy/data/snp/chr01-b.results.vcf\cf10 \
+\
 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf2 \CocoaLigature1 ### ===============================================\
@@ -141,7 +144,7 @@ bcftools concat /work/MikheyevU/elroy/data/snp/chromosomes/\{chr.a\}.vcf.gz /wor
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf2 #TAKE THE FIFTH COLUMN FROM THE INDIVIDUAL MISSING FILE (MISSINGNESS %)\cf5 \
-awk '!/IN/' \{chr\}.imiss | cut -f5 > \{chr\}\
+awk '!/IN/' \{chr\}.imiss | cut -f5 > \{chr\} \
 \
 \cf2 #CONCATENATE INDIVIDUAL MISINGNESS FILES FOR SINGLE CHROMOSOMES\cf5 \
 cat chr01 chr01A chr02 chr03 chr04A chr04 chr05 chr06 chr07 chr08 chr09 chr10 chr11 chr12 chr13 chr14 chr15 chr17 chr18 chr20 chr21 chr23 chr27 chr28 chrZ > totalmissingness\
@@ -239,7 +242,7 @@ wc -l sitemissingness \
 # --RECODE-INFO-ALL: KEEP ALL THE INFO FLAGS OF THE OLD VCF FILE IN THE NEW ONE \
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf5 vcftools --gzvcf /work/MikheyevU/elroy/data/snp/\{chr\}.vcf.gz --mac 10 --maf 0.05 --minQ 30 \cf3 --max-missing 0.9 \cf5 --max-meanDP 6 --recode --recode-INFO-all --out \{chr\}.mac10.maf5.min30.miss10.maxdp6\cf2 \CocoaLigature1 \
+\cf5 vcftools --gzvcf /work/MikheyevU/elroy/data/snp/\{chr\}.vcf.gz --mac 10 --maf 0.05 --minQ 40 \cf3 --max-missing 0.9 \cf5 --max-meanDP 6 --recode --recode-INFO-all --out \{chr\}.mac10.maf5.min30.miss10.maxdp6\cf2 \CocoaLigature1 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf2 \
 ### ===============================================\
