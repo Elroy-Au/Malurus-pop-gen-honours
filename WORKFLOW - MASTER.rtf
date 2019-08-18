@@ -262,7 +262,11 @@ e: vcftools \cf7 --gzvcf\cf5  \cf11 chr27.mac10.maxdp6.sitemiss.recode.vcf.gz\cf
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf5 \CocoaLigature0 (zcat *.BEAGLE.GL.gz | head -n1 ; for i in *BEAGLE.GL.gz; do zcat $i | sed 1d; done) | gzip > PCA.BEAGLE.GL.gz\
 \
-\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf2 #REMOVE THE HEADER FROM A FILE \'97 DO SO FOR ALL FILES EXCEPT THE LEADING FILE, I.E. CHROMOSOME 1A\cf5 \
+sed -i -e "1d" \{file\}\
+\cf2 #CONCATENATE\cf5 \
+cat chr01A.BEAGLE.GL chr01.redone.BEAGLE.GL chr02.redone.BEAGLE.GL chr03.redone.BEAGLE.GL chr04A.BEAGLE.GL chr04.redone.BEAGLE.GL chr05.BEAGLE.GL chr06.BEAGLE.GL chr07.BEAGLE.GL chr08.BEAGLE.GL chr09.redone.BEAGLE.GL chr10.BEAGLE.GL chr11.BEAGLE.GL chr12.BEAGLE.GL chr13.redone.BEAGLE.GL chr14.BEAGLE.GL chr15.redone.BEAGLE.GL chr17.BEAGLE.GL chr18.BEAGLE.GL chr20.BEAGLE.GL chr21.BEAGLE.GL chr23.BEAGLE.GL chr27.BEAGLE.GL chr28.BEAGLE.GL chrZ.BEAGLE.GL > PCA.BEAGLE.GL\
 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf2 \CocoaLigature1 ### ===============================================\
