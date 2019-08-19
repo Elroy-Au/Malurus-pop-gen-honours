@@ -130,25 +130,6 @@ bcftools concat /work/MikheyevU/elroy/data/snp/chromosomes/\{chr.a\}.vcf.gz /wor
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf2 \
 ### ===============================================\
-### COMBINING ALL CHROMOSOMES\
-### ===============================================\
-\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf5 \CocoaLigature0 bcftools concat chr01A.filtered.recode.vcf 
-\f1\b \cf9 chr01.redone.filtered.recode.vcf chr02.redone.filtered.recode.vcf chr03.redone.filtered.recode.vcf 
-\f0\b0 \cf5 chr04A.filtered.recode.vcf 
-\f1\b \cf9 chr04.redone.filtered.recode.vcf 
-\f0\b0 \cf5 chr05.filtered.recode.vcf chr06.filtered.recode.vcf chr07.filtered.recode.vcf  chr08.filtered.recode.vcf 
-\f1\b \cf9 chr09.redone.filtered.recode.vcf 
-\f0\b0 \cf5 chr10.filtered.recode.vcf chr11.filtered.recode.vcf chr12.filtered.recode.vcf 
-\f1\b \cf9 chr13.redone.filtered.recode.vcf 
-\f0\b0 \cf5 chr14.filtered.recode.vcf 
-\f1\b \cf9 chr15.redone.filtered.recode.vcf 
-\f0\b0 \cf5 chr17.filtered.recode.vcf  chr18.filtered.recode.vcf chr20.filtered.recode.vcf chr21.filtered.recode.vcf chr23.filtered.recode.vcf chr27.filtered.recode.vcf chr28.filtered.recode.vcf chrZ.filtered.recode.vcf > assimilis.filtered.vcf \cf2 \CocoaLigature1 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf2 \
-\
-### ===============================================\
 ### VARIANT CALLING ANALYSIS\
 ### ===============================================\cf10 \CocoaLigature0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
@@ -298,7 +279,41 @@ sed -i -e "1d" \{file\}\
 cat chr01A.BEAGLE.GL chr01.redone.BEAGLE.GL chr02.redone.BEAGLE.GL chr03.redone.BEAGLE.GL chr04A.BEAGLE.GL chr04.redone.BEAGLE.GL chr05.BEAGLE.GL chr06.BEAGLE.GL chr07.BEAGLE.GL chr08.BEAGLE.GL chr09.redone.BEAGLE.GL chr10.BEAGLE.GL chr11.BEAGLE.GL chr12.BEAGLE.GL chr13.redone.BEAGLE.GL chr14.BEAGLE.GL chr15.redone.BEAGLE.GL chr17.BEAGLE.GL chr18.BEAGLE.GL chr20.BEAGLE.GL chr21.BEAGLE.GL chr23.BEAGLE.GL chr27.BEAGLE.GL chr28.BEAGLE.GL chrZ.BEAGLE.GL > PCA.BEAGLE.GL\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf13 ### NOTE: some VCF files had an error (monomorphic sites were not removed properly in chr01, chr02, chr03, chr04, chr09, chr13, chr15) and had to be re-run. these newly run VCF files can be found in the folder: \cf14 /work/MikheyevU/elroy/data/snps-redo\cf13 . BEAGLE and VCF-filter files generated from these new files are named with the prefix \'91.redone\'92 e.g. chr01.redone.BEAGLE.GL and chr01.redone.filtered.recode.vcf. These files should be used to generate the PCA.  \cf5 \
+\cf13 ### NOTE: some VCF files had an error (monomorphic sites were not removed properly in chr01, chr02, chr03, chr04, chr09, chr13, chr15) and had to be re-run. these newly run VCF files can be found in the folder: \cf14 /work/MikheyevU/elroy/data/snps-redo\cf13 . BEAGLE and VCF-filter files generated from these new files are named with the prefix \'91.redone\'92 e.g. chr01.redone.BEAGLE.GL and chr01.redone.filtered.recode.vcf. These files should be used to generate the PCA.  \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf2 \CocoaLigature1 ### ===============================================\
+### COMBINING ALL CHROMOSOMES\
+### ===============================================\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf5 \CocoaLigature0 bcftools concat chr01A.filtered.recode.vcf 
+\f1\b \cf9 chr01.redone.filtered.recode.vcf chr02.redone.filtered.recode.vcf chr03.redone.filtered.recode.vcf 
+\f0\b0 \cf5 chr04A.filtered.recode.vcf 
+\f1\b \cf9 chr04.redone.filtered.recode.vcf 
+\f0\b0 \cf5 chr05.filtered.recode.vcf chr06.filtered.recode.vcf chr07.filtered.recode.vcf  chr08.filtered.recode.vcf 
+\f1\b \cf9 chr09.redone.filtered.recode.vcf 
+\f0\b0 \cf5 chr10.filtered.recode.vcf chr11.filtered.recode.vcf chr12.filtered.recode.vcf 
+\f1\b \cf9 chr13.redone.filtered.recode.vcf 
+\f0\b0 \cf5 chr14.filtered.recode.vcf 
+\f1\b \cf9 chr15.redone.filtered.recode.vcf 
+\f0\b0 \cf5 chr17.filtered.recode.vcf  chr18.filtered.recode.vcf chr20.filtered.recode.vcf chr21.filtered.recode.vcf chr23.filtered.recode.vcf chr27.filtered.recode.vcf chr28.filtered.recode.vcf chrZ.filtered.recode.vcf > assimilis.filtered.vcf \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf2 \CocoaLigature1 ### ===============================================\
+### REMOVING OUTLIERS\
+### ===============================================\cf5 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf2 #CALCULATE INDIVIDUAL MISSINGNESS FOR EACH SAMPLE ACROSS THE WHOLE GENOME\cf5 \
+vcftools --gzvcf assimilis.filtered.vcf.gz --missing-indv --out assimilis\
+\
+\cf2 #REMOVE INDIVIDUALS IDENTIFIED AS OUTLIERS IN PCA PLOT\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf5 module load vcftools/0.1.12b\
+\
+vcftools \cf7 --gzvcf\cf5  /work/MikheyevU/elroy/data/snp/filter/assimilis.filtered.vcf.gz \cf7 --remove\cf5  /work/MikheyevU/elroy/data/snp/filter/pca.outliers \cf7 --recode\cf5  \cf7 --recode-INFO-all\cf5  \cf7 --out\cf5  /work/MikheyevU/elroy/data/snp/filter/assimilis.1\
 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf2 \CocoaLigature1 ### ===============================================\
@@ -313,8 +328,14 @@ pcangsd.py -beagle \{input\}.BEAGLE.GL.gz -o \{output\} -threads 10\cf2 \CocoaLi
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 e: pcangsd.py -beagle PCA.BEAGLE.GL.gz -o PCA -threads 10\
 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf2 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf5 \CocoaLigature0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf10 \
 }
