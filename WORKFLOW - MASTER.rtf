@@ -1,5 +1,5 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
-{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Bold;}
 {\colortbl;\red255\green255\blue255;\red25\green162\blue221;\red0\green0\blue0;\red0\green0\blue0;
 \red0\green0\blue0;\red56\green185\blue199;\red219\green39\blue218;\red170\green171\blue37;\red202\green51\blue35;
 \red86\green32\blue244;\red252\green50\blue32;\red255\green255\blue255;\red255\green255\blue11;\red240\green0\blue92;
@@ -130,6 +130,25 @@ bcftools concat /work/MikheyevU/elroy/data/snp/chromosomes/\{chr.a\}.vcf.gz /wor
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf2 \
 ### ===============================================\
+### COMBINING ALL CHROMOSOMES\
+### ===============================================\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf5 \CocoaLigature0 bcftools concat chr01A.filtered.recode.vcf 
+\f1\b \cf9 chr01.redone.filtered.recode.vcf chr02.redone.filtered.recode.vcf chr03.redone.filtered.recode.vcf 
+\f0\b0 \cf5 chr04A.filtered.recode.vcf 
+\f1\b \cf9 chr04.redone.filtered.recode.vcf 
+\f0\b0 \cf5 chr05.filtered.recode.vcf chr06.filtered.recode.vcf chr07.filtered.recode.vcf  chr08.filtered.recode.vcf 
+\f1\b \cf9 chr09.redone.filtered.recode.vcf 
+\f0\b0 \cf5 chr10.filtered.recode.vcf chr11.filtered.recode.vcf chr12.filtered.recode.vcf 
+\f1\b \cf9 chr13.redone.filtered.recode.vcf 
+\f0\b0 \cf5 chr14.filtered.recode.vcf 
+\f1\b \cf9 chr15.redone.filtered.recode.vcf 
+\f0\b0 \cf5 chr17.filtered.recode.vcf  chr18.filtered.recode.vcf chr20.filtered.recode.vcf chr21.filtered.recode.vcf chr23.filtered.recode.vcf chr27.filtered.recode.vcf chr28.filtered.recode.vcf chrZ.filtered.recode.vcf > assimilis.filtered.vcf \cf2 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf2 \
+\
+### ===============================================\
 ### VARIANT CALLING ANALYSIS\
 ### ===============================================\cf10 \CocoaLigature0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
@@ -139,7 +158,11 @@ bcftools concat /work/MikheyevU/elroy/data/snp/chromosomes/\{chr.a\}.vcf.gz /wor
 ### INDIVIDUAL MISSINGNESS\
 ### ===============================================\CocoaLigature0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf2      \cf5 \
+\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf5 module load vcftools/0.1.12b\cf2 \
+\cf5 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf2 #CALCULATE % OF MISSING DATA FOR INDIVIDUALS \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf5 vcftools --gzvcf \{chr\}.mac10.recode.vcf.gz --missing-indv --out \{chr\}\
@@ -162,7 +185,7 @@ cat chr01 chr01A chr02 chr03 chr04A chr04 chr05 chr06 chr07 chr08 chr09 chr10 ch
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf5 sed -n 8p individuals > outliers\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf2 #HERE, REMOVE THE 8TH LINE FROM THE FILE \'91INDIVIDUALS\'92 AND APEEND IT TO THE END OF THE FILE CALLED OUTLIERS\cf5 \
+\cf2 #HERE, REMOVE THE 12TH LINE FROM THE FILE \'91INDIVIDUALS\'92 AND APEEND IT TO THE END OF THE FILE CALLED OUTLIERS\cf5 \
 sed -n 12p individuals >> outliers\
 \
 \cf2 #OUTPUT VCF FILES EXCLUDING THE INDIVIDUALS LISTED IN \'91OUTLIERS\'92 USING THE COMMAND \'97-REMOVE\cf5 \
@@ -173,6 +196,8 @@ vcftools --gzvcf \{chr\}.mac10.maxdp6.sitemiss.recode.vcf.gz --remove /work/Mikh
 ### MEAN SITE DEPTH\
 ### ===============================================\cf5 \CocoaLigature0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\
+module load vcftools/0.1.12b\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf2 #CALCULATE THE DEPTH ACROSS LOCI \
@@ -201,6 +226,8 @@ shuf -n 100000 meanDP > meanDPsubset \
 ### SITE MISSINGNESS\
 ### ===============================================\cf5 \CocoaLigature0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\
+module load vcftools/0.1.12b\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf2 #CALCULATE THE MISSINGNESS PER SITE\
