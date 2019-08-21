@@ -309,8 +309,9 @@ e: vcftools \cf7 --gzvcf\cf5  \cf12 chr27.mac10.maxdp6.sitemiss.recode.vcf.gz\cf
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf2 #REMOVE THE HEADER FROM A FILE \'97 DO SO FOR ALL FILES EXCEPT THE LEADING FILE, I.E. CHROMOSOME 1A\cf5 \
 sed -i -e "1d" \{file\}\
-\cf2 #CONCATENATE\cf5 \
-cat chr01A.BEAGLE.GL chr01.redone.BEAGLE.GL chr02.redone.BEAGLE.GL chr03.redone.BEAGLE.GL chr04A.BEAGLE.GL chr04.redone.BEAGLE.GL chr05.BEAGLE.GL chr06.BEAGLE.GL chr07.BEAGLE.GL chr08.BEAGLE.GL chr09.redone.BEAGLE.GL chr10.BEAGLE.GL chr11.BEAGLE.GL chr12.BEAGLE.GL chr13.redone.BEAGLE.GL chr14.BEAGLE.GL chr15.redone.BEAGLE.GL chr17.BEAGLE.GL chr18.BEAGLE.GL chr20.BEAGLE.GL chr21.BEAGLE.GL chr23.BEAGLE.GL chr27.BEAGLE.GL chr28.BEAGLE.GL chrZ.BEAGLE.GL > PCA.BEAGLE.GL\
+\cf2 #CONCATENATE\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf5 cat chr01A.no.outliers.BEAGLE.GL chr01.no.outliers.BEAGLE.GL chr02.no.outliers.BEAGLE.GL chr03.no.outliers.BEAGLE.GL chr04A.no.outliers.BEAGLE.GL chr04.no.outliers.BEAGLE.GL chr05.no.outliers.BEAGLE.GL chr06.no.outliers.BEAGLE.GL chr07.no.outliers.BEAGLE.GL chr08.no.outliers.BEAGLE.GL chr09.no.outliers.BEAGLE.GL chr10.no.outliers.BEAGLE.GL chr11.no.outliers.BEAGLE.GL chr12.no.outliers.BEAGLE.GL chr13.no.outliers.BEAGLE.GL chr14.no.outliers.BEAGLE.GL chr15.no.outliers.BEAGLE.GL chr17.no.outliers.BEAGLE.GL chr18.no.outliers.BEAGLE.GL chr20.no.outliers.BEAGLE.GL chr21.no.outliers.BEAGLE.GL chr23.no.outliers.BEAGLE.GL chr27.no.outliers.BEAGLE.GL chr28.no.outliers.BEAGLE.GL chrZ.no.outliers.BEAGLE.GL > PCA.filtered.BEAGLE.GL\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf11 ### NOTE: some VCF files had an error (monomorphic sites were not removed properly in chr01, chr02, chr03, chr04, chr09, chr13, chr15) and had to be re-run. these newly run VCF files can be found in the folder: \cf14 /work/MikheyevU/elroy/data/snps-redo\cf11 . BEAGLE and VCF-filter files generated from these new files are named with the prefix \'91.redone\'92 e.g. chr01.redone.BEAGLE.GL and chr01.redone.filtered.recode.vcf. These files should be used to generate the PCA.\cf5 \
