@@ -13,6 +13,12 @@
 #here, the x-axis (Age) is the predictor variable and the y-axis (PC1) is the response variable\cf0 \
 regression <- lm(PC1~Age, data = chr27_trimmed)\
 summary(regression)\
+\
+\cf2 #calculate the correlation coefficient\cf0 \
+cPC1 <- no_outliers_PCA_metadata$PC1\
+cMiss <- no_outliers_PCA_metadata$MISSINGNESS\
+cor.test(cMiss, cPC1, method=c("pearson")) #other methods include spearman, kendall\
+\
 \cf2 #make a regression plot \
 #scatter plot\
 #linear model\cf0 \
