@@ -11,9 +11,9 @@
 # Load libraries
 library(oz)       # map of Australia for plotting 
 library(readxl)   # for reading excel files 
-# read in excel file: X29_7_Samples_Long_Lat_Date
-# located in: "Documents/University/Honours 2019/Australian Birds
-# /tissues/tissue samples/samples-plot/
+                  # read in excel file: X29_7_Samples_Long_Lat_Date
+                  # located in: "Documents/University/Honours 2019/Australian Birds
+                  # /tissues/tissue samples/samples-plot/
 
 oz()              #plot a map of Australia with state lines 
 
@@ -56,16 +56,16 @@ points(long7,lat7, col = "#1B4F72", bg = "#1B4F72", pch = 24)
 
 library(ggplot2)    # for plotting
 library(readxl)     # for reading excel files
-# read in excel file: coverage
-# located in: Documents/University/Honours 2019/Everything/
-# /coverage/coverage.xlsx
+                    # read in excel file: coverage
+                    # located in: Documents/University/Honours 2019/Everything/
+                    # /coverage/coverage.xlsx
 
 ggplot (coverage, aes(coverage$`Coverage Depth`)) + 
   geom_histogram(breaks=seq(0,8, by =1), col="grey1", aes(fill=..count..)) 
 + scale_fill_gradient("Count", high = "paleturquoise4", low = "paleturquoise1") 
 + labs(x="Coverage Depth", y = "Frequency") + theme_bw()  # plot a histogram
-# spanning from 0 - 8
-# with bin size = 1
+                                                          # spanning from 0 - 8
+                                                          # with bin size = 1
 
 ### ================================== ###
 ### Average Site Depth                 ###
@@ -75,25 +75,25 @@ ggplot (coverage, aes(coverage$`Coverage Depth`)) +
 
 library(ggplot2)    # for plotting
 library(readxl)     # for reading excel files
-# read in excel file: coverage
-# located in: Documents/University/Honours 2019/Everything/
-# /snp-filtering/mean site depth.xlsx
+                    # read in excel file: coverage
+                    # located in: Documents/University/Honours 2019/Everything/
+                    # /snp-filtering/mean site depth.xlsx
 
 depth <- mean_site_depth_trimmed$`Mean Site Depth`
 hist(depth, breaks=100, main = "Average Site Depth",    
      xlab = "Average Site Depth")                          # plot a histogram
-# with bin size = 100
+                                                           # with bin size = 100
 
 mean <- mean(depth)     # calculate the average depth
 SD <- sd(depth)         # calculate the standard deviation
 sdevs <- sd * 3         # calculate 3 standard deviations
 cutoff <- sdevs + mean  # the cuttof i used was 3 standard deviations 
-# from the mean. Everything above this has a  
-# high chance of being errors, e.g. paralogs
+                        # from the mean. Everything above this has a  
+                        # high chance of being errors, e.g. paralogs
 
 abline(v = mean, col = "red", lwd = 2)                     # mark the mean 
 abline(v = cutoff, col = "blue", lwd = 2)                  # mark 3 standard 
-# from the mean
+                                                           # from the mean
 
 ### ================================== ###
 ### Individual Missingness             ###
@@ -103,9 +103,9 @@ abline(v = cutoff, col = "blue", lwd = 2)                  # mark 3 standard
 
 library(ggplot2)    # for plotting
 library(readxl)     # for reading excel files
-# read in excel file: coverage
-# located in: Documents/University/Honours 2019/Everything/
-# /snp-filtering/missingness.xlsx
+                    # read in excel file: coverage
+                    # located in: Documents/University/Honours 2019/Everything/
+                    # /snp-filtering/missingness.xlsx
 
 ggplot (missingness, aes(missingness)) + 
   geom_histogram(breaks=seq(0,0.8, by =0.1), col="grey1", aes(fill=..count..)) 
@@ -120,11 +120,11 @@ ggplot (missingness, aes(missingness)) +
 
 library(ggplot2)    # for plotting
 library(readxl)     # for reading excel files
-# read in excel file: coverage
-# located in: Documents/University/Honours 2019/Everything/
-# /snp-filtering/site-missingness.xlsx
-# this is a subset of 100,000 estimates of site-missingness 
-# taken from the site-missingness estimates across all sites
+                    # read in excel file: coverage
+                    # located in: Documents/University/Honours 2019/Everything/
+                    # /snp-filtering/site-missingness.xlsx
+                    # this is a subset of 100,000 estimates of site-missingness 
+                    # taken from the site-missingness estimates across all sites
 
 ggplot (site_missingness, aes(site_missingness$`site-missingness`)) 
 + geom_histogram(breaks=seq(0,1, by =0.1), col="grey1", aes(fill=..count..)) 
@@ -146,56 +146,62 @@ library(readxl)     # for reading excel files
 library(RcppCNPy)   # for reading numpy files 
 
 covmatrix <- npyLoad("/Users/Elroy/downloads/PCA.cov.npy") 
-Eigenvalues <- eigen(cov)$values          # calculate eigenvalues
-Eigenvectors <- eigen(cov)$vectors        # calculate eigenvectors
-PC <- as.matrix(cov) %*% Eigenvectors     # calculate the principal components
-# by multiplying the covariance matrix 
-# against the eigenvectors 
+Eigenvalues <- eigen(covmatrix)$values          # calculate eigenvalues
+Eigenvectors <- eigen(covmatrix)$vectors        # calculate eigenvectors
+PC <- as.matrix(covmatrix) %*% Eigenvectors     # calculate the principal components
+                                                # by multiplying the covariance matrix 
+                                                # against the eigenvectors 
 
 print(round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2))
 round(cumsum(Eigenvalues)/sum(Eigenvalues) * 100, digits = 2)   # display the 
-# cumulative 
-# variance explained
-# by the principal
-# components 
+                                                                # cumulative 
+                                                                # variance explained
+                                                                # by the principal
+                                                                # components 
 
 PC1 <- PC[,1]
 PC2 <- PC[,2]
 PC3 <- PC[,3]
 
 PCA <- data.frame(PC1, PC2, PC3)          # create a dataframe of the principal
-# components. move this into an excel 
-# file containing the sample metadata
-# for ease of plotting 
+                                          # components. move this into an excel 
+                                          # file containing the sample metadata
+                                          # for ease of plotting 
 
 ggplot(no_outliers_PCA_metadata, aes(x=PC1, y=PC2)) 
 + geom_point(aes(shape = Period, color = STATE), position = "jitter", size = 2.5) 
 + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) 
 + theme_bw()                              # plot principal components with 
-# the collection date and geographic
-# location (state) metdata 
+                                          # the collection date and geographic
+                                          # location (state) metdata 
 
 ggplot (no_outliers_PCA_metadata, aes(x=PC1, y=PC2)) 
 + geom_point(aes(shape = Period, color = MISSINGNESS), position = "jitter", size = 2.5) 
 + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) 
 + scale_color_continuous(high = "black", low = "turquoise2") 
 + theme_bw()                              # plot the principal components with
-# the collection date and individual 
-# sample missingness metadata 
+                                          # the collection date and individual 
+                                          # sample missingness metadata 
+
+ggplot(no_outliers_PCA_metadata, aes(x=LONGITUDE, y=LATITUDE, color = PC1)) 
++ geom_point( size = 2.5) + scale_color_gradient2() # plot the latitude and 
+                                                    # longitude against variation 
+                                                    # explained by PC1. Reveals 
+                                                    # geographic structure 
 
 a <- ggplot(no_outliers_PCA_metadata, aes(PC1,PC2)) 
 + geom_point(color = 'cadetblue3') + theme_bw()
 
 a + geom_text(aes(label = rownames(no_outliers_PCA_metadata)),
               size = 3)                       # identify outlier points using 
-# rownames
+                                              # rownames
 
 require("ggrepel")
 
 a + geom_text_repel(aes(label = rownames(no_outliers_PCA_metadata)), 
                     size = 3)             # use "ggrepel" to make labels clearer
-# NOTE: this package is so far 
-# unavailable using R 3.6
+                                          # NOTE: this package is so far 
+                                          # unavailable using R 3.6
 
 ### ================================== ###
 ### Linear Regression                  ###
@@ -207,22 +213,24 @@ library(tidyverse)  # for correlation matrix
 
 regression <- lm(PC1~MISSINGNESS, 
                  data = no_outliers_PCA_metadata)  # linearegression model
-# of PC1 and individual 
-# missingness 
+                                                   # of PC1 and individual 
+                                                   # missingness 
 summary(regression)                                # print values
 
 cPC1 <- no_outliers_PCA_metadata$PC1
 cMiss <- no_outliers_PCA_metadata$MISSINGNESS
 cor.test(cMiss, cPC1, method=c("pearson"))         # calculate a correlation
-# co-efficient. other methods
-# include "spearman" and 
-# "kendall" 
+                                                   # co-efficient. other methods
+                                                   # include "spearman" and 
+                                                   # "kendall" 
 
 cor(chr27_sorted %>% select(PC1, PC2, Year, LATITUDE, LONGITUDE), 
     use="pairwise.complete.obs")                   # perform a correlation 
-# matrix on the variables PC1,
-# PC2, Year, Lat, Long
+                                                   # matrix on the variables PC1,
+                                                   # PC2, Year, Lat, Long
 
 
 ggplot(no_outliers_PCA_metadata, aes(y=PC1, x=Missingness)) # plot linear regression
 + geom_point() + geom_smooth(method="lm") + theme_bw()
+
+
