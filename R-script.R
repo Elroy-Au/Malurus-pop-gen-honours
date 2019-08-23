@@ -132,6 +132,13 @@ ggplot (site_missingness, aes(site_missingness$`site-missingness`))
 + labs(x="Site Missingness", y = "Frequency") + theme_bw()
 
 ### ================================== ###
+### Inbreeding                         ###
+### ================================== ###
+
+ggplot (inbreedvalues, aes(inbreed)) 
++ geom_histogram(col="grey1", aes(fill="lightblue2")) + theme_bw()
+
+### ================================== ###
 ### Data Analysis                      ###
 ### ================================== ###
 
