@@ -153,6 +153,9 @@ PC <- as.matrix(covmatrix) %*% Eigenvectors     # calculate the principal compon
                                                 # against the eigenvectors 
 
 print(round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2))
+variance <- (round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)) 
+barplot(variance) # make shift scree plot. bar plot of the proportion of variance
+                  # explained by each of the principal components 
 round(cumsum(Eigenvalues)/sum(Eigenvalues) * 100, digits = 2)   # display the 
                                                                 # cumulative 
                                                                 # variance explained

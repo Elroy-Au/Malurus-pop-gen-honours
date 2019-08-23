@@ -318,11 +318,20 @@ sed -i -e "1d" \{file\}\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 \cf5 \CocoaLigature0 module load PCAngsd/f48b742\
-pcangsd.py -beagle \{input\}.BEAGLE.GL.gz -o \{output\} -threads 10\cf2 \CocoaLigature1 \
+pcangsd.py -beagle \{input\}.BEAGLE.GL.gz -o \{output\} -threads 10\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf2 #COMPUTE THE COVARIANCE MATRIX AND OUTPUT INBREEDING COEFFICIENT VALUES PER INDIVIDUAL. \
+#INBREEDING VALUES INCORPORATE POPULATION STRUCTURE AND COMPUTED USING COVARIANCE MATRIX.\
+#INBREED 2 OPTION IS RECOMMENDED FOR LOW DEPTH CASES.\cf5 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\fs22 \cf5 pcangsd.py -beagle \{input\}.BEAGLE.GL.gz -inbreed 2 -o \{output\} -threads 10
+\fs24 \cf2 \CocoaLigature1 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf5 \CocoaLigature0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-e: pcangsd.py -beagle PCA.BEAGLE.GL.gz -o PCA -threads 10\
+\
 \
 \
 \
