@@ -136,7 +136,7 @@ ggplot (site_missingness, aes(site_missingness$`site-missingness`))
 ### ================================== ###
 
 ggplot (inbreedvalues, aes(inbreed)) 
-+ geom_histogram(col="grey1", aes(fill="lightblue2")) + theme_bw()
++ geom_histogram(col="grey1", fill="lightblue1") + theme_bw()
 
 ### ================================== ###
 ### Data Analysis                      ###
