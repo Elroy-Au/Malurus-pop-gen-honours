@@ -260,16 +260,15 @@ pop <- read.table("/Users/Elroy/Documents/University
                   fill = TRUE, header = FALSE)          # fill in blanks = TRUE
                                                         # there is no header
 
+ord <- order (pop[,2])  # order according to population 
+
 barplot(t(q2)[,ord],col=2:10, space=0, border=NA,
         xlab="Individuals",                             # create a barplot of   
         ylab="Admixture Proportions (K=2)")             # the individual 
                                                         # admixture proportions
 
-# need to fix this. currently, the labels are crowded
-# and unreadable 
-
-text(tapply(1:nrow(pop), pop[ord,1], mean),-0.05,       # add individual sample
-     unique(pop[ord,1]),xpd=T)                          # labels on x axis
+text(tapply(1:nrow(pop), pop[ord,2], mean),-0.05,       # add individual 
+     unique(pop[ord,2]),xpd=T)                          # population labels
 
 
 abline(v=cumsum(sapply(unique(pop[ord,1]), 
