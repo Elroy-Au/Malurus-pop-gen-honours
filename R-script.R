@@ -192,19 +192,21 @@ ggplot(no_outliers_metadata, aes(x=LONGITUDE, y=LATITUDE, color = PC1))
                                                     # explained by PC1. Reveals 
                                                     # geographic structure 
 
+# Basic PCA / scatterplot
+
 a <- ggplot(no_outliers_metadata, aes(PC1,PC2)) 
 + geom_point(color = 'cadetblue3') + theme_bw()
+
+# Identify 
 
 a + geom_text(aes(label = rownames(no_outliers_metadata)),
               size = 3)                       # identify outlier points using 
                                               # rownames
 
-require("ggrepel")
+library(ggrepel)
 
 a + geom_text_repel(aes(label = rownames(no_outliers_metadata)), 
                     size = 3)             # use "ggrepel" to make labels clearer
-                                          # NOTE: this package is so far 
-                                          # unavailable using R 3.6
 
 ### ================================== ###
 ### Linear Regression                  ###
@@ -322,6 +324,9 @@ abline(v=cumsum(sapply(unique(pop[ord,2]),
 library(ggplot2)        # plotting
 library(ggrepel)        # ggplot add-on: text repel
 library(scatterpie)     # ggplot add-on: pie charts
+library(maps)           # australia shapefile
+library(mapdata)        # australia shapefile
+library(sp)             # australia shapefile
 
 # load appropriate data into a dataframe
 
@@ -341,7 +346,7 @@ admix4 <- no_outliers_metadata$ADMIX4
 admix5 <- no_outliers_metadata$ADMIX5
 admix6 <- no_outliers_metadata$ADMIX6
 
-data <- data.frame(ID,cID,origin,Year,PC1,PC2,PC3,
+data <- data.frame(ID,cID,origin,LAT,LONG,Year,PC1,PC2,PC3,
                    admix1,admix2,admix3,admix4,admix5,admix6)
 
 # plot admixture values of samples in PC space using PC1 and PC2 
@@ -355,7 +360,7 @@ ggplot(data, aes(PC1, PC2, label = ID)) +
                              "#F7DC6F", "#EC7063", "#85C1E9")) 
 + geom_label_repel() + theme_light()
 
-# plot admixture values of samples in PC space usign PC1 and PC2
+# plot admixture values of samples in PC space using PC1 and PC2
 # without labels 
 
 ggplot(data, aes(PC1, PC2)) + 
@@ -365,3 +370,47 @@ ggplot(data, aes(PC1, PC2)) +
 + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
                              "#F7DC6F", "#EC7063", "#85C1E9")) 
 + theme_light()
+
+# plot admixture values of samples in geographical space 
+
+# create australia's shapefile 
+# code source: http://www.flutterbys.com.au/stats/tut/tut5.4.html
+
+aus <- map("worldHires", "Australia", fill=TRUE, xlim=c(110,160),
+         + ylim=c(-45,-5), mar=c(0,0,0,0))
+
+map2SpatialPolygons <- function(df, proj4string=CRS("+proj=longlat")) {
+       Plys <- list()
+       i<-1
+       mtch <- which(is.na(df$x))
+       if(length(mtch)==0) {
+             mtch <- length(df$x)+1
+         } else {mtch <-mtch}
+       shps <- length(mtch)
+       #make sure the names are unique
+         nms <- df$names
+         nms[duplicated(nms)] <- paste(nms[duplicated(nms)],1:length(nms[duplicated(nms)]))
+         for (j in 1:shps){
+               Plys[[j]] <- Polygons(list(Polygon(cbind(df$x[i:(mtch[j]-1)],
+                                                         +                                                  df$y[i:(mtch[j]-1)]))),ID=nms[j])
+               i <- mtch[j]+1
+           }
+         SpatialPolygons(Plys,proj4string=proj4string)
+     }
+
+aus.sp <- map2SpatialPolygons(aus)
+
+par(mar=c(0,0,0,0))
+
+a <- ggplot(fortify(aus.sp), aes(y=lat, x=long, group=group)) + geom_polygon()
+
+# plot
+# error: Removed 714 rows containing non-finite values (stat_pie). 
+# why don't we get this error when plotting with PC1 PC2 ?
+
+a + geom_scatterpie(aes(x = LONG, y = LAT), data = data, cols = c
+                    ("admix1", "admix2", "admix3", "admix4", "admix5", "admix6")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", 
+                             "#82E0AA", "#F7DC6F", "#EC7063", "#85C1E9"))
+
+
