@@ -171,14 +171,14 @@ PCA <- data.frame(PC1, PC2, PC3)          # create a dataframe of the principal
                                           # file containing the sample metadata
                                           # for ease of plotting 
 
-ggplot(no_outliers_PCA_metadata, aes(x=PC1, y=PC2)) 
+ggplot(no_outliers_metadata, aes(x=PC1, y=PC2)) 
 + geom_point(aes(shape = Period, color = STATE), position = "jitter", size = 2.5) 
 + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) 
 + theme_bw()                              # plot principal components with 
                                           # the collection date and geographic
                                           # location (state) metdata 
 
-ggplot (no_outliers_PCA_metadata, aes(x=PC1, y=PC2)) 
+ggplot (no_outliers_metadata, aes(x=PC1, y=PC2)) 
 + geom_point(aes(shape = Period, color = MISSINGNESS), position = "jitter", size = 2.5) 
 + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) 
 + scale_color_continuous(high = "black", low = "turquoise2") 
@@ -186,22 +186,22 @@ ggplot (no_outliers_PCA_metadata, aes(x=PC1, y=PC2))
                                           # the collection date and individual 
                                           # sample missingness metadata 
 
-ggplot(no_outliers_PCA_metadata, aes(x=LONGITUDE, y=LATITUDE, color = PC1)) 
+ggplot(no_outliers_metadata, aes(x=LONGITUDE, y=LATITUDE, color = PC1)) 
 + geom_point( size = 2.5) + scale_color_gradient2() # plot the latitude and 
                                                     # longitude against variation 
                                                     # explained by PC1. Reveals 
                                                     # geographic structure 
 
-a <- ggplot(no_outliers_PCA_metadata, aes(PC1,PC2)) 
+a <- ggplot(no_outliers_metadata, aes(PC1,PC2)) 
 + geom_point(color = 'cadetblue3') + theme_bw()
 
-a + geom_text(aes(label = rownames(no_outliers_PCA_metadata)),
+a + geom_text(aes(label = rownames(no_outliers_metadata)),
               size = 3)                       # identify outlier points using 
                                               # rownames
 
 require("ggrepel")
 
-a + geom_text_repel(aes(label = rownames(no_outliers_PCA_metadata)), 
+a + geom_text_repel(aes(label = rownames(no_outliers_metadata)), 
                     size = 3)             # use "ggrepel" to make labels clearer
                                           # NOTE: this package is so far 
                                           # unavailable using R 3.6
@@ -215,13 +215,13 @@ library(readxl)     # for reading excel files
 library(tidyverse)  # for correlation matrix
 
 regression <- lm(PC1~MISSINGNESS, 
-                 data = no_outliers_PCA_metadata)  # linearegression model
+                 data = no_outliers_metadata)  # linearegression model
                                                    # of PC1 and individual 
                                                    # missingness 
 summary(regression)                                # print values
 
-cPC1 <- no_outliers_PCA_metadata$PC1
-cMiss <- no_outliers_PCA_metadata$MISSINGNESS
+cPC1 <- no_outliers_metadata$PC1
+cMiss <- no_outliers_metadata$MISSINGNESS
 cor.test(cMiss, cPC1, method=c("pearson"))         # calculate a correlation
                                                    # co-efficient. other methods
                                                    # include "spearman" and 
@@ -233,7 +233,7 @@ cor(chr27_sorted %>% select(PC1, PC2, Year, LATITUDE, LONGITUDE),
                                                    # PC2, Year, Lat, Long
 
 
-ggplot(no_outliers_PCA_metadata, aes(y=PC1, x=Missingness)) # plot linear regression
+ggplot(no_outliers_metadata, aes(y=PC1, x=Missingness)) # plot linear regression
 + geom_point() + geom_smooth(method="lm") + theme_bw()
 
 ### ================================== ###
@@ -243,10 +243,10 @@ ggplot(no_outliers_PCA_metadata, aes(y=PC1, x=Missingness)) # plot linear regres
 ggplot (inbreedvalues, aes(inbreed)) 
 + geom_histogram(col="grey1", fill="lightblue1") + theme_bw()
 
-ggplot(no_outliers_PCA_metadata, aes(MISSINGNESS,INBREEDING)) 
+ggplot(no_outliers_metadata, aes(MISSINGNESS,INBREEDING)) 
 + geom_point(color = 'cadetblue3') + theme_bw()
 
-ggplot(no_outliers_PCA_metadata, aes(Year,INBREEDING)) 
+ggplot(no_outliers_metadata, aes(Year,INBREEDING)) 
 + geom_point(color = 'firebrick2') + theme_bw()
 
 
@@ -254,13 +254,41 @@ ggplot(no_outliers_PCA_metadata, aes(Year,INBREEDING))
 ### NGSadmix - ADMIXTURE               ###
 ### ================================== ###
 
+# load files
+
 pop <- read.table("/Users/Elroy/Documents/University
                   /Honours 2019/Everything/Data Analysis/
                   ADMIX/Pop-Data.txt", 
                   fill = TRUE, header = FALSE)          # fill in blanks = TRUE
                                                         # there is no header
 
+q1 <- read.table("/Users/Elroy/Documents/University/
+                 Honours 2019/Everything/Data Analysis/
+                 ADMIX/admix.1.txt", fill = TRUE, header = FALSE)
+
+q2 <- read.table("/Users/Elroy/Documents/University/
+                 Honours 2019/Everything/Data Analysis/
+                 ADMIX/admix.2.txt", fill = TRUE, header = FALSE)
+
+q3 <- read.table("/Users/Elroy/Documents/University/
+                 Honours 2019/Everything/Data Analysis/
+                 ADMIX/admix.3.txt", fill = TRUE, header = FALSE)
+
+q4 <- read.table("/Users/Elroy/Documents/University/
+                 Honours 2019/Everything/Data Analysis/
+                 ADMIX/admix.4.txt", fill = TRUE, header = FALSE)
+
+q5 <- read.table("/Users/Elroy/Documents/University/
+                 Honours 2019/Everything/Data Analysis/
+                 ADMIX/admix.5.txt", fill = TRUE, header = FALSE)
+
+q6 <- read.table("/Users/Elroy/Documents/University/
+                 Honours 2019/Everything/Data Analysis/
+                 ADMIX/admix.6.txt", fill = TRUE, header = FALSE)
+
 ord <- order (pop[,2])  # order according to population 
+
+# plot admixture
 
 barplot(t(q2)[,ord],col=2:10, space=0, border=NA,
         xlab="Individuals",                             # create a barplot of   
@@ -277,15 +305,63 @@ text(tapply(1:nrow(pop), pop[ord,2], mean),-0.05,       # add individual
 
 abline(v=cumsum(sapply(unique(pop[ord,1]), 
                        function(x){sum(pop[ord,1]==x)})),
-       col=1,lwd=1.2)                                   # add lines between each
+       col="white",lwd=0.5)                             # add lines between each
                                                         # individual
 
 abline(v=cumsum(sapply(unique(pop[ord,2]), 
                        function(x){sum(pop[ord,2]==x)})),
-       col=1,lwd=1.2)                                   # add lines between each
+       col=1,lwd=2)                                     # add lines between each
                                                         # population
 
+### ================================== ###
+### ADMIXTURE PCA PLOT                 ###
+### ================================== ###
 
+# load libraries
 
+library(ggplot2)        # plotting
+library(ggrepel)        # ggplot add-on: text repel
+library(scatterpie)     # ggplot add-on: pie charts
 
+# load appropriate data into a dataframe
 
+PC1 <- no_outliers_metadata$PC1
+PC2 <- no_outliers_metadata$PC2
+PC3 <- no_outliers_metadata$PC3
+origin <- no_outliers_metadata$STATE
+LAT <- no_outliers_metadata$LATITUDE
+LONG <- no_outliers_metadata$LONGITUDE
+cID <- no_outliers_metadata$`COLLECTION ID`
+ID <- no_outliers_metadata$`SAMPLE ID`
+Year <- no_outliers_metadata$Year
+admix1 <- no_outliers_metadata$ADMIX1
+admix2 <- no_outliers_metadata$ADMIX2
+admix3 <- no_outliers_metadata$ADMIX3
+admix4 <- no_outliers_metadata$ADMIX4
+admix5 <- no_outliers_metadata$ADMIX5
+admix6 <- no_outliers_metadata$ADMIX6
+
+data <- data.frame(ID,cID,origin,Year,PC1,PC2,PC3,
+                   admix1,admix2,admix3,admix4,admix5,admix6)
+
+# plot admixture values of samples in PC space using PC1 and PC2 
+# includes labels -- however, labels are too crowded at the moment
+
+ggplot(data, aes(PC1, PC2, label = ID)) + 
+  geom_scatterpie(aes(x = PC1, y = PC2), data = data, 
+                  cols = c("admix1", "admix2", "admix3", "admix4", 
+                           "admix5", "admix6")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) 
++ geom_label_repel() + theme_light()
+
+# plot admixture values of samples in PC space usign PC1 and PC2
+# without labels 
+
+ggplot(data, aes(PC1, PC2)) + 
+  geom_scatterpie(aes(x = PC1, y = PC2), 
+                  data = data, cols = c("admix1", "admix2", "admix3", 
+                                        "admix4", "admix5", "admix6")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) 
++ theme_light()
