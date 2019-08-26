@@ -267,6 +267,10 @@ barplot(t(q2)[,ord],col=2:10, space=0, border=NA,
         ylab="Admixture Proportions (K=2)")             # the individual 
                                                         # admixture proportions
 
+barplot(t(q3)[,ord],col=brewer.pal(n=3, name="RdBu"),   # choose colours using
+        space=0, border=NA, xlab="Individuals",         # RColourBrewer
+        ylab="Admixture Proportions (K=3)")
+
 text(tapply(1:nrow(pop), pop[ord,2], mean),-0.05,       # add individual 
      unique(pop[ord,2]),xpd=T)                          # population labels
 
@@ -276,7 +280,10 @@ abline(v=cumsum(sapply(unique(pop[ord,1]),
        col=1,lwd=1.2)                                   # add lines between each
                                                         # individual
 
-
+abline(v=cumsum(sapply(unique(pop[ord,2]), 
+                       function(x){sum(pop[ord,2]==x)})),
+       col=1,lwd=1.2)                                   # add lines between each
+                                                        # population
 
 
 
