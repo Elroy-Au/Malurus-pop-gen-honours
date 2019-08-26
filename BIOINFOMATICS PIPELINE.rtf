@@ -2,12 +2,12 @@
 {\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Bold;}
 {\colortbl;\red255\green255\blue255;\red25\green162\blue221;\red0\green0\blue0;\red0\green0\blue0;
 \red0\green0\blue0;\red56\green185\blue199;\red219\green39\blue218;\red170\green171\blue37;\red202\green51\blue35;
-\red86\green32\blue244;\red255\green255\blue11;\red25\green162\blue221;\red252\green50\blue32;\red255\green255\blue255;
-\red240\green0\blue92;}
+\red86\green32\blue244;\red255\green255\blue11;\red252\green50\blue32;\red255\green255\blue255;\red240\green0\blue92;
+}
 {\*\expandedcolortbl;;\cssrgb\c5821\c69898\c89230;\cssrgb\c0\c0\c0;\csgray\c0\c0;
 \csgray\c0;\cssrgb\c25544\c77008\c82022;\cssrgb\c89513\c29738\c88483;\cssrgb\c72330\c71683\c18597;\cssrgb\c83898\c28665\c18024;
-\cssrgb\c41680\c25960\c96645;\cssrgb\c100000\c100000\c0;\cssrgb\c5821\c69898\c89230;\cssrgb\c100000\c29541\c16201;\cssrgb\c100000\c100000\c100000\c0;
-\cssrgb\c96309\c12481\c43306;}
+\cssrgb\c41680\c25960\c96645;\cssrgb\c100000\c100000\c0;\cssrgb\c100000\c29541\c16201;\cssrgb\c100000\c100000\c100000\c0;\cssrgb\c96309\c12481\c43306;
+}
 \paperw11900\paperh16840\margl1440\margr1440\vieww21940\viewh15140\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
@@ -292,12 +292,12 @@ vcftools --gzvcf \{chr\}.mac10.maxdp6.sitemiss.recode.vcf.gz --remove /work/Mikh
 ### VCF > BEAGLE \
 ### ===============================================\
 \
-\cf12 #\cf12 \CocoaLigature0 /work/MikheyevU/elroy/script/vcf2beagle\cf2 \CocoaLigature1 \
+#\CocoaLigature0 /work/MikheyevU/elroy/script/vcf2beagle\CocoaLigature1 \
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf5 \CocoaLigature0 vcftools \cf7 --gzvcf\cf5  \cf13 \{chr\}.vcf.gz\cf5  \cf7 --chr\cf5  \cf3 \cb14 \{chr.location\}\cf5 \cb1  \cf7 --BEAGLE-GL\cf5  \cf7 --out\cf5  \{chr\}\
+\cf5 \CocoaLigature0 vcftools \cf7 --gzvcf\cf5  \cf12 \{chr\}.vcf.gz\cf5  \cf7 --chr\cf5  \cf3 \cb13 \{chr.location\}\cf5 \cb1  \cf7 --BEAGLE-GL\cf5  \cf7 --out\cf5  \{chr\}\
 \
-e: vcftools \cf7 --gzvcf\cf5  \cf13 chr27.mac10.maxdp6.sitemiss.recode.vcf.gz\cf5  \cf7 --chr\cf5  \cf3 \cb14 chrom27_scaffold0023_wholechromosome\cf5 \cb1  \cf7 --BEAGLE-GL\cf5  \cf7 --out\cf5  chr27\cf2 \CocoaLigature1 \
+e: vcftools \cf7 --gzvcf\cf5  \cf12 chr27.mac10.maxdp6.sitemiss.recode.vcf.gz\cf5  \cf7 --chr\cf5  \cf3 \cb13 chrom27_scaffold0023_wholechromosome\cf5 \cb1  \cf7 --BEAGLE-GL\cf5  \cf7 --out\cf5  chr27\cf2 \CocoaLigature1 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf2 \
 ### ===============================================\
@@ -314,7 +314,7 @@ sed -i -e "1d" \{file\}\
 \cf5 cat chr01A.no.outliers.BEAGLE.GL chr01.no.outliers.BEAGLE.GL chr02.no.outliers.BEAGLE.GL chr03.no.outliers.BEAGLE.GL chr04A.no.outliers.BEAGLE.GL chr04.no.outliers.BEAGLE.GL chr05.no.outliers.BEAGLE.GL chr06.no.outliers.BEAGLE.GL chr07.no.outliers.BEAGLE.GL chr08.no.outliers.BEAGLE.GL chr09.no.outliers.BEAGLE.GL chr10.no.outliers.BEAGLE.GL chr11.no.outliers.BEAGLE.GL chr12.no.outliers.BEAGLE.GL chr13.no.outliers.BEAGLE.GL chr14.no.outliers.BEAGLE.GL chr15.no.outliers.BEAGLE.GL chr17.no.outliers.BEAGLE.GL chr18.no.outliers.BEAGLE.GL chr20.no.outliers.BEAGLE.GL chr21.no.outliers.BEAGLE.GL chr23.no.outliers.BEAGLE.GL chr27.no.outliers.BEAGLE.GL chr28.no.outliers.BEAGLE.GL chrZ.no.outliers.BEAGLE.GL > PCA.filtered.BEAGLE.GL\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\cf11 ### NOTE: some VCF files had an error (monomorphic sites were not removed properly in chr01, chr02, chr03, chr04, chr09, chr13, chr15) and had to be re-run. these newly run VCF files can be found in the folder: \cf15 /work/MikheyevU/elroy/data/snps-redo\cf11 . BEAGLE and VCF-filter files generated from these new files are named with the prefix \'91.redone\'92 e.g. chr01.redone.BEAGLE.GL and chr01.redone.filtered.recode.vcf. These files should be used to generate the PCA.\cf5 \
+\cf11 ### NOTE: some VCF files had an error (monomorphic sites were not removed properly in chr01, chr02, chr03, chr04, chr09, chr13, chr15) and had to be re-run. these newly run VCF files can be found in the folder: \cf14 /work/MikheyevU/elroy/data/snps-redo\cf11 . BEAGLE and VCF-filter files generated from these new files are named with the prefix \'91.redone\'92 e.g. chr01.redone.BEAGLE.GL and chr01.redone.filtered.recode.vcf. These files should be used to generate the PCA.\cf5 \
 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf2 \CocoaLigature1 ### ===============================================\

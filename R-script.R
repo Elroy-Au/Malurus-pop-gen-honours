@@ -132,13 +132,6 @@ ggplot (site_missingness, aes(site_missingness$`site-missingness`))
 + labs(x="Site Missingness", y = "Frequency") + theme_bw()
 
 ### ================================== ###
-### Inbreeding                         ###
-### ================================== ###
-
-ggplot (inbreedvalues, aes(inbreed)) 
-+ geom_histogram(col="grey1", fill="lightblue1") + theme_bw()
-
-### ================================== ###
 ### Data Analysis                      ###
 ### ================================== ###
 
@@ -242,5 +235,51 @@ cor(chr27_sorted %>% select(PC1, PC2, Year, LATITUDE, LONGITUDE),
 
 ggplot(no_outliers_PCA_metadata, aes(y=PC1, x=Missingness)) # plot linear regression
 + geom_point() + geom_smooth(method="lm") + theme_bw()
+
+### ================================== ###
+### Inbreeding                         ###
+### ================================== ###
+
+ggplot (inbreedvalues, aes(inbreed)) 
++ geom_histogram(col="grey1", fill="lightblue1") + theme_bw()
+
+ggplot(no_outliers_PCA_metadata, aes(MISSINGNESS,INBREEDING)) 
++ geom_point(color = 'cadetblue3') + theme_bw()
+
+ggplot(no_outliers_PCA_metadata, aes(Year,INBREEDING)) 
++ geom_point(color = 'firebrick2') + theme_bw()
+
+
+### ================================== ###
+### NGSadmix - ADMIXTURE               ###
+### ================================== ###
+
+pop <- read.table("/Users/Elroy/Documents/University
+                  /Honours 2019/Everything/Data Analysis/
+                  ADMIX/Pop-Data.txt", 
+                  fill = TRUE, header = FALSE)          # fill in blanks = TRUE
+                                                        # there is no header
+
+barplot(t(q2)[,ord],col=2:10, space=0, border=NA,
+        xlab="Individuals",                             # create a barplot of   
+        ylab="Admixture Proportions (K=2)")             # the individual 
+                                                        # admixture proportions
+
+# need to fix this. currently, the labels are crowded
+# and unreadable 
+
+text(tapply(1:nrow(pop), pop[ord,1], mean),-0.05,       # add individual sample
+     unique(pop[ord,1]),xpd=T)                          # labels on x axis
+
+
+abline(v=cumsum(sapply(unique(pop[ord,1]), 
+                       function(x){sum(pop[ord,1]==x)})),
+       col=1,lwd=1.2)                                   # add lines between each
+                                                        # individual
+
+
+
+
+
 
 
