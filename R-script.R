@@ -374,35 +374,14 @@ ggplot(no_outliers_metadata, aes(PC1, PC2))
 # plot admixture values of samples in geographical space 
 
 # create australia's shapefile 
-# code source: http://www.flutterbys.com.au/stats/tut/tut5.4.html
 
-aus <- map("worldHires", "Australia", fill=TRUE, xlim=c(110,160),
-         + ylim=c(-45,-5), mar=c(0,0,0,0))
+australia <- st_read("/Users/Elroy/Documents/University/Honours 2019/
+                     Everything/Data Analysis/Aus Shapefile/australia.shp")
 
-map2SpatialPolygons <- function(df, proj4string=CRS("+proj=longlat")) {
-       Plys <- list()
-       i<-1
-       mtch <- which(is.na(df$x))
-       if(length(mtch)==0) {
-             mtch <- length(df$x)+1
-         } else {mtch <-mtch}
-       shps <- length(mtch)
-       #make sure the names are unique
-         nms <- df$names
-         nms[duplicated(nms)] <- paste(nms[duplicated(nms)],1:length(nms[duplicated(nms)]))
-         for (j in 1:shps){
-               Plys[[j]] <- Polygons(list(Polygon(cbind(df$x[i:(mtch[j]-1)],
-                                                         +                                                  df$y[i:(mtch[j]-1)]))),ID=nms[j])
-               i <- mtch[j]+1
-           }
-         SpatialPolygons(Plys,proj4string=proj4string)
-     }
+# plot australia 
 
-aus.sp <- map2SpatialPolygons(aus)
-
-par(mar=c(0,0,0,0))
-
-a <- ggplot(fortify(aus.sp), aes(y=lat, x=long, group=group)) + geom_polygon()
+ggplot() + geom_sf(data = australia, color = "black", fill = "white") 
++ coord_sf() + theme_light()
 
 # plot without labels 
 # how to plot onto a map of Australia ?? 
