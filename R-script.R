@@ -187,7 +187,7 @@ ggplot (no_outliers_metadata, aes(x=PC1, y=PC2))
                                           # sample missingness metadata 
 
 ggplot(no_outliers_metadata, aes(x=LONGITUDE, y=LATITUDE, color = PC1)) 
-+ geom_point( size = 2.5) + scale_color_gradient2() # plot the latitude and 
++ geom_point(size = 2.5) + scale_color_gradient2()  # plot the latitude and 
                                                     # longitude against variation 
                                                     # explained by PC1. Reveals 
                                                     # geographic structure 
@@ -334,28 +334,28 @@ PC1 <- no_outliers_metadata$PC1
 PC2 <- no_outliers_metadata$PC2
 PC3 <- no_outliers_metadata$PC3
 origin <- no_outliers_metadata$STATE
-LAT <- no_outliers_metadata$LATITUDE
-LONG <- no_outliers_metadata$LONGITUDE
+Latitude <- no_outliers_metadata$LATITUDE
+Longitude <- no_outliers_metadata$LONGITUDE
 cID <- no_outliers_metadata$`COLLECTION ID`
 ID <- no_outliers_metadata$`SAMPLE ID`
 Year <- no_outliers_metadata$Year
-admix1 <- no_outliers_metadata$ADMIX1
-admix2 <- no_outliers_metadata$ADMIX2
-admix3 <- no_outliers_metadata$ADMIX3
-admix4 <- no_outliers_metadata$ADMIX4
-admix5 <- no_outliers_metadata$ADMIX5
-admix6 <- no_outliers_metadata$ADMIX6
+K1 <- q6$V1
+K2 <- q6$V2
+K3 <- q6$V3
+K4 <- q6$V4
+K5 <- q6$V5
+K6 <- q6$V6
 
-data <- data.frame(ID,cID,origin,LAT,LONG,Year,PC1,PC2,PC3,
-                   admix1,admix2,admix3,admix4,admix5,admix6)
+data <- data.frame(ID,cID,origin,Latitude,Longitude,Year,PC1,PC2,PC3,
+                   K1,K2,K3,K4,K5,K6)
 
 # plot admixture values of samples in PC space using PC1 and PC2 
 # includes labels -- however, labels are too crowded at the moment
 
 ggplot(data, aes(PC1, PC2, label = ID)) + 
   geom_scatterpie(aes(x = PC1, y = PC2), data = data, 
-                  cols = c("admix1", "admix2", "admix3", "admix4", 
-                           "admix5", "admix6")) 
+                  cols = c("K1", "K2", "K3", "K4", 
+                           "K5", "K6")) 
 + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
                              "#F7DC6F", "#EC7063", "#85C1E9")) 
 + geom_label_repel() + theme_light()
@@ -363,10 +363,10 @@ ggplot(data, aes(PC1, PC2, label = ID)) +
 # plot admixture values of samples in PC space using PC1 and PC2
 # without labels 
 
-ggplot(data, aes(PC1, PC2)) + 
-  geom_scatterpie(aes(x = PC1, y = PC2), 
-                  data = data, cols = c("admix1", "admix2", "admix3", 
-                                        "admix4", "admix5", "admix6")) 
+ggplot(no_outliers_metadata, aes(PC1, PC2)) 
++ geom_scatterpie(aes(x = PC1, y = PC2), 
+                  data = no_outliers_metadata, 
+                  cols = c("K1", "K2", "K3", "K4", "K5", "K6")) 
 + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
                              "#F7DC6F", "#EC7063", "#85C1E9")) 
 + theme_light()
@@ -404,13 +404,15 @@ par(mar=c(0,0,0,0))
 
 a <- ggplot(fortify(aus.sp), aes(y=lat, x=long, group=group)) + geom_polygon()
 
-# plot
-# error: Removed 714 rows containing non-finite values (stat_pie). 
-# why don't we get this error when plotting with PC1 PC2 ?
+# plot without labels 
+# how to plot onto a map of Australia ?? 
 
-a + geom_scatterpie(aes(x = LONG, y = LAT), data = data, cols = c
-                    ("admix1", "admix2", "admix3", "admix4", "admix5", "admix6")) 
-+ scale_fill_manual(values=c("#F39C12", "#C39BD3", 
-                             "#82E0AA", "#F7DC6F", "#EC7063", "#85C1E9"))
+ggplot(no_outliers_metadata, aes(LONGITUDE, LATITUDE)) 
++ geom_scatterpie(aes(x = LONGITUDE, y = LATITUDE), 
+                  data = no_outliers_metadata, 
+                  cols = c("K1", "K2", "K3", "K4", "K5", "K6")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) 
++ theme_light()
 
 
