@@ -316,7 +316,7 @@ abline(v=cumsum(sapply(unique(pop[ord,2]),
                                                         # population
 
 ### ================================== ###
-### ADMIXTURE PCA PLOT                 ###
+### ADMIXTURE SCATTER PLOTS            ###
 ### ================================== ###
 
 # load libraries
@@ -324,74 +324,161 @@ abline(v=cumsum(sapply(unique(pop[ord,2]),
 library(ggplot2)        # plotting
 library(ggrepel)        # ggplot add-on: text repel
 library(scatterpie)     # ggplot add-on: pie charts
-library(maps)           # australia shapefile
-library(mapdata)        # australia shapefile
-library(sp)             # australia shapefile
+library(sf)             # read shapefile
 
-# load appropriate data into a dataframe
-
-PC1 <- no_outliers_metadata$PC1
-PC2 <- no_outliers_metadata$PC2
-PC3 <- no_outliers_metadata$PC3
-origin <- no_outliers_metadata$STATE
-Latitude <- no_outliers_metadata$LATITUDE
-Longitude <- no_outliers_metadata$LONGITUDE
-cID <- no_outliers_metadata$`COLLECTION ID`
-ID <- no_outliers_metadata$`SAMPLE ID`
-Year <- no_outliers_metadata$Year
-K1 <- q6$V1
-K2 <- q6$V2
-K3 <- q6$V3
-K4 <- q6$V4
-K5 <- q6$V5
-K6 <- q6$V6
-
-data <- data.frame(ID,cID,origin,Latitude,Longitude,Year,PC1,PC2,PC3,
-                   K1,K2,K3,K4,K5,K6)
-
-# plot admixture values of samples in PC space using PC1 and PC2 
-# includes labels -- however, labels are too crowded at the moment
-
-ggplot(data, aes(PC1, PC2, label = ID)) + 
-  geom_scatterpie(aes(x = PC1, y = PC2), data = data, 
-                  cols = c("K1", "K2", "K3", "K4", 
-                           "K5", "K6")) 
-+ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
-                             "#F7DC6F", "#EC7063", "#85C1E9")) 
-+ geom_label_repel() + theme_light()
-
-# plot admixture values of samples in PC space using PC1 and PC2
-# without labels 
-
-ggplot(no_outliers_metadata, aes(PC1, PC2)) 
-+ geom_scatterpie(aes(x = PC1, y = PC2), 
-                  data = no_outliers_metadata, 
-                  cols = c("K1", "K2", "K3", "K4", "K5", "K6")) 
-+ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
-                             "#F7DC6F", "#EC7063", "#85C1E9")) 
-+ theme_light()
-
-# plot admixture values of samples in geographical space 
-
-# create australia's shapefile 
+# load shapefile of Australia
 
 australia <- st_read("/Users/Elroy/Documents/University/Honours 2019/
                      Everything/Data Analysis/Aus Shapefile/australia.shp")
 
-# plot australia 
+# create a vector plot of Australia 
 
-ggplot() + geom_sf(data = australia, color = "black", fill = "white") 
-+ coord_sf() + theme_light()
+a <- ggplot() + geom_sf(data = australia, color = "black", fill = "white") 
 
-# plot without labels 
-# how to plot onto a map of Australia ?? 
+### ================================== ###
+### ADMIXTURE SCATTER PLOTS K=2        ###
+### ================================== ###
 
-ggplot(no_outliers_metadata, aes(LONGITUDE, LATITUDE)) 
-+ geom_scatterpie(aes(x = LONGITUDE, y = LATITUDE), 
-                  data = no_outliers_metadata, 
-                  cols = c("K1", "K2", "K3", "K4", "K5", "K6")) 
+PC1 <- admix_geodata$PC1
+PC2 <- admix_geodata$PC2
+Lat <- admix_geodata$LATITUDE
+Long <- admix_geodata$LONGITUDE
+K1 <- admix_geodata$K2.1
+K2 <- admix_geodata$K2.2
+
+data <- data.frame(PC1,PC2,Lat,Long,K1,K2)
+
+ggplot(data, aes(PC1, PC2)) 
++ geom_scatterpie(aes(x = PC1, y = PC2), data = data, cols = c("K1", "K2")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", 
+                             "#82E0AA", "#F7DC6F", "#EC7063", "#85C1E9")) 
++ theme_light()
+
+a + geom_scatterpie(aes(x = Long, y = Lat), data = data, 
+                    cols = c("K1", "K2")) 
 + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
                              "#F7DC6F", "#EC7063", "#85C1E9")) 
 + theme_light()
+
+### ================================== ###
+### ADMIXTURE SCATTER PLOTS K=3        ###
+### ================================== ###
+
+PC1 <- admix_geodata$PC1
+PC2 <- admix_geodata$PC2
+Lat <- admix_geodata$LATITUDE
+Long <- admix_geodata$LONGITUDE
+K1 <- admix_geodata$K3.1
+K2 <- admix_geodata$K3.2
+K3 <- admix_geodata$K3.3
+
+data <- data.frame(Lat,Long,PC1,PC2,K1,K2,K3)
+
+ggplot(data, aes(PC1, PC2)) 
++ geom_scatterpie(aes(x = PC1, y = PC2), 
+                  data = data, cols = c("K1", "K2", "K3")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+a + geom_scatterpie(aes(x = Long, y = Lat), 
+                    data = data, cols = c("K1", "K2", "K3")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+### ================================== ###
+### ADMIXTURE SCATTER PLOTS K=4        ###
+### ================================== ###
+
+PC1 <- admix_geodata$PC1
+PC2 <- admix_geodata$PC2
+Lat <- admix_geodata$LATITUDE
+Long <- admix_geodata$LONGITUDE
+K1 <- admix_geodata$K4.1
+K2 <- admix_geodata$K4.2
+K3 <- admix_geodata$K4.3
+K4 <- admix_geodata$K4.4
+
+data <- data.frame(Lat,Long,PC1,PC2,K1,K2,K3,K4)
+
+ggplot(data, aes(PC1, PC2)) 
++ geom_scatterpie(aes(x = PC1, y = PC2), data = data, 
+                  cols = c("K1", "K2", "K3", "K4")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+a + geom_scatterpie(aes(x = Long, y = Lat), data = data, 
+                    cols = c("K1", "K2", "K3", "K4")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+### ================================== ###
+### ADMIXTURE SCATTER PLOTS K=5        ###
+### ================================== ###
+
+PC1 <- admix_geodata$PC1
+PC2 <- admix_geodata$PC2
+Lat <- admix_geodata$LATITUDE
+Long <- admix_geodata$LONGITUDE
+K1 <- admix_geodata$K5.1
+K2 <- admix_geodata$K5.2
+K3 <- admix_geodata$K5.3
+K4 <- admix_geodata$K5.4
+K5 <- admix_geodata$K5.5
+
+data <- data.frame(Lat,Long,PC1,PC2,K1,K2,K3,K4,K5)
+
+ggplot(data, aes(PC1, PC2)) 
++ geom_scatterpie(aes(x = PC1, y = PC2), data = data, 
+                  cols = c("K1", "K2", "K3", "K4", "K5")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+a + geom_scatterpie(aes(x = Long, y = Lat), data = data, 
+                    cols = c("K1", "K2", "K3", "K4", "K5")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+### ================================== ###
+### ADMIXTURE SCATTER PLOTS K=6        ###
+### ================================== ###
+
+PC1 <- admix_geodata$PC1
+PC2 <- admix_geodata$PC2
+Lat <- admix_geodata$LATITUDE
+Long <- admix_geodata$LONGITUDE
+K1 <- admix_geodata$K1
+K2 <- admix_geodata$K2
+K3 <- admix_geodata$K3
+K4 <- admix_geodata$K4
+K5 <- admix_geodata$K5
+K6 <- admix_geodata$K6
+
+data <- data.frame(Lat,Long,PC1,PC2,K1,K2,K3,K4,K5,K6)
+
+ggplot(data, aes(PC1, PC2)) 
++ geom_scatterpie(aes(x = PC1, y = PC2), data = data, 
+                  cols = c("K1", "K2", "K3", "K4", "K5", "K6")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+a + geom_scatterpie(aes(x = Long, y = Lat), data = data, 
+                    cols = c("K1", "K2", "K3", "K4", "K5", "K6")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+# add labels 
+# need to define ID (sample ID) or cID (collection ID) as a value 
+# in the dataframe
+# too many samples leading to excessive cluttering
+
+ID <- admix_geodata$`COLLECTION ID`
+
+ggplot(data, aes(PC1, PC2, label = ID)) 
++ geom_scatterpie(aes(x = PC1, y = PC2), data = data, 
+                  cols = c("K1", "K2", "K3", "K4", "K5", "K6")) 
++ scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
+                             "#F7DC6F", "#EC7063", "#85C1E9")) 
++ geom_label_repel() + theme_light()
+
 
 
