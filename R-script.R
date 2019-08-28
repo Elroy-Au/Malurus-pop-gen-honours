@@ -179,10 +179,11 @@ ggplot(no_outliers_metadata, aes(x=PC1, y=PC2))
                                           # location (state) metdata 
 
 ggplot (no_outliers_metadata, aes(x=PC1, y=PC2)) 
-+ geom_point(aes(shape = Period, color = MISSINGNESS), position = "jitter", size = 2.5) 
-+ scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) 
-+ scale_color_continuous(high = "black", low = "turquoise2") 
-+ theme_bw()                              # plot the principal components with
++ geom_point(aes(shape = Period, color = MISSINGNESS), position = "jitter", 
+             size = 2.5) + scale_shape_manual(values = 
+                                                c(3, 4, 8, 15, 17, 18, 19, 25)) 
++ scale_color_continuous(high = "black", low = "turquoise2") + theme_bw()                              
+                                          # plot the principal components with
                                           # the collection date and individual 
                                           # sample missingness metadata 
 
@@ -335,9 +336,7 @@ australia <- st_read("/Users/Elroy/Documents/University/Honours 2019/
 
 a <- ggplot() + geom_sf(data = australia, color = "black", fill = "white") 
 
-### ================================== ###
-### ADMIXTURE SCATTER PLOTS K=2        ###
-### ================================== ###
+### K=2
 
 PC1 <- admix_geodata$PC1
 PC2 <- admix_geodata$PC2
@@ -360,9 +359,7 @@ a + geom_scatterpie(aes(x = Long, y = Lat), data = data,
                              "#F7DC6F", "#EC7063", "#85C1E9")) 
 + theme_light()
 
-### ================================== ###
-### ADMIXTURE SCATTER PLOTS K=3        ###
-### ================================== ###
+### K=3
 
 PC1 <- admix_geodata$PC1
 PC2 <- admix_geodata$PC2
@@ -385,9 +382,7 @@ a + geom_scatterpie(aes(x = Long, y = Lat),
 + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
                              "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
 
-### ================================== ###
-### ADMIXTURE SCATTER PLOTS K=4        ###
-### ================================== ###
+### K=4
 
 PC1 <- admix_geodata$PC1
 PC2 <- admix_geodata$PC2
@@ -411,9 +406,7 @@ a + geom_scatterpie(aes(x = Long, y = Lat), data = data,
 + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
                              "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
 
-### ================================== ###
-### ADMIXTURE SCATTER PLOTS K=5        ###
-### ================================== ###
+### K=5
 
 PC1 <- admix_geodata$PC1
 PC2 <- admix_geodata$PC2
@@ -438,9 +431,7 @@ a + geom_scatterpie(aes(x = Long, y = Lat), data = data,
 + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
                              "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
 
-### ================================== ###
-### ADMIXTURE SCATTER PLOTS K=6        ###
-### ================================== ###
+### K=6
 
 PC1 <- admix_geodata$PC1
 PC2 <- admix_geodata$PC2
@@ -479,6 +470,9 @@ ggplot(data, aes(PC1, PC2, label = ID))
 + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", 
                              "#F7DC6F", "#EC7063", "#85C1E9")) 
 + geom_label_repel() + theme_light()
+
+
+
 
 
 
