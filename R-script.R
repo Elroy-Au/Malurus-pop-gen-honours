@@ -476,17 +476,16 @@ ggplot(data, aes(PC1, PC2, label = ID))
 ### MIXED MODELS IN SOMMER             ###
 ### ================================== ###
 
-# mmer = mixed model function 
+# load the covariance matrix 
+# generated using PCangsd 
 
-test <- mmer(INBREEDING~Year,               # response ~ predictor
-             random= ~ID + vs(ds(V1),ID),   # random effects as covariance matrix
-             rcov= ~ vs(ds(V1), units),     # name of the error term
-             data = inbreedtestdata)        # dataframe
-
-K <- read.table("/Users/Elroy/Documents/University/Honours 2019/
+genmatrix <- read.table("/Users/Elroy/Documents/University/Honours 2019/
                 Everything/Data Analysis/Mixed Model/covariance-matrix.txt")
 
-K[1:4,1:4]
+# convert into a matrix and check data structure 
+
+M <- as.matrix(genmatrix)
+M[1:4,1:4]
 
 ###           A37114     A36182     A35583     A35582
 ### A37114 1.07916844 0.02958575 0.03612941 0.03744407
@@ -494,10 +493,27 @@ K[1:4,1:4]
 ### A35583 0.03612941 0.03258741 1.05975997 0.03946498
 ### A35582 0.03744407 0.02230000 0.03946498 1.08377147
 
-genmatrix <- as.matrix(K)
+# specify a single fixed effect 
+# random effects are specified using the ~vs(x) function
+# which denotes a covariance matrix applied at the random effect x 
+# a known covariance matrix is denoted and provided using the function Gu()
+# unknown covariance matrices are created using functions like vs(ds())
+# rcov is a formula specifying the name of the error term, i.e. rcov= ~ units
+# data provides the dataset
 
-mix <- mmer(fixed=INBREEDING~Year,
+mix1 <- mmer(fixed=INBREEDING~Year,
             random=~vs(ID,Gu=M),
             rcov=~units,
             data=inbreedtestdata)
 
+# specify multiple fixed effects
+# the operater "+" can be used to include multiple effects (random or fixed)
+
+mix2 <- mmer(fixed=INBREEDING~Year + LATITUDE + LONGITUDE,
+            random=~vs(ID,Gu=M),
+            rcov=~units,
+            data=inbreedtestdata)
+
+# provide a summary of the model results
+
+summary(mix)
