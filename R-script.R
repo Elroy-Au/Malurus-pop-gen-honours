@@ -472,7 +472,32 @@ ggplot(data, aes(PC1, PC2, label = ID))
 + geom_label_repel() + theme_light()
 
 
+### ================================== ###
+### MIXED MODELS IN SOMMER             ###
+### ================================== ###
 
+# mmer = mixed model function 
 
+test <- mmer(INBREEDING~Year,               # response ~ predictor
+             random= ~ID + vs(ds(V1),ID),   # random effects as covariance matrix
+             rcov= ~ vs(ds(V1), units),     # name of the error term
+             data = inbreedtestdata)        # dataframe
 
+K <- read.table("/Users/Elroy/Documents/University/Honours 2019/
+                Everything/Data Analysis/Mixed Model/covariance-matrix.txt")
+
+K[1:4,1:4]
+
+###           A37114     A36182     A35583     A35582
+### A37114 1.07916844 0.02958575 0.03612941 0.03744407
+### A36182 0.02958575 1.10712433 0.03258741 0.02230000
+### A35583 0.03612941 0.03258741 1.05975997 0.03946498
+### A35582 0.03744407 0.02230000 0.03946498 1.08377147
+
+genmatrix <- as.matrix(K)
+
+mix <- mmer(fixed=INBREEDING~Year,
+            random=~vs(ID,Gu=M),
+            rcov=~units,
+            data=inbreedtestdata)
 
