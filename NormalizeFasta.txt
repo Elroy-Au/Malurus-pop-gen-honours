@@ -1,0 +1,13 @@
+### =============================================================
+### NormalizeFasta —- Picard & Indexing the Reference Genome
+### =============================================================
+
+# trying to index the genome using samTools provided the error: Different line length in sequence 'chrom01A_scaffold0001_wholechromosome' 
+
+# normalise Fasta to normalise lines of sequence in the FASTA file to be of the same length (n = 80)
+
+> module load picard/2.7.0
+> module load samtools
+> picard NormalizeFasta LINE_LENGTH=80 I=/work/MikheyevU/elroy/reference/genome/Malurus_cyaneus__wholegenome_version3.fa O=/work/MikheyevU/elroy/reference/genome/superb.fa
+> samtools faidx superb.fa
+

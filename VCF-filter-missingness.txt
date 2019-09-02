@@ -1,0 +1,28 @@
+#DIRECTORY
+/work/MikheyevU/elroy/data/snp/filter/missingness
+
+#VCF TOOLS
+module load vcftools/0.1.12b
+
+#CALCULATE % OF MISSING DATA FOR INDIVIDUALS 
+vcftools --gzvcf chr01.mac10.recode.vcf.gz --missing-indv --out chr01
+
+#TAKE THE FIFTH COLUMN FROM THE INDIVIDUAL MISSING FILE (MISSINGNESS %)
+awk '!/IN/' chr01A.imiss | cut -f5 > chr01A
+
+#CONCATENATE INDIVIDUAL MISINGNESS FILES FOR SINGLE CHROMOSOMES
+cat chr01 chr01A chr02 chr03 chr04A chr04 chr05 chr06 chr07 chr08 chr09 chr10 chr11 chr12 chr13 chr14 chr15 chr17 chr18 chr20 chr21 chr23 chr27 chr28 chrZ > totalmissingness
+
+#FILTER OUT INDIVIDUALS WHO HAVE POOR INDIVIDUAL MISSINGNESS 
+#TAKE THE LIST OF INDIVIDUALS FROM THE *.IMISS FILE
+cut -f1 chr27.imiss > individuals
+
+#REMOVE THE INDIVIDUALS FROM THE FILE WITH POOR INDIVIDUAL MISSINGNESS 
+#HERE, REMOVE THE 8TH LINE FROM THE FILE ‘INDIVIDUALS’ AND PLACE IT INTO A NEW FILE CALLED OUTLIERS
+sed -n 8p individuals > outliers
+#HERE, REMOVE THE 8TH LINE FROM THE FILE ‘INDIVIDUALS’ AND APEEND IT TO THE END OF THE FILE CALLED OUTLIERS
+sed -n 12p individuals >> outliers
+
+#OUTPUT VCF FILES EXCLUDING THE INDIVIDUALS LISTED IN ‘OUTLIERS’ USING THE COMMAND —-REMOVE
+vcftools --gzvcf chr27.mac10.maxdp6.sitemiss.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/outliers --recode --recode-INFO-all --out chr27.no.outliers
+

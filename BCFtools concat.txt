@@ -1,0 +1,23 @@
+#!/bin/bash
+#SBATCH --job-name=bcf-concat
+#SBATCH --partition=compute
+#SBATCH --mem=50G
+#SBATCH --cpus-per-task=1
+#SBATCH --time=1-0:00:00
+#SBATCH --ntasks=2
+##SBATCH --mail-user=%u@oist.jp
+##SBATCH --mail-type=BEGIN,FAIL,END
+#SBATCH --input=none
+#SBATCH --output=%j.out
+##SBATCH --error=job_%j.err
+
+. $HOME/.bashrc
+
+module load bcftools/1.7
+
+#concatenate using bcf-tools concat function
+bcftools concat /work/MikheyevU/elroy/data/snp/chromosomes/chro01.vcf.gz /work/MikheyevU/elroy/data/snp/chromosomes/chro01-b.vcf.gz > /work/MikheyevU/elroy/data/snp/chromosomes/chr01.vcf.gz
+
+bcftools concat /work/MikheyevU/elroy/data/snp/chromosomes/chro02.vcf.gz /work/MikheyevU/elroy/data/snp/chromosomes/chro02-b.vcf.gz /work/MikheyevU/elroy/data/snp/chromosomes/chro02-c.vcf.gz > /work/MikheyevU/elroy/data/snp/chromosomes/chr02.vcf.gz
+
+bcftools concat /work/MikheyevU/elroy/data/snp/chromosomes/chro03.vcf.gz /work/MikheyevU/elroy/data/snp/chromosomes/chro03-b.vcf.gz > /work/MikheyevU/elroy/data/snp/chromosomes/chr03.vcf.gz

@@ -1,0 +1,49 @@
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr01A.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr01.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr02.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr03.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr04A.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr04.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr05.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr06.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr07.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr08.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr09.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr10.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr11.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr12.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr13.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr14.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr15.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr17.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr18.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr20.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr21.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr23.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr27.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chr28.no.outliers.BEAGLE.GL 
+
+gzip /work/MikheyevU/elroy/data/snp/filter/beagle/chrZ.no.outliers.BEAGLE.GL 

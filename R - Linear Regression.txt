@@ -1,0 +1,18 @@
+### ==============================
+### LINEAR REGRESSION IN GGPLOT2
+### ==============================
+
+#perform a linear regression analysis on PC1 (principal component 1 values) and age.
+#here, the x-axis (Age) is the predictor variable and the y-axis (PC1) is the response variable
+regression <- lm(PC1~Age, data = chr27_trimmed)
+summary(regression)
+
+#calculate the correlation coefficient
+cPC1 <- no_outliers_PCA_metadata$PC1
+cMiss <- no_outliers_PCA_metadata$MISSINGNESS
+cor.test(cMiss, cPC1, method=c("pearson")) #other methods include spearman, kendall
+
+#make a regression plot 
+#scatter plot
+#linear model
+a <- ggplot(chr27_trimmed, aes(y=PC1, x=Age)) + geom_point() + geom_smooth(method="lm") + theme_bw()

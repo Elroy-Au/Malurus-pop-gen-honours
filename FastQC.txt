@@ -1,0 +1,14 @@
+
+### ===========================
+### ANALYSING FASTQ.GZ FILES 
+### ===========================
+
+module load fastqc/0.11.5
+
+## run the fastqc analysis and place the outputs into the chosen directory ‘fastqc’ for all files that end in fastq.gz
+
+fastqc -o fastqc *fastq.gz
+
+## echo the number of reads contained in the fastq file WAM59_R1
+
+echo $(cat WAM59_R1.fastq.gz| wc -l)/4|bc

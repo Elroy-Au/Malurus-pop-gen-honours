@@ -1,0 +1,47 @@
+#DIRECTORY
+/work/MikheyevU/elroy/data/snp
+
+#VCF TOOLS
+module load vcftools/0.1.12b
+
+#FILTER THE GZIPPED VCF FILE USING A MINOR ALLELE COUNT OF 10, A MINIMUM QUALITY FLAG OF 20 (99% CHANCE OF BEING POLYMORPHIC)
+# --GZVCF: FILE IS IN GZIP FORMAT 
+# --MAC: MINOR ALLELE COUNT
+# --MINQ: MINIMUM QUALITY PHRED SCORE OF 20 
+# --RECODE: WRITE A NEW VCF FILE THE APPROPRIATE FILTERS 
+# --RECODE-INFO-ALL: KEEP ALL THE INFO FLAGS OF THE OLD VCF FILE IN THE NEW ONE 
+     
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/chr01.vcf.gz --mac 10 --minQ 20 --recode --recode-INFO-all --out chr01.mac10
+
+#FILTER THE GZIPPED VCF FILE USING A MAXIMUM MEAN DEPTH FILTER OF 6 — THIS IS TO REMOVE 3 STANDARD DEVIATIONS FROM THE AVERAGE SITE DEPTH PER LOCUS (NOT INDIVIDUAL COVERAGE DEPTH). SNPs OVER THIS THRESHOLD TEND TO BE ERRORS LIKE PARALOGS.
+
+vcftools --gzvcf chr01A.mac10.recode.vcf.gz --max-meanDP 6 --recode --recode-INFO-all --out chr01A.mac10.maxdp6
+
+#FILTER THE GZIPPED VCF FILE USING A SITE MISSINGNESS CUTOFF OF 0.2% (--MAX-MISSING EXCLUDES SITES ON THE BASIS OF THE PROPORTION OF MISSING DATA WHERE 0 = ALLOW 100% MISSING DATA AND 1 ALLOWS 0% MISSING DATA)
+
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr01A.mac10.maxdp6.recode.vcf.gz --max-missing 0.8 --recode --recode-INFO-all --out chr01A.mac10.maxdp6.sitemiss
+
+#FILTER BY A MINOR ALLELE FREQUENCY (MAF) OF 0.05 AND MINQ VALUE OF 30
+
+vcftools --gzvcf chr01A.mac10.maxdp6.sitemiss.recode.vcf.gz --maf 0.05 --minQ 30 --recode --recode-INFO-all --out chr01A.maf5.mac10.maxdp6.miss
+
+#FILTER THE GZIPPED VCF FILE USING A SITE MISSINGNESS CUTOFF OF 0.1% (--MAX-MISSING EXCLUDES SITES ON THE BASIS OF THE PROPORTION OF MISSING DATA WHERE 0 = ALLOW 100% MISSING DATA AND 1 ALLOWS 0% MISSING DATA)
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr01A.maf5.mac10.maxdp6.miss.recode.vcf --max-missing 0.9 --recode --recode-INFO-all --out chr01A.miss10.maf5.mac10.maxdp6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

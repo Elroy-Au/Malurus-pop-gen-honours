@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH --job-name=01A
+#SBATCH --partition=compute
+#SBATCH --mem=80G
+#SBATCH --cpus-per-task=1
+#SBATCH --time=3-0:00:00
+#SBATCH --ntasks=2
+##SBATCH --mail-user=%u@oist.jp
+##SBATCH --mail-type=BEGIN,FAIL,END
+#SBATCH --input=none
+#SBATCH --output=%j.out
+##SBATCH --error=job_%j.err
+
+. $HOME/.bashrc
+
+module use /work/.apps/unit/MikheyevU/.modulefiles
+
+module load freebayes/1.3.1 vcftools/0.1.12b vcflib/1.0.0-rc1
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01A_scaffold0001_wholechromosome --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam | vcffilter -f "QUAL > 20" > /work/MikheyevU/elroy/data/snp/chr01A.results.vcf                                                                                                                                       
+                                                                                                                                                                                                                                                                 
+
+#--use-best-n-alleles: reduce the number of alleles considered to 4 > rude runtime at the cost of sensitivity to lower-frequency alleles at multi allelic loci 
+# -r call variants on a specific chromosome 
+# --max-coverage N: skip regions of coverage greater than N — analysing these regions greatly increases runtime but does not provide much more useful detail
+# vcffilter - remove any sites with estimated probability of not being polymorphic less than phred 20 (aka 0.01), or probability of polymorphism > 0.99

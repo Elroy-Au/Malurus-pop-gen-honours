@@ -1,0 +1,11 @@
+
+module load vcftools/0.1.12b
+
+vcf-validator -u /work/MikheyevU/elroy/data/snp/filter/chr01.miss10.maf5.mac10.maxdp6.recode.vcf.gz
+vcf-validator -u /work/MikheyevU/elroy/data/snp/filter/chr02.miss10.maf5.mac10.maxdp6.recode.vcf.gz
+vcf-validator -u /work/MikheyevU/elroy/data/snp/filter/chr03.miss10.maf5.mac10.maxdp6.recode.vcf.gz
+vcf-validator -u /work/MikheyevU/elroy/data/snp/filter/chr04.miss10.maf5.mac10.maxdp6.recode.vcf.gz
+vcf-validator -u /work/MikheyevU/elroy/data/snp/filter/chr09.miss10.maf5.mac10.maxdp6.recode.vcf.gz
+vcf-validator -u /work/MikheyevU/elroy/data/snp/filter/chr13.miss10.maf5.mac10.maxdp6.recode.vcf.gz
+vcf-validator -u /work/MikheyevU/elroy/data/snp/filter/chr15.miss10.maf5.mac10.maxdp6.recode.vcf.gz
+vcf-validator -u /work/MikheyevU/elroy/data/snp/filter/chr27.miss10.maf5.mac10.maxdp6.recode.vcf.gz

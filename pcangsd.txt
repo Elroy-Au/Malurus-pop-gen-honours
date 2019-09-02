@@ -1,0 +1,27 @@
+[kwan-au@sango11201 MikheyevU]$ cd /apps/unit/MikheyevU/elroy/pcangsd 
+[kwan-au@sango11201 pcangsd]$ module load python/2.7.10
+[kwan-au@sango11201 pcangsd]$ module load PCAngsd/f48b742
+[kwan-au@sango11201 pcangsd]$ pcangsd.py -beagle inputfilename.BEAGLE.gz -o outputfilename -threads 10 #this produces a .cov.npy file
+
+### ============================
+### Eigenvalues — PCA BY HAND
+### ============================
+
+> library(RcppCNPy) #load the library for loading NPY files
+> library(ggfortify) #PCA plot package
+> testdata <- npyLoad("/Users/Elroy/downloads/rtest.cov.npy”)
+> Eigenvalues <- eigen(testdata))$values #calculate the eigenvalues
+> Eigenvectors <- eigen(testdata))$vectors #calculate the eigenvectors
+> PC <- as.matrix(testdata) %*% Eigenvectors #compute the principle components through a matrix multiplication 
+> Eigenvalues[1:3] #view the first three eigenvalues
+> cov(PC)[1:3, 1:3] #view of the variances of the principle components. these should be equal to the first three eigenvalues. co-variances should be close or equal to zero
+> print(round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)) #calculate the proportion of the variation explained by each of the various principle components
+> round(cumsum(Eigenvalues)/sum(Eigenvalues) * 100, digits = 2) #calculate the cumulative proportion of the variation explained by each of the various principle components
+> plot(PC[,1], PC[,2]) #plot the principle components 1 and 2
+> identify(PC[,1], PC[,2]) #identify points on the plot —- useful for finding outliers. press ENTER, click on desired points and click finish in the plot window
+
+pcangsd.py -beagle PCA.BEAGLE.GL.gz -o PCA -threads 10
+
+
+
+

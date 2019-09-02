@@ -1,0 +1,10 @@
+### ==============================
+### CORRELATION MATRIX
+### ==============================
+
+#excel file containing all of the metadata
+View(chr27_sorted) 
+library(tidyverse)
+#correlation matrix of PC1, PC2, Year, Latitutude, Longitude with each variable 
+#correlated versus each other variable 
+cor(chr27_sorted %>% select(PC1, PC2, Year, LATITUDE, LONGITUDE), use="pairwise.complete.obs")

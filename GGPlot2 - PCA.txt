@@ -1,0 +1,65 @@
+### ===========================
+### PCA - EXPLORING GGPLOT2
+### ===========================
+
+### BASIC SCATTERPLOT USING QPLOT()
+qplot(x = PC1, y = PC2, data = PCA, geom = "point")
+
+### BASIC SCATTERPLOT USING GGPLOT()
+### ggplot2 works by creating different layers and adding them on top of each other. 
+
+#LAYER 1: PC1, PC2
+a <- ggplot(chr27, aes(PC1, PC2)) + geom_point(color = 'blue') + theme_bw()
+
+#LAYER 2: Add a shape scale to represent the time period
+b <- a + geom_point(aes(shape = Period), size = 3) + scale_shape_manual(values = c(0:8))
+
+#LAYER 3: Add a colour gradient scale to represent missingness
+c <- b + geom_point(aes(color = missingness)) + scale_color_continuous(high = "red", low = "yellow")
+
+#LAYER 4: Add a colour gradient scale to represent missingness
+d <- b + geom_point(aes(color = depth)) + scale_color_continuous(high = "red", low = "blue")
+
+#LAYER 5: Group by Individual Missingness and identify using time period (colour). 
+a <- ggplot (chr27_sorted, aes(x=PC1, y=PC2, group = IndvMissing)) + geom_point(aes(shape = IndvMissing, color = Period), size = 2.5) + scale_shape_manual(values = c(15:19)) + theme_bw()
+#using manual shape selection + jitter to prevent overcrowding
+ggplot (chr27_sorted, aes(x=PC1, y=PC2, group = IndvMissing)) + geom_point(aes(shape = IndvMissing, color = Period), position = "jitter", size = 2) + scale_shape_manual(values = c(3, 4, 15, 17, 19)) + theme_bw()
+#separate the samples by date period (shape) using a gradient (individual missingness/depth)
+ggplot (chr27_sorted, aes(x=PC1, y=PC2, group = IndvMissing)) + geom_point(aes(shape = Period, color = Missingness), position = "jitter", size = 2.5) + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) + scale_color_continuous(high = "black", low = "turquoise2") + theme_bw()
+#depth
+ggplot (chr27_sorted, aes(x=PC1, y=PC2)) + geom_point(aes(shape = Period, color = Coverage), position = "jitter", size = 2.5) + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) + scale_color_continuous(high = "black", low = "gold") + theme_bw()
+#it doesn't seem like group identification is necessary here unless you want to sort missing/depth by group order, e.g. 2X, 3X, 4X ...
+
+#add the row names as individual labels
+a + geom_text(aes(label = rownames(PCA)), size = 3)
+require("ggrepel")
+set.seed(42) #not sure what this means just yet or if it is necessary 
+#add the row names as labels with a repel effect on the plot
+a + geom_text_repel(aes(label = rownames(PCA)), size = 3)
+
+#separate the samples by date period using manual colours 
+a + geom_point(aes(color = Period)) + scale_color_manual(values = c("#85C1E9", "#5DADE2", "#3498DB", "#2E86C1", "#2874A6", "#21618C", "#1B4F72", "#17202A"))
+
+### ==============================
+### PCA IN GGPLOT2 - FINAL CODE
+### ==============================
+
+### CREATING A DATAFRAME
+library(ggplot2)
+#set the principal components as values
+PC1 <- PC[,1]
+PC2 <- PC[,2]
+PC3 <- PC[,3]
+#create a dataframe (ggplot doesn't work on matrices)
+PCA <- data.frame(PC1, PC2, PC3)
+
+#copy PC1,PC2,PC3 into excel file
+
+#PCA: data vs geographic location
+ggplot (chr27_sorted, aes(x=PC1, y=PC2)) + geom_point(aes(shape = Period, color = Coverage), position = "jitter", size = 2.5) + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) + scale_color_continuous(high = "black", low = "gold") + theme_bw()
+
+#PCA: date vs missingness
+ggplot (sorted_PCA_metadata_, aes(x=PC1, y=PC2)) + geom_point(aes(shape = Period, color = MISSINGNESS), position = "jitter", size = 2.5) + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) + scale_color_continuous(high = "black", low = "turquoise2") + theme_bw()
+
+#PCA: date vs geographic location (state)
+ggplot(sorted_PCA_metadata_, aes(x=PC1, y=PC2)) + geom_point(aes(shape = Period, color = STATE), position = "jitter", size = 2.5) + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) + theme_bw()

@@ -1,0 +1,6 @@
+> module load samtools/1.9
+> module load bowtie2/2.3.4.3
+> bowtie2-inspect -s superb | awk '{ FS = "\t" } ; BEGIN{L=0}; {L=L+$3}; END{print L}' #give the length of the bowtie indexed reference genome ‘superb’
+> 1078874851
+> samtools mpileup ANWC75_R1.fastq.gz.bam | awk -v X="${MIN_COVERAGE_DEPTH}" '$2>=X' | wc -l #get total number of bases covered at minimum coverage X (here = 2)
+> samtools depth -a sample.fastq.gz.bam | awk '{c++;s+=$3}END{print s/c}' #get the average coverage for a BAM file using samtools -depth

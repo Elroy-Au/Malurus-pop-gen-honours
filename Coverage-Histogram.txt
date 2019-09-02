@@ -1,0 +1,14 @@
+### =====================
+### COVERAGE DEPTH
+### =====================
+
+#load the excel file containing the depth of coverage data
+coverage <- read_excel("Documents/University/Honours 2019/Australian Birds/coverage.xlsx")
+Coverage <- coverage$`Coverage Depth`
+#Create a simple histogram of the variable 'coverage'
+#main="This is the header name"
+#xlab="This is the x axis label"
+hist(Coverage, main="Depth of Coverage", xlab="Depth of Coverage")
+#using ggplot2
+ggplot (coverage, aes(coverage$`Coverage Depth`)) + geom_histogram()
+ggplot (coverage, aes(coverage$`Coverage Depth`)) + geom_histogram(breaks=seq(0,8, by =1), col="midnightblue", aes(fill=..count..)) + scale_fill_gradient("Count", high = "paleturquoise4", low = "paleturquoise1") + labs(x="Coverage Depth", y = "Frequency") + theme_bw()

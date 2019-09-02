@@ -1,0 +1,7 @@
+#CODE TO SUB-SAMPLE SNPS FOR PCANGSD
+#de-compress the concatenated file ‘samples.BEAGLE.GL.gz’, take the header and create a new file called pca.BEAGLE.GL with it
+zcat samples.BEAGLE.GL.gz | head -n1 > pca.BEAGLE.GL 
+#de-compress the concatenated file ‘samples.BEAGLE.GL.gz’, now starting from the second line of the file take a random subset of 100,000 lines and append it to the previously created file pca.BEAGLE.GL
+zcat samples.BEAGLE.GL.gz | tail -n+2 | shuf -n 100,000 >> pca.BEAGLE.GL
+#zip file
+gzip pca.BEAGLE.GL

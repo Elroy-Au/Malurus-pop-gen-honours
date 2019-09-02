@@ -1,0 +1,186 @@
+### Chromosome 1A
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01A_scaffold0001_wholechromosome:1-13622703 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01A.1.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01A_scaffold0001_wholechromosome:13622704-27245406 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01A.2.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01A_scaffold0001_wholechromosome:27245407-40868111 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01A.3.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01A_scaffold0001_wholechromosome:40868112-54490815 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01A.4.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01A_scaffold0001_wholechromosome:54490816-68113514 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01A.5.vcf
+
+bcftools concat /work/MikheyevU/elroy/data/snps-redo/chromosomes/chr01A.1.vcf /work/MikheyevU/elroy/data/snps-redo/chr01A.2.vcf /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01A.3.vcf /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01A.4.vcf /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01A.5.vcf > /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01A.full.vcf
+
+### Chromosome 1
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:1-12532772 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01.1.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:12532773-25065545 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01.2.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:25065546-37598319 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01.3.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:37598320-50131092 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01.4.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:50131093-62663865 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01.5.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:62663866-75196638 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01.6.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:75196639-87729411 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01.7.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:87729412-100262184 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01.8.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:100262185-112794957 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01.9.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:112794957-125327729 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr01.10.vcf
+
+bcftools concat /work/MikheyevU/elroy/data/snps-redo/chr01.1.vcf /work/MikheyevU/elroy/data/snps-redo/chr01.2.vcf /work/MikheyevU/elroy/data/snps-redo/chr01.3.vcf /work/MikheyevU/elroy/data/snps-redo/chr01.4.vcf /work/MikheyevU/elroy/data/snps-redo/chr01.5.vcf /work/MikheyevU/elroy/data/snps-redo/chr01.6.vcf /work/MikheyevU/elroy/data/snps-redo/chr01.7.vcf /work/MikheyevU/elroy/data/snps-redo/chr01.8.vcf /work/MikheyevU/elroy/data/snps-redo/chr01.9.vcf /work/MikheyevU/elroy/data/snps-redo/chr01.10.vcf > /work/MikheyevU/elroy/data/snps-redo/chr01.full.vcf
+
+###CHROMOSOME 2
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:1-13666186 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.1.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:13666187-27332373 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.2.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:27332374-40998561 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.3.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:40998562-54664748 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.4.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:54664749-68330935 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.5.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:68330936-81997122 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.6.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:81997123-95663309 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.7.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:95663310-109329496 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.8.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:109329497-122995683 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.9.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:122995684-136661870 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.10.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:136661871-150328057 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.11.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom02_scaffold0003_wholechromosome:150328058-163994238 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr02.12.vcf
+
+bcftools concat /work/MikheyevU/elroy/data/snps-redo/chr02.1.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.2.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.3.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.4.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.5.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.6.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.7.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.8.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.9.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.10.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.11.vcf /work/MikheyevU/elroy/data/snps-redo/chr02.12.vcf > /work/MikheyevU/elroy/data/snps-redo/chr02.full.vcf
+
+### CHROMOSOME 3
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom03_scaffold0004_wholechromosome:1-10886226 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr3.1.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom03_scaffold0004_wholechromosome:10886227-21772453 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr3.2.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom03_scaffold0004_wholechromosome:21772454-32658680 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr3.3.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom03_scaffold0004_wholechromosome:32658681-43544907 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr3.4.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom03_scaffold0004_wholechromosome:43544908-54431134 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr3.5.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom03_scaffold0004_wholechromosome:54431135-65317361 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr3.6.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom03_scaffold0004_wholechromosome:65317362-76203588 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr3.7.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom03_scaffold0004_wholechromosome:76203589-87089815 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr3.8.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom03_scaffold0004_wholechromosome:87089816-97976042 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr3.9.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom03_scaffold0004_wholechromosome:97976043-108862264 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr3.10.vcf
+
+bcftools concat /work/MikheyevU/elroy/data/snps-redo/chr3.1.vcf /work/MikheyevU/elroy/data/snps-redo/chr3.2.vcf /work/MikheyevU/elroy/data/snps-redo/chr3.3.vcf /work/MikheyevU/elroy/data/snps-redo/chr3.4.vcf /work/MikheyevU/elroy/data/snps-redo/chr3.5.vcf /work/MikheyevU/elroy/data/snps-redo/chr3.6.vcf /work/MikheyevU/elroy/data/snps-redo/chr3.7.vcf /work/MikheyevU/elroy/data/snps-redo/chr3.8.vcf /work/MikheyevU/elroy/data/snps-redo/chr3.9.vcf /work/MikheyevU/elroy/data/snps-redo/chr3.10.vcf > /work/MikheyevU/elroy/data/snps-redo/chr3.full.vcf
+
+### CHROMOSOME 4 
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom04_scaffold0006_wholechromosome:1-7211481 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr4.1.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom04_scaffold0006_wholechromosome:7211482-14422964 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr4.2.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom04_scaffold0006_wholechromosome:14422965-21634446 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr4.3.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom04_scaffold0006_wholechromosome:21634447-28845928 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr4.4.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom04_scaffold0006_wholechromosome:28845929-36057410 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr4.5.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom04_scaffold0006_wholechromosome:36057411-43268892 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr4.6.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom04_scaffold0006_wholechromosome:43268893-50480374 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr4.7.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom04_scaffold0006_wholechromosome:50480375-57691856 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr4.8.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom04_scaffold0006_wholechromosome:57691857-64903338 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr4.9.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom04_scaffold0006_wholechromosome:64903339-72114811 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr4.10.vcf
+
+bcftools concat /work/MikheyevU/elroy/data/snps-redo/chr4.1.vcf /work/MikheyevU/elroy/data/snps-redo/chr4.2.vcf /work/MikheyevU/elroy/data/snps-redo/chr4.3.vcf /work/MikheyevU/elroy/data/snps-redo/chr4.4.vcf /work/MikheyevU/elroy/data/snps-redo/chr4.5.vcf /work/MikheyevU/elroy/data/snps-redo/chr4.6.vcf /work/MikheyevU/elroy/data/snps-redo/chr4.7.vcf /work/MikheyevU/elroy/data/snps-redo/chr4.8.vcf /work/MikheyevU/elroy/data/snps-redo/chr4.9.vcf /work/MikheyevU/elroy/data/snps-redo/chr4.10.vcf > /work/MikheyevU/elroy/data/snps-redo/chr4.full.vcf
+
+### CHROMOSOME 9
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom09_scaffold0011_wholechromosome:1-2452468 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr9.1.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom09_scaffold0011_wholechromosome:2452469-4904937 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr9.2.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom09_scaffold0011_wholechromosome:4904938-7357406 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr9.3.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom09_scaffold0011_wholechromosome:7357407-9809875 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr9.4.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom09_scaffold0011_wholechromosome:9809876-12262344 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr9.5.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom09_scaffold0011_wholechromosome:12262345-14714813 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr9.6.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom09_scaffold0011_wholechromosome:14714814-17167282 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr9.7.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom09_scaffold0011_wholechromosome:17167283-19619751 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr9.8.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom09_scaffold0011_wholechromosome:19619752-22072219 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr9.9.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom09_scaffold0011_wholechromosome:22072220-24524688 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr9.10.vcf
+
+bcftools concat /work/MikheyevU/elroy/data/snps-redo/chr9.1.vcf /work/MikheyevU/elroy/data/snps-redo/chr9.2.vcf /work/MikheyevU/elroy/data/snps-redo/chr9.3.vcf /work/MikheyevU/elroy/data/snps-redo/chr9.4.vcf /work/MikheyevU/elroy/data/snps-redo/chr9.5.vcf /work/MikheyevU/elroy/data/snps-redo/chr9.6.vcf /work/MikheyevU/elroy/data/snps-redo/chr9.7.vcf /work/MikheyevU/elroy/data/snps-redo/chr9.8.vcf /work/MikheyevU/elroy/data/snps-redo/chr9.9.vcf /work/MikheyevU/elroy/data/snps-redo/chr9.10.vcf > /work/MikheyevU/elroy/data/snps-redo/chr9.full.vcf
+
+### CHROMOSOME 13
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom13_scaffold0015_wholechromosome:1-1904198 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr13.1.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom13_scaffold0015_wholechromosome:1904199-3808397 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr13.2.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom13_scaffold0015_wholechromosome:3808398-5712596 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr13.3.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom13_scaffold0015_wholechromosome:5712597-7616794 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr13.4.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom13_scaffold0015_wholechromosome:7616795-9520993 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr13.5.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom13_scaffold0015_wholechromosome:9520994-11425192 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr13.6.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom13_scaffold0015_wholechromosome:11425193-13329391 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr13.7.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom13_scaffold0015_wholechromosome:13329392-15233589 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr13.8.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom13_scaffold0015_wholechromosome:15233590-17137788 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr13.9.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom13_scaffold0015_wholechromosome:17137789-19041980 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr13.10.vcf
+
+bcftools concat /work/MikheyevU/elroy/data/snps-redo/chr13.1.vcf /work/MikheyevU/elroy/data/snps-redo/chr13.2.vcf /work/MikheyevU/elroy/data/snps-redo/chr13.3.vcf /work/MikheyevU/elroy/data/snps-redo/chr13.4.vcf /work/MikheyevU/elroy/data/snps-redo/chr13.5.vcf /work/MikheyevU/elroy/data/snps-redo/chr13.6.vcf /work/MikheyevU/elroy/data/snps-redo/chr13.7.vcf /work/MikheyevU/elroy/data/snps-redo/chr13.8.vcf /work/MikheyevU/elroy/data/snps-redo/chr13.9.vcf /work/MikheyevU/elroy/data/snps-redo/chr13.10.vcf > /work/MikheyevU/elroy/data/snps-redo/chr13.full.vcf
+
+### CHROMOSOME 15
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom15_scaffold0017_wholechromosome:1-1468769 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr15.1.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom15_scaffold0017_wholechromosome:1468770-2937539 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr15.2.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom15_scaffold0017_wholechromosome:2937540-4406309 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr15.3.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom15_scaffold0017_wholechromosome:4406340-5875109 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr15.4.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom15_scaffold0017_wholechromosome:5875110-7343879 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr15.5.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom15_scaffold0017_wholechromosome:7343880-8812649 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr15.6.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom15_scaffold0017_wholechromosome:8812650-10281419 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr15.7.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom15_scaffold0017_wholechromosome:10281420-11750189 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr15.8.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom15_scaffold0017_wholechromosome:11750190-13218959 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr15.9.vcf
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom15_scaffold0017_wholechromosome:13218959-14687692 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam > /work/MikheyevU/elroy/data/snps-redo/chr15.10.vcf
+
+bcftools concat /work/MikheyevU/elroy/data/snps-redo/chr15.1.vcf /work/MikheyevU/elroy/data/snps-redo/chr15.2.vcf /work/MikheyevU/elroy/data/snps-redo/chr15.3.vcf /work/MikheyevU/elroy/data/snps-redo/chr15.4.vcf /work/MikheyevU/elroy/data/snps-redo/chr15.5.vcf /work/MikheyevU/elroy/data/snps-redo/chr15.6.vcf /work/MikheyevU/elroy/data/snps-redo/chr15.7.vcf /work/MikheyevU/elroy/data/snps-redo/chr15.8.vcf /work/MikheyevU/elroy/data/snps-redo/chr15.9.vcf /work/MikheyevU/elroy/data/snps-redo/chr15.10.vcf > /work/MikheyevU/elroy/data/snps-redo/chr15.full.vcf
+

@@ -1,0 +1,21 @@
+#DIRECTORY
+/work/MikheyevU/elroy/data/snp/filter/site-missing
+
+#VCF TOOLS
+module load vcftools/0.1.12b
+
+#CALCULATE THE MISSINGNESS PER SITE
+vcftools --gzvcf chr01A.mac10.recode.vcf.gz --missing-site --out chr01A
+
+#TAKE THE SIXTH COLUMN (F_MISS: % MISSINGNESS) FROM THE OUTPUT FILE 
+awk ‘!/CHR/‘ chr01A.imiss | cut -f6 > chr01A
+
+#CONCATENATE SITE MISINGNESS FILES FOR SINGLE CHROMOSOMES
+cat chr01 chr01A chr02 chr03 chr04A chr04 chr05 chr06 chr07 chr08 chr09 chr10 chr11 chr12 chr13 chr14 chr15 chr17 chr18 chr20 chr21 chr23 chr27 chr28 chrZ > sitemissingness
+
+#TELL ME THE NUMBER OF LINES IN THIS DOCUMENT I.E. THE # OF OBSERVATIONS
+wc -l sitemissingness 
+12453032 sitemissingness
+
+#TAKE 100,000 RANDOM INSTANCES 
+shuf -n 100000 sitemissingness > sitemissingset

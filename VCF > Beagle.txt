@@ -1,0 +1,34 @@
+### =================================
+### VCF > BEAGLE V3 GENOTYPES FILE
+### =================================
+
+[kwan-au@sango10307 pcangsd]$ wget https://faculty.washington.edu/browning/beagle_utilities/vcf2beagle.jar 
+[kwan-au@sango11106 pcangsd]$ cat /work/MikheyevU/elroy/data/snp/incomplete/chr04A.results.vcf | java -jar vcf2beagle.jar [] test #[] refers to the input for missing alleles; this should be input rather than left blank as [] or it will create errors downstream
+
+### ===================================================================
+### VCF > BEAGLE V3 GENOTYPE LIKELIHOODS FILE FOR A SINGLE CHROMOSOME
+### ===================================================================
+
+[kwan-au@sango11106 pcangsd] $ module load vcftools/0.1.12b
+[kwan-au@sango11106 pcangsd] vcftools --vcf {/path/vcffile} --chr {chromosomename, e.g.chrom01_scaffold0002_wholechromosome} --BEAGLE-GL --out outfile<name>
+
+#example
+vcftools --vcf /work/MikheyevU/elroy/data/snp/chromosomes/chr02.vcf --chr chrom02_scaffold0003_wholechromosome --BEAGLE-GL --out chrom02
+
+#example - gzipped vcf file 
+vcftools --gzvcf chr27.mac10.maxdp6.sitemiss.recode.vcf.gz --chr chrom27_scaffold0023_wholechromosome --BEAGLE-GL --out chr27
+
+### ===================================================================
+### GZIP BEAGLE FILES
+### ===================================================================
+
+[kwan-au@sango10513 beagle]$ gzip file.BEAGLE.GL 
+
+### ===================================================================
+### REMOVE HEADERS FROM NON-LEAD BEAGLE FILES & CONCAT BEAGLE FILES
+### ===================================================================
+
+[kwan-au@sango10513 beagle]$ (zcat *.BEAGLE.GL.gz | head -n1 ; for i in *BEAGLE.GL.gz; do zcat $i | sed 1d; done) | gzip > samples.beagle.gz
+
+
+

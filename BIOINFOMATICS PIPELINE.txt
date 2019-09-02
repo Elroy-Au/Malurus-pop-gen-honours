@@ -1,0 +1,296 @@
+### ===============================================
+### CONCATENATE GZ FILES
+### ===============================================
+
+#CONCATENATE THE FORWARD READ (R1) AND REVERSE READ (R2) FASTQ FILES FROM SEQUENCING 
+#MULTIPLE FASTQ.GZ FILES EXIST BECAUSE SAMPLES WERE POOLED OVER DIFFERENT LANES
+
+cat /work/MikheyevU/elroy/data/reads/ID*R2_001.fastq.gz > /work/MikheyevU/elroy/data/reads/ID_R2_fastq.gz
+cat /work/MikheyevU/elroy/data/reads/ID*R1_001.fastq.gz > /work/MikheyevU/elroy/data/reads/ID_R1_fastq.gz
+
+### ===============================================
+### ANALYSING FASTQ.GZ FILES
+### ===============================================
+
+module load fastqc/0.11.5
+#RUN THE FASTQC ANALYSIS FOR ALL FILES ENDING IN FASTQ.GZ
+fastqc -o /work/MikheyevU/elroy/data/reads/fastqc *fastq.gz
+#ECHO THE NUMBER OF READS CONTAINED IN THE FASTQ FILE ID_R1.FASTQ.GZ
+echo $(cat ID_R1.fastq.gz | wc-l)/4|bc
+
+### ===============================================
+### INDEX THE GENOME
+### ===============================================
+
+module load bowtie2/2.3.4.3
+#BOWTIE2-BUILD <REFERENCE GENOME> <OUTPUT FILE>
+bowtie2-build /work/MikheyevU/elroy/reference/genome/Malurus_cyaneus__wholegenome_version3.fa /work/MikheyevU/elroy/reference/genome/superb
+
+### ===============================================
+### ALIGNMENT OF READS IN BOWTIE
+### ===============================================
+
+module load bowtie2/2.3.4.3 samtools/1.3.1
+
+a=(`ls -1 /work/MikheyevU/elroy/data/reads/cat-reads/*_R1.fastq.gz`) #group forward reads together
+b=(`ls -1 /work/MikheyevU/elroy/data/reads/cat-reads/*_R2.fastq.gz`) #group reverse reads together
+
+base=$(basename ${a["SLURM_ARRAY_TASK_ID"]} "-R1_001.fastq.gz") #set the base name 
+f=${a["SLURM_ARRAY_TASK_ID"]} #give all files from group a the identity f <forward-read>
+r=${b["SLURM_ARRAY_TASK_ID"]} #give all files from group b the identity r <reverse-read>
+echo $f
+echo $r
+
+bowbase=/work/MikheyevU/elroy/reference/genome/superb #define the index genome 
+ref=/work/MikheyevU/elroy/reference/genome/Malurus_cyaneus__wholegenome_version3.fa #define the original reference genome 
+
+outfile=/work/MikheyevU/elroy/data/alignments/`basename $f -R1_001.fastq.gz`.bam #define the outfile directory 
+
+if [ -s "$outfile" ]
+then
+        echo "$outfile has some data." #tell me if outfile has been successful
+        sleep 10s
+else
+        echo "$outfile is empty." #tell me if outfile is unsusccessful 
+        bowtie2 -p 2 --very-sensitive-local --sam-rg ID:$base --sam-rg LB:Nextera --sam-rg SM:$base --sam-rg PL:ILLUMINA -x $bowbase -1 $f -2 $r | samtools view -Su -F4 - | novosort  -c 2 -m 10G -i -o /work/MikheyevU/elroy/data/alignments/`basename $f -R1_001.fastq.gz`.bam -
+fi
+
+#bowtie2 <options> -x reference -1 <forward read file> -2 <reverse read file>
+#-p 2: number of alignment threads to launch
+#--very-sensitive-local: trimming 
+#samtools view -Su -F4: convert output to BAM format. -S denotes .SAM file input, u denotes output is uncompressed BAM file, F4 removes unmapped reads 
+
+### ===============================================
+### NORMALIZEFASTA - RE-INDEXING THE GENOME
+### ===============================================
+
+module load picard/2.7.0
+module load samtools
+picard NormalizeFasta LINE_LENGTH=80 I=/work/MikheyevU/elroy/reference/genome/Malurus_cyaneus__wholegenome_version3.fa O=/work/MikheyevU/elroy/reference/genome/superb.fa
+samtools faidx superb.fa
+
+### ===============================================
+### VARIANT CALLING IN FREEBAYES
+### ===============================================
+
+module use /work/.apps/unit/MikheyevU/.modulefiles
+
+module load freebayes/1.3.1 vcftools/0.1.12b vcflib/1.0.0-rc1
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01A_scaffold0001_wholechromosome --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam | vcffilter -f "QUAL > 30" > /work/MikheyevU/elroy/data/snp/chr01A.results.vcf                                                                                                                                       
+                                                                                                                                                                                                                                                                 
+
+#--use-best-n-alleles: reduce the number of alleles considered to 4 > rude runtime at the cost of sensitivity to lower-frequency alleles at multi allelic loci 
+# -r call variants on a specific chromosome 
+# --max-coverage N: skip regions of coverage greater than N — analysing these regions greatly increases runtime but does not provide much more useful detail
+# vcffilter - remove any sites with estimated probability of not being polymorphic less than phred 20 (aka 0.01), or probability of polymorphism > 0.99
+
+freebayes -f /work/MikheyevU/elroy/reference/genome/superb.fa --use-best-n-alleles 4 -r chrom01_scaffold0002_wholechromosome:62663866-125327729 --skip-coverage 5000 /work/MikheyevU/elroy/data/alignments/*.bam | vcffilter -f "QUAL > 20" > /work/MikheyevU/elroy/data/snp/chr01-b.results.vcf
+
+
+### ===============================================
+### RECOMBINING SPLIT CHROMOSOMES
+### ===============================================
+
+module load bcftools/1.7
+bcftools concat /work/MikheyevU/elroy/data/snp/chromosomes/{chr.a}.vcf.gz /work/MikheyevU/elroy/data/snp/chromosomes/{chr.b}.vcf.gz > /work/MikheyevU/elroy/data/snp/chromosomes/{chr}.vcf.gz
+
+### ===============================================
+### VARIANT CALLING ANALYSIS
+### ===============================================
+
+### ===============================================
+### INDIVIDUAL MISSINGNESS
+### ===============================================
+
+module load vcftools/0.1.12b
+
+#CALCULATE % OF MISSING DATA FOR INDIVIDUALS 
+vcftools --gzvcf {chr}.mac10.recode.vcf.gz --missing-indv --out {chr}
+
+#TAKE THE FIFTH COLUMN FROM THE INDIVIDUAL MISSING FILE (MISSINGNESS %)
+awk '!/IN/' {chr}.imiss | cut -f5 > {chr} 
+
+#CONCATENATE INDIVIDUAL MISINGNESS FILES FOR SINGLE CHROMOSOMES
+cat chr01 chr01A chr02 chr03 chr04A chr04 chr05 chr06 chr07 chr08 chr09 chr10 chr11 chr12 chr13 chr14 chr15 chr17 chr18 chr20 chr21 chr23 chr27 chr28 chrZ > totalmissingness
+
+### ===============================================
+### MEAN SITE DEPTH
+### ===============================================
+
+module load vcftools/0.1.12b
+
+#CALCULATE THE DEPTH ACROSS LOCI 
+vcftools --gzvcf {chr}.mac10.recode.vcf.gz --site-depth --out {chr}DP
+
+
+#TAKE ONLY THE THIRD COLUMN FROM THE DEPTH FILE, I.E. SUM DEPTH
+cut -f3 {chr}DP.ldepth > {chr}DP.site.ldepth
+
+#CALCULATE AVERAGE DEPTH PER SITE 
+#DIVIDE SUM DEPTH BY NUMBER OF INDIVIDUALS 
+awk '!/D/' {chr}DP.site.ldepth | awk -v x=133 '{print $1/x}' > {chr}meanDP
+
+#CONCATENATE MEAN DEPTH FILES FOR ALL CHROMOSOMES 
+cat chr01meanDP chr01AmeanDP chr02meanDP chr03meanDP chr04AmeanDP chr04meanDP chr05meanDP chr06meanDP chr07meanDP chr08meanDP chr09meanDP chr10meanDP chr11meanDP chr12meanDP chr13meanDP chr14meanDP chr15meanDP chr17meanDP chr18meanDP chr20meanDP chr21meanDP chr23meanDP chr27meanDP chr28meanDP chrZmeanDP > meanDP
+
+#TAKE 100,000 RANDOM INSTANCES 
+shuf -n 100000 meanDP > meanDPsubset 
+
+### ===============================================
+### SITE MISSINGNESS
+### ===============================================
+
+module load vcftools/0.1.12b
+
+#CALCULATE THE MISSINGNESS PER SITE
+vcftools --gzvcf {chr}.mac10.recode.vcf.gz --missing-site --out {chr}
+
+#TAKE THE SIXTH COLUMN (F_MISS: % MISSINGNESS) FROM THE OUTPUT FILE 
+awk ‘!/CHR/‘ {chr}.imiss | cut -f6 > {chr}
+
+#CONCATENATE SITE MISINGNESS FILES FOR SINGLE CHROMOSOMES
+cat chr01 chr01A chr02 chr03 chr04A chr04 chr05 chr06 chr07 chr08 chr09 chr10 chr11 chr12 chr13 chr14 chr15 chr17 chr18 chr20 chr21 chr23 chr27 chr28 chrZ > sitemissingness
+
+#TELL ME THE NUMBER OF LINES IN THIS DOCUMENT I.E. THE # OF OBSERVATIONS
+wc -l sitemissingness 
+12453032 sitemissingness
+
+#TAKE 100,000 RANDOM INSTANCES 
+shuf -n 100000 sitemissingness > sitemissingset
+
+### ===============================================
+### SNP FILTERING
+### ===============================================
+
+module load vcftools/0.1.12b
+
+#FILTER THE GZIPPED VCF FILE USING A MINOR ALLELE COUNT OF 10, A MINIMUM QUALITY FLAG OF 20 (99% CHANCE OF BEING POLYMORPHIC)
+# --GZVCF: FILE IS IN GZIP FORMAT 
+# --MAC: MINOR ALLELE COUNT
+# --MAF: MINOR ALLELE FREQUENCY 
+# --MINQ: MINIMUM QUALITY PHRED SCORE OF X
+# --MAX-MEAN-DP: MAXIMUM MEAN DEPTH SCORE 
+# --MAX-MISSING: MAXIMUM SITE MISSINGNESS
+# --RECODE: WRITE A NEW VCF FILE THE APPROPRIATE FILTERS 
+# --RECODE-INFO-ALL: KEEP ALL THE INFO FLAGS OF THE OLD VCF FILE IN THE NEW ONE 
+
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/{chr}.vcf.gz --mac 10 --maf 0.05 --minQ 40 --max-missing 0.9 --max-meanDP 6 --recode --recode-INFO-all --out {chr}.mac10.maf5.min30.miss10.maxdp6  
+
+### ===============================================
+### COMBINING ALL CHROMOSOMES
+### ===============================================
+
+bcftools concat chr01A.filtered.recode.vcf chr01.redone.filtered.recode.vcf chr02.redone.filtered.recode.vcf chr03.redone.filtered.recode.vcf chr04A.filtered.recode.vcf chr04.redone.filtered.recode.vcf chr05.filtered.recode.vcf chr06.filtered.recode.vcf chr07.filtered.recode.vcf  chr08.filtered.recode.vcf chr09.redone.filtered.recode.vcf chr10.filtered.recode.vcf chr11.filtered.recode.vcf chr12.filtered.recode.vcf chr13.redone.filtered.recode.vcf chr14.filtered.recode.vcf chr15.redone.filtered.recode.vcf chr17.filtered.recode.vcf  chr18.filtered.recode.vcf chr20.filtered.recode.vcf chr21.filtered.recode.vcf chr23.filtered.recode.vcf chr27.filtered.recode.vcf chr28.filtered.recode.vcf chrZ.filtered.recode.vcf > assimilis.filtered.vcf 
+
+### ===============================================
+### REMOVING OUTLIERS
+### ===============================================
+
+#CALCULATE INDIVIDUAL MISSINGNESS FOR EACH SAMPLE ACROSS THE WHOLE GENOME
+vcftools --gzvcf assimilis.filtered.vcf.gz --missing-indv --out assimilis
+
+#FILTER OUT INDIVIDUALS WHO HAVE POOR INDIVIDUAL MISSINGNESS 
+#TAKE THE LIST OF INDIVIDUALS FROM THE *.IMISS FILE
+cut -f1 {chr}.imiss > individuals
+
+#REMOVE THE INDIVIDUALS FROM THE FILE WITH POOR INDIVIDUAL MISSINGNESS 
+#HERE, REMOVE THE 8TH LINE FROM THE FILE ‘INDIVIDUALS’ AND PLACE IT INTO A NEW FILE CALLED OUTLIERS
+sed -n 8p individuals > outliers
+#HERE, REMOVE THE 12TH LINE FROM THE FILE ‘INDIVIDUALS’ AND APEEND IT TO THE END OF THE FILE CALLED OUTLIERS
+sed -n 12p individuals >> outliers
+
+#/work/MikheyevU/elroy/script/remove-outliers
+
+#OUTPUT VCF FILES EXCLUDING THE INDIVIDUALS LISTED IN ‘OUTLIERS’ USING THE COMMAND —-REMOVE
+vcftools --gzvcf {chr}.mac10.maxdp6.sitemiss.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/outliers --recode --recode-INFO-all --out {chr}.no.outliers
+
+### ===============================================
+### VCF > BEAGLE 
+### ===============================================
+
+#/work/MikheyevU/elroy/script/vcf2beagle
+
+vcftools --gzvcf {chr}.vcf.gz --chr {chr.location} --BEAGLE-GL --out {chr}
+
+e: vcftools --gzvcf chr27.mac10.maxdp6.sitemiss.recode.vcf.gz --chr chrom27_scaffold0023_wholechromosome --BEAGLE-GL --out chr27
+
+### ===============================================
+### COMBINE BEAGLE FILES
+### ===============================================
+
+#REMOVE THE HEADER FROM A FILE — DO SO FOR ALL FILES EXCEPT THE LEADING FILE, I.E. CHROMOSOME 1A
+sed -i -e "1d" {file}
+
+#CONCATENATE
+cat chr01A.no.outliers.BEAGLE.GL chr01.no.outliers.BEAGLE.GL chr02.no.outliers.BEAGLE.GL chr03.no.outliers.BEAGLE.GL chr04A.no.outliers.BEAGLE.GL chr04.no.outliers.BEAGLE.GL chr05.no.outliers.BEAGLE.GL chr06.no.outliers.BEAGLE.GL chr07.no.outliers.BEAGLE.GL chr08.no.outliers.BEAGLE.GL chr09.no.outliers.BEAGLE.GL chr10.no.outliers.BEAGLE.GL chr11.no.outliers.BEAGLE.GL chr12.no.outliers.BEAGLE.GL chr13.no.outliers.BEAGLE.GL chr14.no.outliers.BEAGLE.GL chr15.no.outliers.BEAGLE.GL chr17.no.outliers.BEAGLE.GL chr18.no.outliers.BEAGLE.GL chr20.no.outliers.BEAGLE.GL chr21.no.outliers.BEAGLE.GL chr23.no.outliers.BEAGLE.GL chr27.no.outliers.BEAGLE.GL chr28.no.outliers.BEAGLE.GL chrZ.no.outliers.BEAGLE.GL > PCA.filtered.BEAGLE.GL
+
+### NOTE: some VCF files had an error (monomorphic sites were not removed properly in chr01, chr02, chr03, chr04, chr09, chr13, chr15) and had to be re-run. these newly run VCF files can be found in the folder: /work/MikheyevU/elroy/data/snps-redo. BEAGLE and VCF-filter files generated from these new files are named with the prefix ‘.redone’ e.g. chr01.redone.BEAGLE.GL and chr01.redone.filtered.recode.vcf. These files should be used to generate the PCA.
+
+### ===============================================
+### GENERATE A COVARIANCE MATRIX — PCANGSD
+### ===============================================
+
+module load PCAngsd/f48b742
+pcangsd.py -beagle {input}.BEAGLE.GL.gz -o {output} -threads 10
+
+#COMPUTE THE COVARIANCE MATRIX AND OUTPUT INBREEDING COEFFICIENT VALUES PER INDIVIDUAL. 
+#INBREEDING VALUES INCORPORATE POPULATION STRUCTURE AND COMPUTED USING COVARIANCE MATRIX.
+#INBREED 2 OPTION IS RECOMMENDED FOR LOW DEPTH CASES.
+pcangsd.py -beagle {input}.BEAGLE.GL.gz -inbreed 2 -o {output} -threads 10
+
+### ===============================================
+### ESTIMATE ADMIXTURE — NGSADMIX
+### ===============================================
+
+module load NGSadmix
+
+#-likes {file type}
+#-K = # of ancestral populations 
+#-P = # of threads used 
+#-o = output
+#minMaf = minimum minor allele frequency 
+NGSadmix -likes /work/MikheyevU/elroy/data/snp/filter/beagle/PCA/PCA.filtered.BEAGLE.GL.gz -K 1 -P 10 -o admix.1 -minMaf 0.05
+
+### ===============================================
+### PREPARING SNP DATA FOR EAA IN LFMM 
+### ===============================================
+
+### ===============================================
+### VCF > LFMM IN R
+### ===============================================
+
+module load R/3.6.1
+
+library(vcfR)
+library(LEA)
+
+# read in vcf file 
+
+vcf <- read.vcfR("/work/MikheyevU/elroy/data/snp/filter/chr27.filtered.outliers.recode.vcf.gz")
+
+vcf2lfmm("/work/MikheyevU/elroy/data/snp/filter/chr27.filtered.outliers.recode.vcf", "/work/MikheyevU/elroy/data/snp/filter/test.lfmm", force=TRUE)
+
+# produces the error: error while reading SNPs information at line XXXX
+
+### ===============================================
+### 012 MATRIX FROM VCF 
+### ===============================================
+
+module load vcftools/0.1.12b
+
+# this outputs 4 files 
+# chr27_geno.012 - genotype matrix using 0, 1, 2 and -1 (missing genotype) 
+# chr27_geno.012.indv -  a log of the individuals (rows) 
+# chr27_geno.012.pos - a log of the site locations of genotypes in the chromosome 
+# chr27_geno.012.log - a log of the command's actions including included sites 
+
+vcftools --gzvcf chr27.filtered.outliers.recode.vcf.gz --012 --out chr27_geno
+
+# need to convert -1 to -9 
+
+
+
+
+
+

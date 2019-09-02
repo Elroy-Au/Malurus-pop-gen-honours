@@ -1,0 +1,45 @@
+#!/bin/bash
+#SBATCH --job-name=malurus-build
+#SBATCH --partition=compute
+#SBATCH --mem=80G
+#SBATCH --cpus-per-task=1
+#SBATCH --time=1-0:00:00
+#SBATCH --ntasks=2
+##SBATCH --mail-user=%u@oist.jp
+##SBATCH --mail-type=BEGIN,FAIL,END
+#SBATCH --input=none
+#SBATCH --output=%j.out
+##SBATCH --error=job_%j.err
+#SBATCH --array=0-163
+
+. $HOME/.bashrc
+
+module load bowtie2/2.3.4.3 samtools/1.3.1
+
+a=(`ls -1 /work/MikheyevU/elroy/data/reads/cat-reads/*_R1.fastq.gz`) #group forward reads together
+b=(`ls -1 /work/MikheyevU/elroy/data/reads/cat-reads/*_R2.fastq.gz`) #group reverse reads together
+
+base=$(basename ${a["SLURM_ARRAY_TASK_ID"]} "-R1_001.fastq.gz") #set the base name 
+f=${a["SLURM_ARRAY_TASK_ID"]} #give all files from group a the identity f <forward-read>
+r=${b["SLURM_ARRAY_TASK_ID"]} #give all files from group b the identity r <reverse-read>
+echo $f
+echo $r
+
+bowbase=/work/MikheyevU/elroy/reference/genome/superb #define the index genome 
+ref=/work/MikheyevU/elroy/reference/genome/Malurus_cyaneus__wholegenome_version3.fa #define the original reference genome 
+
+outfile=/work/MikheyevU/elroy/data/alignments/`basename $f -R1_001.fastq.gz`.bam #define the outfile directory 
+
+if [ -s "$outfile" ]
+then
+        echo "$outfile has some data." #tell me if outfile has been successful
+        sleep 10s
+else
+        echo "$outfile is empty." #tell me if outfile is unsusccessful 
+        bowtie2 -p 2 --very-sensitive-local --sam-rg ID:$base --sam-rg LB:Nextera --sam-rg SM:$base --sam-rg PL:ILLUMINA -x $bowbase -1 $f -2 $r | samtools view -Su -F4 - | novosort  -c 2 -m 10G -i -o /work/MikheyevU/elroy/data/alignments/`basename $f -R1_001.fastq.gz`.bam -
+fi
+
+#bowtie2 <options> -x reference -1 <forward read file> -2 <reverse read file>
+#-p 2: number of alignment threads to launch
+#--very-sensitive-local: trimming 
+#samtools view -Su -F4: convert output to BAM format. -S denotes .SAM file input, u denotes output is uncompressed BAM file, F4 removes unmapped reads 

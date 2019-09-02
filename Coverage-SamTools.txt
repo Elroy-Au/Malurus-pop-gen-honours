@@ -1,0 +1,8 @@
+#!/bin/bash
+for i in $( ls ); do
+        if [ ${i: -4} == ".bam" ] 
+        then
+                 echo item: $i
+                 samtools depth -a $i | awk '{c++;s+=$3}END{print s/c}' >> cov.txt 
+        fi
+ done

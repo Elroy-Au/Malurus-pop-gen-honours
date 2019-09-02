@@ -1,0 +1,51 @@
+module load vcftools/0.1.12b
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr01A.filtered.outliers.recode.vcf --chr chrom01A_scaffold0001_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr01A.no.outliers 
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr01.filtered.outliers.recode.vcf  --chr chrom01_scaffold0002_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr01.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr02.filtered.outliers.recode.vcf  --chr chrom02_scaffold0003_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr02.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr03.filtered.outliers.recode.vcf  --chr chrom03_scaffold0004_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr03.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr04A.filtered.outliers.recode.vcf  --chr chrom04A_scaffold0005_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr04A.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr04.filtered.outliers.recode.vcf  --chr chrom04_scaffold0006_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr04.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr05.filtered.outliers.recode.vcf  --chr chrom05_scaffold0007_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr05.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr06.filtered.outliers.recode.vcf  --chr chrom06_scaffold0008_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr06.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr07.filtered.outliers.recode.vcf  --chr chrom07_scaffold0009_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr07.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr08.filtered.outliers.recode.vcf  --chr chrom08_scaffold0010_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr08.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr09.filtered.outliers.recode.vcf  --chr chrom09_scaffold0011_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr09.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr10.filtered.outliers.recode.vcf  --chr chrom10_scaffold0012_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr10.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr11.filtered.outliers.recode.vcf  --chr chrom11_scaffold0013_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr11.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr12.filtered.outliers.recode.vcf  --chr chrom12_scaffold0014_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr12.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr13.filtered.outliers.recode.vcf  --chr chrom13_scaffold0015_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr13.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr14.filtered.outliers.recode.vcf  --chr chrom14_scaffold0016_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr14.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr15.filtered.outliers.recode.vcf  --chr chrom15_scaffold0017_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr15.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr17.filtered.outliers.recode.vcf  --chr chrom17_scaffold0018_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr17.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr18.filtered.outliers.recode.vcf  --chr chrom18_scaffold0019_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr18.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr20.filtered.outliers.recode.vcf  --chr chrom20_scaffold0020_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr20.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr21.filtered.outliers.recode.vcf  --chr chrom21_scaffold0021_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr21.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr23.filtered.outliers.recode.vcf  --chr chrom23_scaffold0022_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr23.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr27.filtered.outliers.recode.vcf  --chr chrom27_scaffold0023_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr27.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chr28.filtered.outliers.recode.vcf  --chr chrom28_scaffold0024_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr28.no.outliers
+
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/chrZ.filtered.outliers.recode.vcf  --chr chromZ_scaffold0025_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chrZ.no.outliers

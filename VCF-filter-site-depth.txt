@@ -1,0 +1,39 @@
+#DIRECTORY
+/work/MikheyevU/elroy/data/snp/filter/depth
+
+#VCF TOOLS
+module load vcftools/0.1.12b
+
+#CALCULATE THE DEPTH ACROSS LOCI 
+vcftools --gzvcf chr27.mac10.recode.vcf.gz --site-depth --out chr27DP
+
+
+#TAKE ONLY THE THIRD COLUMN FROM THE DEPTH FILE, I.E. SUM DEPTH
+cut -f3 chr27DP.ldepth > chr27DP.site.ldepth
+
+#CALCULATE AVERAGE DEPTH PER SITE 
+#DIVIDE SUM DEPTH BY NUMBER OF INDIVIDUALS 
+awk '!/D/' chr27DP.site.ldepth | awk -v x=133 '{print $1/x}' > chr27meanDP
+
+#CONCATENATE MEAN DEPTH FILES FOR ALL CHROMOSOMES 
+cat chr01meanDP chr01AmeanDP chr02meanDP chr03meanDP chr04AmeanDP chr04meanDP chr05meanDP chr06meanDP chr07meanDP chr08meanDP chr09meanDP chr10meanDP chr11meanDP chr12meanDP chr13meanDP chr14meanDP chr15meanDP chr17meanDP chr18meanDP chr20meanDP chr21meanDP chr23meanDP chr27meanDP chr28meanDP chrZmeanDP > meanDP
+
+#TAKE 100,000 RANDOM INSTANCES 
+shuf -n 100000 meanDP > meanDPsubset 
+
+#AVERAGE SITE DEPTH HISTOGRAM IN R
+
+depth <- mean_site_depth_trimmed$`Mean Site Depth`
+#Create a histogram of the variable 'depth_trimmed_2'
+#breaks="This is the bin size/number of bins"
+hist(depth, breaks=100, main = "Average Site Depth", xlab = "Average Site Depth")
+#calculate the mean 
+mean <- mean(depth)
+#calculate the standard deviation 
+sd <- sd(depth)
+#calculate three standard deviations from the mean
+sdevs <- sd * 3
+cutoff <- sdevs + mean 
+#add a line onto the histogram at the mean and three standard deviations from the mean
+abline(v = mean, col = "red", lwd = 2)
+abline(v = cutoff, col = "blue", lwd = 2)
