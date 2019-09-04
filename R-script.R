@@ -476,6 +476,9 @@ ggplot(data, aes(PC1, PC2, label = ID))
 ### MIXED MODELS IN SOMMER             ###
 ### ================================== ###
 
+library(sommer)       # mixed models 
+library(geosphere)    # distance matrix
+
 # load the covariance matrix 
 # generated using PCangsd 
 
@@ -484,8 +487,8 @@ genmatrix <- read.table("/Users/Elroy/Documents/University/Honours 2019/
 
 # convert into a matrix and check data structure 
 
-M <- as.matrix(genmatrix)
-M[1:4,1:4]
+G <- as.matrix(genmatrix)
+G [1:4,1:4]
 
 ###           A37114     A36182     A35583     A35582
 ### A37114 1.07916844 0.02958575 0.03612941 0.03744407
@@ -493,24 +496,43 @@ M[1:4,1:4]
 ### A35583 0.03612941 0.03258741 1.05975997 0.03946498
 ### A35582 0.03744407 0.02230000 0.03946498 1.08377147
 
+# create a distance matrix 
+
+longitude <- distancematrix$lon
+latitude <- distancematrix$lat
+coord <- data.frame(longitude,latitude)
+distmatrix <- as.matrix(coord)
+
+distance <- distm(distmatrix, fun=distGeo)
+
+distancem <- read.table("/Users/Elroy/Documents/University/Honours 2019/
+                        Everything/Data Analysis/Mixed Model/distance-matrix.txt")
+
+D <- as.matrix(distancem)
+
 # specify a single fixed effect 
 # random effects are specified using the ~vs(x) function
 # which denotes a covariance matrix applied at the random effect x 
 # a known covariance matrix is denoted and provided using the function Gu()
 # unknown covariance matrices are created using functions like vs(ds())
+# custom covariance matrices can be specified using the list() function
+# provided at the random effect
 # rcov is a formula specifying the name of the error term, i.e. rcov= ~ units
 # data provides the dataset
+# tolparinv value is applied to matrices where the diagonal is zero (doesn't
+# allow inversion for some reason). It adds that value and attempts to invert
 
-mix1 <- mmer(fixed=INBREEDING~Year,
-            random=~vs(ID,Gu=M),
-            rcov=~units,
-            data=inbreedtestdata)
+mix1 <- mmer(fixed=INBREEDING~Year, 
+             random=~vs(ID,Gu=G) + vs(ID, list(D)), 
+             rcov=~units, 
+             data=inbreedtestdata, tolparinv=1e-02)
 
 # specify multiple fixed effects
 # the operater "+" can be used to include multiple effects (random or fixed)
+# latitude and longitude should not be fixed effects however 
 
 mix2 <- mmer(fixed=INBREEDING~Year + LATITUDE + LONGITUDE,
-            random=~vs(ID,Gu=M),
+            random=~vs(ID,Gu=G),
             rcov=~units,
             data=inbreedtestdata)
 
