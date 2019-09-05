@@ -479,6 +479,10 @@ ggplot(data, aes(PC1, PC2, label = ID))
 library(sommer)       # mixed models 
 library(geosphere)    # distance matrix
 
+# load the inbreed test data 
+
+inbreedtestdata <- read_excel("inbreedtestdata.xlsx")
+
 # load the covariance matrix 
 # generated using PCangsd 
 
