@@ -503,7 +503,9 @@ latitude <- distancematrix$lat
 coord <- data.frame(longitude,latitude)
 distmatrix <- as.matrix(coord)
 
-distance <- distm(distmatrix, fun=distGeo)
+distance <- distm(distmatrix, fun=distGeo) # calculate distance in metres using
+                                           # a shortest distance between 2
+                                           # points method
 
 distancem <- read.table("/Users/Elroy/Documents/University/Honours 2019/
                         Everything/Data Analysis/Mixed Model/distance-matrix.txt")
@@ -525,6 +527,11 @@ D <- as.matrix(distancem)
 mix1 <- mmer(fixed=INBREEDING~Year, 
              random=~vs(ID,Gu=G) + vs(ID, list(D)), 
              rcov=~units, 
+             data=inbreedtestdata, tolparinv=1e-02)
+
+mix1 <- mmer(fixed=INBREEDING~Year, 
+             random=~vs(ds(ID), spl2D(LATITUDE, LONGITUDE)), 
+             rcov=~vs(ds(ID), units), 
              data=inbreedtestdata, tolparinv=1e-02)
 
 # specify multiple fixed effects
