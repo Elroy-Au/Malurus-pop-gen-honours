@@ -515,7 +515,7 @@ D <- as.matrix(distancem)
 # specify a single fixed effect 
 # random effects are specified using the ~vs(x) function
 # which denotes a covariance matrix applied at the random effect x 
-# a known covariance matrix is denoted and provided using the function Gu()
+# known variance covariance matrix is denoted and provided using the function Gu()
 # unknown covariance matrices are created using functions like vs(ds())
 # custom covariance matrices can be specified using the list() function
 # provided at the random effect
