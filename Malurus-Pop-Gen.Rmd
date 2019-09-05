@@ -1,0 +1,426 @@
+---
+title: "Malurus Pop Gen"
+author: "Elroy Au"
+date: "05/09/2019"
+output: html_document
+---
+
+### ================================== ###
+### Samples Distribution Map           ###
+### ================================== ###
+
+```Generate a map of the distribution of M. assimilis tissue samples across Australia coded by collection date```
+
+```{r}
+
+# load libraries
+library(oz)
+library(readxl)
+
+# load dataset
+samples <- read_excel("Samples-Geo-Date.xlsx")
+```
+
+```{r}
+
+# set the latitudes and longitudes of points  
+lat1 <- samples$`Latitude-1`        
+lat2 <- samples$`Latitude-2`       
+lat3 <- samples$`Latitude-3`        
+lat4 <- samples$`Latitude-4`        
+lat5 <- samples$`Latitude-5`        
+lat6 <- samples$`Latitude-6`       
+lat7 <- samples$`Latitude-7`
+long1 <- samples$`Longitude-1`
+long2 <- samples$`Longitude-2`
+long3 <- samples$`Longitude-3`
+long4 <- samples$`Longitude-4`
+long5 <- samples$`Longitude-5`
+long6 <- samples$`Longitude-6`
+long7 <- samples$`Longitude-7`
+```
+
+```{r}
+
+# plot Australia 
+
+oz()
+
+# plot points 
+
+points(long1,lat1, col = "#85C1E9", bg = "#85C1E9", pch = 24)   
+points(long2,lat2, col = "#5DADE2", bg = "#5DADE2", pch = 24)
+points(long3,lat3, col = "#3498DB", bg = "#3498DB", pch = 24)
+points(long4,lat4, col = "#2E86C1", bg = "#2E86C1", pch = 24)
+points(long5,lat5, col = "#2874A6", bg = "#2874A6", pch = 24)
+points(long6,lat6, col = "#21618C", bg = "#21618C", pch = 24)
+points(long7,lat7, col = "#1B4F72", bg = "#1B4F72", pch = 24)
+```
+
+### ================================== ###
+### SNP Parameters                     ###
+### ================================== ###
+
+```Plotting parameters calculated for SNP filtering including: Coverage Depth,
+Individual Missingness, Average Site Depth and Site Missingness```
+
+### Coverage Depth 
+
+```{r}
+
+# load libraries
+library(ggplot2)
+library(readxl)
+
+# load dataset 
+# this is an excel file containing the coverage of each individual sample as 
+# estimated using SamTools 
+
+coverage <- read_excel("coverage.xlsx")
+```
+
+```{r}
+
+# plot a histogram of the distribution of sample coverage using ggplot2
+
+ggplot (coverage, aes(coverage$`Coverage Depth`)) + geom_histogram(breaks=seq(0,8, by =1), col="grey1", aes(fill=..count..)) + scale_fill_gradient("Count", high = "paleturquoise4", low = "paleturquoise1") + labs(x="Coverage Depth", y = "Frequency") + theme_bw()
+```
+
+### Average Site Depth 
+
+```{r}
+
+# load libraries
+library(ggplot2)
+library(readxl)
+
+# load dataset 
+# this is an excel file containing the average depth of 100,000 random sites
+# trimmed of sites with average depth >8 as these sites drag the histogram out
+# such that the resolution is unreadable 
+meansitedepth <- read_excel("mean-site-depth-trimmed-2.xlsx")
+```
+
+```{r}
+
+# set the variable sitedepth 
+sitedepth <- meansitedepth$`Mean Site Depth`
+
+# create a histogram 
+hist(sitedepth, breaks=100, main = "Average Site Depth",    
+     xlab = "Average Site Depth") 
+
+# calculate the average depth
+mean <- mean(sitedepth) 
+
+# calculate the standard deviation
+SD <- sd(sitedepth)  
+
+# calculate 3 standard deviations
+sdevs <- SD * 3  
+
+# set the cutoff for average site depth as anything above this are usually 
+# sequencing artefacts or paralogs 
+cutoff <- sdevs + mean
+
+# add lines representing the average site depth and cutoff site depth to the 
+# histogram
+abline(v = mean, col = "red", lwd = 2)                      
+abline(v = cutoff, col = "blue", lwd = 2)
+```
+
+### Individual Missingness             
+
+```{r}
+
+# load libraries
+library(ggplot2)    
+library(readxl)
+
+# load dataset
+# this is an excel file containing the individual missingness values for all
+# samples across all 25 chromosomes 
+missingness <- read_excel("missingness.xlsx")
+```
+
+```{r}
+
+# plot missingness
+ggplot (missingness, aes(missingness)) + geom_histogram(breaks=seq(0,0.8, by =0.1), col="grey1", aes(fill=..count..)) + scale_fill_gradient("Count", high = "red4", low = "palevioletred2") + labs(x="Individual Missingness", y = "Frequency") + theme_bw()
+```
+
+### Site Missingness 
+
+```{r}
+
+# load libraries 
+library(ggplot2)    
+library(readxl)
+
+# load dataset
+# this is an excel file containing the missingness of 100,000 sites across
+# all 25 chromosomes
+sitemissingness <- read_excel("site-missingness.xlsx")
+```
+
+```{r}
+
+# plot site missingness 
+
+ggplot (sitemissingness, aes(sitemissingness$`site-missingness`)) + geom_histogram(breaks=seq(0,1, by =0.1), col="grey1", aes(fill=..count..)) + scale_fill_gradient("Count", high = "goldenrod2", low = "lightgoldenrod2") + labs(x="Site Missingness", y = "Frequency") + theme_bw()
+```
+
+### ================================== ###
+### Data Analysis                      ###
+### ================================== ###
+
+### ================================== ###
+### PCA                                ###
+### ================================== ###
+
+```{r}
+
+# load libraries
+
+library(ggplot2)
+library(readxl) 
+library(RcppCNPy)     # for reading .npy (NUMPY) files
+
+# load datasets
+# PCA.cov.npy is the covariance matrix without outlier individuals filtered, n=133
+# PCA.filtered.cov.npy is the covariance matrix with outlier individuals filtered, # n = 119
+covmatrix <- npyLoad("PCA.cov.npy")  
+covmatrixf <- npyLoad("PCA.filtered.cov.npy")
+```
+
+```{r}
+# calculate eigenvalues
+Eigenvalues <- eigen(covmatrixf)$values         
+# calculate eigenvectors
+Eigenvectors <- eigen(covmatrixf)$vectors  
+# calculate the principal components using a matrix multiplication 
+PC <- as.matrix(covmatrixf) %*% Eigenvectors
+
+# calculate the proportions of the variation explained by the various components
+print(round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2))
+round(cumsum(Eigenvalues)/sum(Eigenvalues) * 100, digits = 2)
+```
+
+```{r}
+
+# load the new data
+PCA <- read_excel("PCA-metadata.xlsx")
+
+# plot principal components with the collection date and geographic
+# location (state) metadata 
+ggplot(PCA, aes(x=PC1, y=PC2)) + geom_point(aes(shape = Period, color = STATE), position = "jitter", size = 2.5) + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) + theme_bw() 
+
+# plot principal components with the collection date and indvidual 
+# missingness metadata
+ggplot (PCA, aes(x=PC1, y=PC2)) + geom_point(aes(shape = Period, color = MISSINGNESS), position = "jitter", size = 2.5) + scale_shape_manual(values = c(3, 4, 8, 15, 17, 18, 19, 25)) + scale_color_continuous(high = "black", low = "turquoise2") + theme_bw() 
+
+# plot samples by latitude and longitude on a scale of principal 
+# componentvalues
+ggplot(PCA, aes(x=LONGITUDE, y=LATITUDE, color = PC1)) + geom_point(size = 2.5) + scale_color_gradient2()
+```
+
+### ================================== ###
+### Linear Regression                  ###
+### ================================== ###
+
+```{r}
+
+# load libraries
+
+library(ggplot2)   
+library(readxl)     
+library(tidyverse)  # for correlation matrix
+
+# load the new data
+PCA <- read_excel("PCA-metadata.xlsx")
+
+# linear regression model of PC1 values and individual missingness 
+regression <- lm(PC1~MISSINGNESS, data = PCA)
+
+summary(regression) 
+
+# calculate the Pearson's correlation coefficient 
+cPC1 <- PCA$PC1
+cMiss <- PCA$MISSINGNESS
+cor.test(cMiss, cPC1, method=c("pearson")) 
+
+# create a correlation matrix 
+cor(PCA %>% select(PC1, PC2, Year, LATITUDE, LONGITUDE), use="pairwise.complete.obs")
+
+# plot a linear regression 
+ggplot(PCA, aes(y=PC1, x=MISSINGNESS)) + geom_point() + geom_smooth(method="lm") + theme_bw()
+```
+
+### ================================== ###
+### NGSadmix - ADMIXTURE               ###
+### ================================== ###
+
+```{r}
+
+# load libraries
+library(RColorBrewer)
+
+# load the data 
+
+pop <- read.table("Admix-Pop-Data.txt", fill = TRUE, header = FALSE)
+
+q2 <- read.table("admix.2.txt", fill = TRUE, header = FALSE)
+
+q3 <- read.table("admix.3.txt", fill = TRUE, header = FALSE)
+
+q4 <- read.table("admix.4.txt", fill = TRUE, header = FALSE)
+
+q5 <- read.table("admix.5.txt", fill = TRUE, header = FALSE)
+
+q6 <- read.table("admix.6.txt", fill = TRUE, header = FALSE)
+
+
+# order according to population
+ord <- order (pop[,2])
+
+# plot admixture for k
+barplot(t(q2)[,ord],col=2:10, space=0, border=NA, xlab="Individuals", ylab="AdmixtureProportions(K=2)") 
+
+# plot admixture for k using color brewer scheme 
+barplot(t(q3)[,ord],col=brewer.pal(n=3, name="RdBu"),   
+        space=0, border=NA, xlab="Individuals",         
+        ylab="Admixture Proportions (K=3)")
+
+# add individual population labels 
+text(tapply(1:nrow(pop), pop[ord,2], mean),-0.05, unique(pop[ord,2]),xpd=T)  
+
+# add lines between each individual and population
+abline(v=cumsum(sapply(unique(pop[ord,1]), function(x){sum(pop[ord,1]==x)})), col="white",lwd=0.5)
+
+abline(v=cumsum(sapply(unique(pop[ord,2]), function(x){sum(pop[ord,2]==x)})), col=1,lwd=2) 
+```
+
+### ================================== ###
+### ADMIXTURE SCATTER PLOTS            ###
+### ================================== ###
+
+```{r}
+
+# load libraries
+
+library(ggplot2)       
+library(ggrepel)        
+library(scatterpie)     
+library(sf) 
+
+admixture <- read_excel("admix-metadata.xlsx")
+
+# load shapefile of Australia
+
+australia <- st_read("australia.shp")
+
+# create a vector plot of Australia 
+a <- ggplot() + geom_sf(data = australia, color = "black", fill = "white") 
+
+# K = 2
+
+Lat <- admixture$LATITUDE
+Long <- admixture$LONGITUDE
+K1 <- admixture$K2.1
+K2 <- admixture$K2.2
+
+admixdata2 <- data.frame(Lat,Long,K1,K2)
+
+a + geom_scatterpie(aes(x = Long, y = Lat), data = admixdata2, cols = c("K1", "K2")) + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+# K = 3
+
+Lat <- admixture$LATITUDE
+Long <- admixture$LONGITUDE
+K1 <- admixture$K3.1
+K2 <- admixture$K3.2
+K3 <- admixture$K3.3
+
+admixdata3 <- data.frame(Lat,Long,K1,K2,K3)
+
+a + geom_scatterpie(aes(x = Long, y = Lat), data = admixdata3, cols = c("K1", "K2", "K3")) + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+# K = 4
+
+Lat <- admixture$LATITUDE
+Long <- admixture$LONGITUDE
+K1 <- admixture$K4.1
+K2 <- admixture$K4.2
+K3 <- admixture$K4.3
+K4 <- admixture$K4.4
+
+admixdata4 <- data.frame(Lat,Long,K1,K2,K3,K4)
+
+a + geom_scatterpie(aes(x = Long, y = Lat), data = admixdata4, cols = c("K1", "K2", "K3", "K4")) + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+# K = 5
+
+Lat <- admixture$LATITUDE
+Long <- admixture$LONGITUDE
+K1 <- admixture$K5.1
+K2 <- admixture$K5.2
+K3 <- admixture$K5.3
+K4 <- admixture$K5.4
+K5 <- admixture$K5.5
+
+admixdata5 <- data.frame(Lat,Long,K1,K2,K3,K4,K5)
+
+a + geom_scatterpie(aes(x = Long, y = Lat), data = admixdata5, cols = c("K1", "K2", "K3", "K4", "K5")) + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+
+# K = 6
+
+Lat <- admixture$LATITUDE
+Long <- admixture$LONGITUDE
+K1 <- admixture$K1
+K2 <- admixture$K2
+K3 <- admixture$K3
+K4 <- admixture$K4
+K5 <- admixture$K5
+K6 <- admixture$K6
+
+admixdata6 <- data.frame(Lat,Long,K1,K2,K3,K4,K5,K6)
+
+a + geom_scatterpie(aes(x = Long, y = Lat), data = admixdata6, cols = c("K1", "K2", "K3", "K4", "K5", "K6")) + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
+```
+
+### ================================== ###
+### MIXED MODELS                       ###
+### ================================== ###
+
+```{r}
+
+# load libraries
+library(sommer)       # mixed models 
+library(geosphere)    # distance matrix
+
+# load data 
+
+# excel sheet containing inbreeding values, year, latitude, longitude 
+inbreedtestdata <- read_excel("inbreedtestdata.xlsx")
+
+# text file containing the variance-covariance genetic matrix
+# genetic matrix calculated using PCangsd 
+genmatrix <- read.table("covariance-matrix.txt")
+G <- as.matrix(genmatrix)
+
+# text file containing the distance matrix 
+distancem <- read.table("distance-matrix.txt")
+D <- as.matrix(distancem)
+
+# how the distance matrix was calculated 
+
+longitude <- inbreedtestdata$LONGITUDE
+latitude <- inbreedtestdata$LATITUDE
+coord <- data.frame(longitude,latitude)
+coordmatrix <- as.matrix(coord)
+# calculate distance in metres using shortest distance between 
+# 2 points method in geosphere package
+distance <- distm(coordmatrix, fun=distGeo)
+```
+
+
