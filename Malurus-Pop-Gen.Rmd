@@ -185,6 +185,7 @@ ggplot (sitemissingness, aes(sitemissingness$`site-missingness`)) + geom_histogr
 library(ggplot2)
 library(readxl) 
 library(RcppCNPy)     # for reading .npy (NUMPY) files
+library(sf) 
 
 # load datasets
 # PCA.cov.npy is the covariance matrix without outlier individuals filtered, n=133
@@ -221,7 +222,10 @@ ggplot (PCA, aes(x=PC1, y=PC2)) + geom_point(aes(shape = Period, color = MISSING
 
 # plot samples by latitude and longitude on a scale of principal 
 # componentvalues
-ggplot(PCA, aes(x=LONGITUDE, y=LATITUDE, color = PC1)) + geom_point(size = 2.5) + scale_color_gradient2()
+
+australia <- st_read("australia.shp")
+a <- ggplot() + geom_sf(data = australia, color = "black", fill = "white")
+a + geom_point(data=PCA, aes(x=LONGITUDE, y=LATITUDE, color = PC1), size = 2.5) + scale_color_gradient2()
 ```
 
 ### ================================== ###
@@ -312,6 +316,7 @@ library(ggplot2)
 library(ggrepel)        
 library(scatterpie)     
 library(sf) 
+library(readxl)
 
 admixture <- read_excel("admix-metadata.xlsx")
 
@@ -396,7 +401,9 @@ a + geom_scatterpie(aes(x = Long, y = Lat), data = admixdata6, cols = c("K1", "K
 
 # load libraries
 library(sommer)       # mixed models 
+library(ecodist)      # mixed models
 library(geosphere)    # distance matrix
+library(readxl)
 
 # load data 
 
@@ -411,7 +418,9 @@ G <- as.matrix(genmatrix)
 # text file containing the distance matrix 
 distancem <- read.table("distance-matrix.txt")
 D <- as.matrix(distancem)
+```
 
+```{r}
 # how the distance matrix was calculated 
 
 longitude <- inbreedtestdata$LONGITUDE
@@ -422,5 +431,28 @@ coordmatrix <- as.matrix(coord)
 # 2 points method in geosphere package
 distance <- distm(coordmatrix, fun=distGeo)
 ```
+
+```{r}
+
+# run a MRM (Multiple Regression on distance Matrices) model in ecodist
+# using matrices and non-matrices 
+
+MRM(dist(INBREEDING) ~ as.dist(G) + as.dist(D) + dist(Year), data=inbreedtestdata, nperm=500)
+
+MRM(as.dist(G) ~ as.dist(D) + dist(Year), data=inbreedtestdata, nperm=500)
+```
+
+### ================================== ###
+### EAA                                ###
+### ================================== ###
+
+```{r}
+
+# load libraries 
+library(lfmm)
+
+
+
+
 
 
