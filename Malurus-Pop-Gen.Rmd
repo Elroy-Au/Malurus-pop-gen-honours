@@ -191,16 +191,16 @@ library(sf)
 # PCA.cov.npy is the covariance matrix without outlier individuals filtered, n=133
 # PCA.filtered.cov.npy is the covariance matrix with outlier individuals filtered, # n = 119
 covmatrix <- npyLoad("PCA.cov.npy")  
-covmatrixf <- npyLoad("PCA.filtered.cov.npy")
+covmatrixfiltered <- npyLoad("PCA.filtered.cov.npy")
 ```
 
 ```{r}
 # calculate eigenvalues
-Eigenvalues <- eigen(covmatrixf)$values         
+Eigenvalues <- eigen(covmatrixfiltered)$values         
 # calculate eigenvectors
-Eigenvectors <- eigen(covmatrixf)$vectors  
+Eigenvectors <- eigen(covmatrixfiltered)$vectors  
 # calculate the principal components using a matrix multiplication 
-PC <- as.matrix(covmatrixf) %*% Eigenvectors
+PC <- as.matrix(covmatrixfiltered) %*% Eigenvectors
 
 # calculate the proportions of the variation explained by the various components
 print(round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2))
