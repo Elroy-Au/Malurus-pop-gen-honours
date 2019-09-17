@@ -1,51 +1,51 @@
 module load vcftools/0.1.12b
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr01A.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr01A.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr01A.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr01A.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr01.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr01.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr01.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr01.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr02.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr02.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr02.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr02.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr03.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr03.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr03.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr03.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr04A.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr04A.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr04A.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr04A.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr04.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr04.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr04.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr04.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr05.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr05.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr05.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr05.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr06.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr06.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr06.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr06.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr07.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr07.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr07.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr07.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr08.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr08.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr08.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr08.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr09.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr09.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr09.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr09.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr10.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr10.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr10.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr10.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr11.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr11.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr11.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr11.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr12.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr12.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr12.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr12.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr13.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr13.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr13.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr13.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr14.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr14.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr14.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr14.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr15.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr15.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr15.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr15.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr17.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr17.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr17.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr17.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr18.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr18.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr18.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr18.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr20.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr20.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr20.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr20.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr21.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr21.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr21.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr21.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr23.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr23.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr23.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr23.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr27.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr27.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr27.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr27.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr28.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chr28.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr28.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr28.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chrZ.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/pca.outliers --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/chrZ.filtered.outliers
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chrZ.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/pca.outliers.climate --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chrZ.filtered.climate.miss
