@@ -559,6 +559,13 @@ rownames(Model.sample) <- 1:length(rownames(Model.sample))  # this overwrites th
 write.csv(Model.sample,"ChangeRain.csv")
 ```
 
+```{r}
+# Calculate the correlation matrix to test for correlations between the variables
+# Import the data 
+climaterate <- read.csv("/Users/Elroy/Documents/University/Honours 2019/Everything/BIOINFOMATICS/ElroyRateDataCor.csv", header = T)
 
+# Create the correlation matrix and write it into a new csv file
+write.csv(cor(climaterate[,2:5], use="pairwise.complete.obs"),"corr.ElroyRateData.csv")
+```
 
 
