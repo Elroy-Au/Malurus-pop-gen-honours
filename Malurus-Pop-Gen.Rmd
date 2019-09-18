@@ -448,51 +448,115 @@ MRM(as.dist(G) ~ as.dist(D) + dist(Year), data=inbreedtestdata, nperm=500)
 ### CALCULATING CLIMATE VARIABLES - RATE OF CHANGE  ###
 ### =============================================== ###
 
-```{r}
+```First estimate slopes for change in each climate variable over time; separate file for each climate variable. yearJD - year jan-dec for winter variables. yearJJ - year july-june for summer variables. slopes based on 20 years of data prior to capture year. Removed year of capture as the amount of months each sample is exposed to in the year is variable (e.g. could be <1 if caught in January).```
 
-## First estimate slopes for change in each climate variable over time; separate file for each climate variable
-# slopes based on 20 years of data prior to capture year.
-# yearJD - year january-december for winter variables
-# yearJJ - year July-june for summer variables 
-# load datasets
+```{r}
+#### CHANGE IN MEAN TEMPERATURE ####
 
 Change.Tmean <- read.csv("Tmean.ForChange.csv", header = T)
 summary(Change.Tmean)
-Change.Ndays35<- read.csv("NDays35.ForChange.csv", header = T)
-Change.NDays5 <- read.csv("NDays5.ForChange.csv", header = T)
-Change.Rain <- read.csv("Rain.ForChange.csv", header = T)
 
-# these are missing from the data sets:  "SAM9","SAM23", "SAM24", "SAM22", "SAM10",  
-taxon.list <- c("ANWC100", "ANWC101",	"ANWC102", "ANWC103","ANWC104",	"ANWC105",	"ANWC106",	"ANWC107",	"ANWC108",	"ANWC109",  "ANWC110",
-                "ANWC112", "ANWC113","ANWC115",	"ANWC116",	"ANWC117",	"ANWC118", "ANWC119",
-                "ANWC126", "ANWC128","ANWC129",	"ANWC130",	"ANWC131",	"ANWC132", "ANWC133", "ANWC134","ANWC135","ANWC136",
-                "ANWC137", "ANWC138","ANWC139",	"ANWC140",	"ANWC141",	"ANWC142", "ANWC143", "ANWC144","ANWC145","ANWC146",
-                "ANWC147", "ANWC148","ANWC150",	"ANWC151",	"ANWC152", "ANWC153", "ANWC154","ANWC155","ANWC156",
-                "ANWC157", "ANWC158","ANWC159",	"ANWC160",	"ANWC161", "ANWC162", "ANWC163","ANWC168","ANWC170",
-                "ANWC66", "ANWC67", "ANWC68", "ANWC69", "ANWC71", "ANWC72", "ANWC73", "ANWC75", "ANWC77", "ANWC78", 
-                "ANWC79", "ANWC80", "ANWC81", "ANWC84", "ANWC85", "ANWC88", "ANWC90", "ANWC92", "ANWC94", 
-                "SAM11", "SAM12", "SAM14", "SAM15", "SAM16", "SAM17", "SAM18", "SAM19", "SAM20", "SAM21", 
-                "SAM25", "SAM26", "SAM27", "SAM28", "SAM29", "SAM30", "SAM31", "SAM32", "SAM33", "SAM34", 
-                "SAM35", "SAM36", "SAM37", "SAM38", "SAM39", "SAM41", "SAM44", "SAM45", "SAM46", 
-                "SAM7", "SAM8", "WAM55", "WAM56", "WAM57", "WAM58", "WAM59", "WAM60", "WAM63", "WAM64") 
+# these are missing from this data set:  "SAM9","SAM23", "SAM24", "SAM22", "SAM10", "SAM7"  
+sample.list <- c("ANWC100","ANWC101","ANWC102","ANWC103","ANWC104","ANWC105","ANWC106","ANWC107","ANWC108","ANWC109","ANWC110","ANWC112","ANWC113","ANWC115","ANWC116",	"ANWC117","ANWC118","ANWC119","ANWC126","ANWC128","ANWC129","ANWC130","ANWC131","ANWC132","ANWC133","ANWC134","ANWC135","ANWC136","ANWC137","ANWC138","ANWC139","ANWC140","ANWC141","ANWC142","ANWC143","ANWC144","ANWC145","ANWC146","ANWC147","ANWC148","ANWC150","ANWC151","ANWC152","ANWC153","ANWC154","ANWC155","ANWC156","ANWC157","ANWC158","ANWC159","ANWC160","ANWC161","ANWC162","ANWC163","ANWC168","ANWC170","ANWC66","ANWC67","ANWC68","ANWC69","ANWC71","ANWC72","ANWC73","ANWC75","ANWC77","ANWC78","ANWC79","ANWC80","ANWC81","ANWC84","ANWC85","ANWC88","ANWC90","ANWC92","ANWC94","SAM11","SAM12","SAM14","SAM15","SAM16","SAM17","SAM18","SAM19","SAM20","SAM21","SAM25","SAM26","SAM27","SAM28","SAM29", "SAM30","SAM31","SAM32","SAM33","SAM34","SAM35","SAM36","SAM37","SAM38","SAM39","SAM41", "SAM44","SAM45","SAM46","SAM8","WAM55","WAM56","WAM57","WAM58","WAM59","WAM60","WAM63","WAM64")
 
-names(taxon.list) <- c("taxon") # couldn't find object taxon before
+names(sample.list) <- c("sample") # couldn't find object "sample" before
 
-Model.taxon <- data.frame()  # creates datafame fresh each time model is run, so don't add to previous file
-for (taxon in taxon.list)                  #creates loop defined by curley brackets
+Model.sample <- data.frame()  # creates datafame fresh each time model is run, so don't add to previous file
+for (sample in sample.list)                  #creates loop defined by curley brackets
 {                       
-  taxon.m1 <- lm(Tmean ~ scale(YearJJ, scale=FALSE),  
-                 data = subset(Change.Tmean, SAMPLE.ID==taxon))
-  #summary(taxon.m1)
-  taxon.s1 <-cbind(taxon, intercept = taxon.m1$coefficients[1], coefYear = taxon.m1$coefficients[2], 
-                   df.residual = taxon.m1$df.residual, adj.r.square = summary(taxon.m1)$adj.r.squared, 
-                   df = summary(taxon.m1)$df[2], fstat = summary(taxon.m1)$fstatistic[1], pvalue = summary(taxon.m1)$coefficients[2,4])  
-  Model.taxon <-rbind(Model.taxon, taxon.s1)  # saves summary to file
+  sample.m1 <- lm(Tmean ~ scale(YearJJ, scale=FALSE),  
+                 data = subset(Change.Tmean, SAMPLE.ID==sample))
+  #summary(sample.m1)
+  sample.s1 <-cbind(sample, intercept = sample.m1$coefficients[1], coefYear = sample.m1$coefficients[2], 
+                   df.residual = sample.m1$df.residual, adj.r.square = summary(sample.m1)$adj.r.squared, 
+                   df = summary(sample.m1)$df[2], fstat = summary(sample.m1)$fstatistic[1], pvalue = summary(sample.m1)$coefficients[2,4])  
+  Model.sample <-rbind(Model.sample, sample.s1)  # saves summary to file
 }
-rownames(Model.taxon) <- 1:length(rownames(Model.taxon))  # this overwrites the first column, and numbers rows sequentially 
-write.csv(Model.taxon,"TemperatureChangeModels.csv") 
 
-## then repeat the step above to create the other variables you need.
+rownames(Model.sample) <- 1:length(rownames(Model.sample))  # this overwrites the first column, and numbers rows sequentially 
+write.csv(Model.sample,"ChangeMeanTemp.csv") 
+```
+
+```{r}
+#### CHANGE IN NO. DAYS OVER 35 ####
+
+Change.Ndays35<- read.csv("NDays35.ForChange.csv", header = T)
+summary(Change.Ndays35)
+
+# these are missing from this data set:  "SAM9","SAM23", "SAM24", "SAM22", "SAM10", "SAM7"  
+sample.list <- c("ANWC100","ANWC101","ANWC102","ANWC103","ANWC104","ANWC105","ANWC106","ANWC107","ANWC108","ANWC109","ANWC110","ANWC112","ANWC113","ANWC115","ANWC116",	"ANWC117","ANWC118","ANWC119","ANWC126","ANWC128","ANWC129","ANWC130","ANWC131","ANWC132","ANWC133","ANWC134","ANWC135","ANWC136","ANWC137","ANWC138","ANWC139","ANWC140","ANWC141","ANWC142","ANWC143","ANWC144","ANWC145","ANWC146","ANWC147","ANWC148","ANWC150","ANWC151","ANWC152","ANWC153","ANWC154","ANWC155","ANWC156","ANWC157","ANWC158","ANWC159","ANWC160","ANWC161","ANWC162","ANWC163","ANWC168","ANWC170","ANWC66","ANWC67","ANWC68","ANWC69","ANWC71","ANWC72","ANWC73","ANWC75","ANWC77","ANWC78","ANWC79","ANWC80","ANWC81","ANWC84","ANWC85","ANWC88","ANWC90","ANWC92","ANWC94","SAM11","SAM12","SAM14","SAM15","SAM16","SAM17","SAM18","SAM19","SAM20","SAM21","SAM25","SAM26","SAM27","SAM28","SAM29", "SAM30","SAM31","SAM32","SAM33","SAM34","SAM35","SAM36","SAM37","SAM38","SAM39","SAM41", "SAM44","SAM45","SAM46","SAM8","WAM55","WAM56","WAM57","WAM58","WAM59","WAM60","WAM63","WAM64")
+
+names(sample.list) <- c("sample") # couldn't find object "sample" before
+
+Model.sample <- data.frame()  # creates datafame fresh each time model is run, so don't add to previous file
+for (sample in sample.list)                  #creates loop defined by curley brackets
+{                       
+  sample.m1 <- lm(NDays35 ~ scale(YearJJ, scale=FALSE),  
+                 data = subset(Change.Ndays35, SAMPLE.ID==sample))
+  #summary(sample.m1)
+  sample.s1 <-cbind(sample, intercept = sample.m1$coefficients[1], coefYear = sample.m1$coefficients[2], 
+                   df.residual = sample.m1$df.residual, adj.r.square = summary(sample.m1)$adj.r.squared, 
+                   df = summary(sample.m1)$df[2], fstat = summary(sample.m1)$fstatistic[1], pvalue = summary(sample.m1)$coefficients[2,4])  
+  Model.sample <-rbind(Model.sample, sample.s1)  # saves summary to file
+}
+
+rownames(Model.sample) <- 1:length(rownames(Model.sample))  # this overwrites the first column, and numbers rows sequentially 
+write.csv(Model.sample,"ChangeNdays35.csv")
+```
+
+```{r}
+#### CHANGE IN NO. DAYS UNDER 5 ####
+
+Change.NDays5 <- read.csv("NDays5.ForChange.csv", header = T)
+summary(Change.Ndays5)
+
+# these are missing from this data set:  "SAM9","SAM23", "SAM24", "SAM22", "SAM10", "SAM7", "WAM55", "ANWC84", "ANWC85", "ANWC88", "ANWC90","ANWC92"
+sample.list <- c("ANWC100","ANWC101","ANWC102","ANWC103","ANWC104","ANWC105","ANWC106","ANWC107","ANWC108","ANWC109","ANWC110","ANWC112","ANWC113","ANWC115","ANWC116",	"ANWC117","ANWC118","ANWC119","ANWC126","ANWC128","ANWC129","ANWC130","ANWC131","ANWC132","ANWC133","ANWC134","ANWC135","ANWC136","ANWC137", "ANWC138","ANWC139",	"ANWC140","ANWC141","ANWC142","ANWC143","ANWC144","ANWC145","ANWC146","ANWC147", "ANWC148","ANWC150","ANWC151","ANWC152","ANWC153","ANWC154","ANWC155","ANWC156","ANWC157", "ANWC158","ANWC159","ANWC160","ANWC161","ANWC162","ANWC163","ANWC168","ANWC170","ANWC66", "ANWC67", "ANWC68", "ANWC69", "ANWC71", "ANWC72", "ANWC73", "ANWC75", "ANWC77", "ANWC78","ANWC79", "ANWC80", "ANWC81", "ANWC94","SAM11", "SAM12", "SAM14", "SAM15", "SAM16", "SAM17", "SAM18", "SAM19", "SAM20", "SAM21","SAM25", "SAM26", "SAM27", "SAM28", "SAM29", "SAM30", "SAM31", "SAM32", "SAM33", "SAM34","SAM35", "SAM36", "SAM37", "SAM38", "SAM39", "SAM41", "SAM44", "SAM45", "SAM46", "SAM8", "WAM56", "WAM57", "WAM58", "WAM59", "WAM60", "WAM63", "WAM64")
+
+names(sample.list) <- c("sample") # couldn't find object "sample" before
+
+Model.sample <- data.frame()  # creates datafame fresh each time model is run, so don't add to previous file
+
+for (sample in sample.list)                  #creates loop defined by curley brackets
+{                       
+  sample.m1 <- lm(Ndays5 ~ scale(YearJD, scale=FALSE),  
+                 data = subset(Change.NDays5, SAMPLE.ID==sample))
+  #summary(sample.m1)
+  sample.s1 <-cbind(sample, intercept = sample.m1$coefficients[1], coefYear = sample.m1$coefficients[2], 
+                   df.residual = sample.m1$df.residual, adj.r.square = summary(sample.m1)$adj.r.squared, 
+                   df = summary(sample.m1)$df[2], fstat = summary(sample.m1)$fstatistic[1], pvalue = summary(sample.m1)$coefficients[2,4])  
+  Model.sample <-rbind(Model.sample, sample.s1)  # saves summary to file
+}
+
+rownames(Model.sample) <- 1:length(rownames(Model.sample))  # this overwrites the first column, and numbers rows sequentially
+write.csv(Model.sample,"ChangeNdays5.csv")
+```
+
+```{r}
+#### CHANGE IN PRECIPITATION ####
+
+Change.Rain <- read.csv("Rain.ForChange.csv", header = T)
+summary(Change.Rain)
+
+# these are missing from this data set:  "SAM9","SAM23", "SAM24", "SAM22", "SAM10", "SAM7"  
+sample.list <- c("ANWC100","ANWC101","ANWC102","ANWC103","ANWC104","ANWC105","ANWC106","ANWC107","ANWC108","ANWC109","ANWC110","ANWC112","ANWC113","ANWC115","ANWC116",	"ANWC117","ANWC118","ANWC119","ANWC126","ANWC128","ANWC129","ANWC130","ANWC131","ANWC132","ANWC133","ANWC134","ANWC135","ANWC136","ANWC137","ANWC138","ANWC139","ANWC140","ANWC141","ANWC142","ANWC143","ANWC144","ANWC145","ANWC146","ANWC147","ANWC148","ANWC150","ANWC151","ANWC152","ANWC153","ANWC154","ANWC155","ANWC156","ANWC157","ANWC158","ANWC159","ANWC160","ANWC161","ANWC162","ANWC163","ANWC168","ANWC170","ANWC66","ANWC67","ANWC68","ANWC69","ANWC71","ANWC72","ANWC73","ANWC75","ANWC77","ANWC78","ANWC79","ANWC80","ANWC81","ANWC84","ANWC85","ANWC88","ANWC90","ANWC92","ANWC94","SAM11","SAM12","SAM14","SAM15","SAM16","SAM17","SAM18","SAM19","SAM20","SAM21","SAM25","SAM26","SAM27","SAM28","SAM29", "SAM30","SAM31","SAM32","SAM33","SAM34","SAM35","SAM36","SAM37","SAM38","SAM39","SAM41", "SAM44","SAM45","SAM46","SAM8","WAM55","WAM56","WAM57","WAM58","WAM59","WAM60","WAM63","WAM64")
+
+names(sample.list) <- c("sample") # couldn't find object "sample" before
+
+Model.sample <- data.frame()  # creates datafame fresh each time model is run, so don't add to previous file
+for (sample in sample.list)                  #creates loop defined by curley brackets
+{                       
+  sample.m1 <- lm(RainSum ~ scale(YearJD, scale=FALSE),  
+                 data = subset(Change.Rain, SAMPLE.ID==sample))
+  #summary(sample.m1)
+  sample.s1 <-cbind(sample, intercept = sample.m1$coefficients[1], coefYear = sample.m1$coefficients[2], 
+                   df.residual = sample.m1$df.residual, adj.r.square = summary(sample.m1)$adj.r.squared, 
+                   df = summary(sample.m1)$df[2], fstat = summary(sample.m1)$fstatistic[1], pvalue = summary(sample.m1)$coefficients[2,4])  
+  Model.sample <-rbind(Model.sample, sample.s1)  # saves summary to file
+}
+
+rownames(Model.sample) <- 1:length(rownames(Model.sample))  # this overwrites the first column, and numbers rows sequentially 
+write.csv(Model.sample,"ChangeRain.csv")
 ```
 
 
