@@ -1,51 +1,51 @@
 module load vcftools/0.1.12b
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr01A.filtered.climate.miss --chr chrom01A_scaffold0001_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr01A.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr01A.filtered.climate.miss.recode.vcf --chr chrom01A_scaffold0001_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr01A.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr01.filtered.climate.miss --chr chrom01_scaffold0002_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr01.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr01.filtered.climate.miss.recode.vcf --chr chrom01_scaffold0002_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr01.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr02.filtered.climate.miss --chr chrom02_scaffold0003_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr02.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr02.filtered.climate.miss.recode.vcf --chr chrom02_scaffold0003_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr02.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr03.filtered.climate.miss --chr chrom03_scaffold0004_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr03.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr03.filtered.climate.miss.recode.vcf --chr chrom03_scaffold0004_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr03.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr04A.filtered.climate.miss --chr chrom04A_scaffold0005_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr04A.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr04A.filtered.climate.miss.recode.vcf --chr chrom04A_scaffold0005_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr04A.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr04.filtered.climate.miss --chr chrom04_scaffold0006_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr04.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr04.filtered.climate.miss.recode.vcf --chr chrom04_scaffold0006_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr04.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr05.filtered.climate.miss --chr chrom05_scaffold0007_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr05.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr05.filtered.climate.miss.recode.vcf --chr chrom05_scaffold0007_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr05.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr06.filtered.climate.miss --chr chrom06_scaffold0008_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr06.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr06.filtered.climate.miss.recode.vcf --chr chrom06_scaffold0008_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr06.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr07.filtered.climate.miss --chr chrom07_scaffold0009_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr07.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr07.filtered.climate.miss.recode.vcf --chr chrom07_scaffold0009_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr07.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr08.filtered.climate.miss --chr chrom08_scaffold0010_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr08.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr08.filtered.climate.miss.recode.vcf --chr chrom08_scaffold0010_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr08.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr09.filtered.climate.miss --chr chrom09_scaffold0011_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr09.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr09.filtered.climate.miss.recode.vcf --chr chrom09_scaffold0011_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr09.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr10.filtered.climate.miss --chr chrom10_scaffold0012_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr10.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr10.filtered.climate.miss.recode.vcf --chr chrom10_scaffold0012_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr10.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr11.filtered.climate.miss --chr chrom11_scaffold0013_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr11.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr11.filtered.climate.miss.recode.vcf --chr chrom11_scaffold0013_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr11.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr12.filtered.climate.miss --chr chrom12_scaffold0014_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr12.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr12.filtered.climate.miss.recode.vcf --chr chrom12_scaffold0014_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr12.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr13.filtered.climate.miss --chr chrom13_scaffold0015_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr13.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr13.filtered.climate.miss.recode.vcf --chr chrom13_scaffold0015_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr13.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr14.filtered.climate.miss --chr chrom14_scaffold0016_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr14.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr14.filtered.climate.miss.recode.vcf --chr chrom14_scaffold0016_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr14.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr15.filtered.climate.miss --chr chrom15_scaffold0017_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr15.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr15.filtered.climate.miss.recode.vcf --chr chrom15_scaffold0017_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr15.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr17.filtered.climate.miss --chr chrom17_scaffold0018_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr17.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr17.filtered.climate.miss.recode.vcf --chr chrom17_scaffold0018_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr17.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr18.filtered.climate.miss --chr chrom18_scaffold0019_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr18.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr18.filtered.climate.miss.recode.vcf --chr chrom18_scaffold0019_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr18.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr20.filtered.climate.miss --chr chrom20_scaffold0020_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr20.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr20.filtered.climate.miss.recode.vcf --chr chrom20_scaffold0020_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr20.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr21.filtered.climate.miss --chr chrom21_scaffold0021_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr21.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr21.filtered.climate.miss.recode.vcf --chr chrom21_scaffold0021_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr21.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr23.filtered.climate.miss --chr chrom23_scaffold0022_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr23.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr23.filtered.climate.miss.recode.vcf --chr chrom23_scaffold0022_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr23.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr27.filtered.climate.miss --chr chrom27_scaffold0023_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr27.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr27.filtered.climate.miss.recode.vcf --chr chrom27_scaffold0023_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr27.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr28.filtered.climate.miss --chr chrom28_scaffold0024_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr28.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chr28.filtered.climate.miss.recode.vcf --chr chrom28_scaffold0024_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chr28.climate
 
-vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chrZ.filtered.climate.miss --chr chromZ_scaffold0025_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chrZ.climate
+vcftools --vcf /work/MikheyevU/elroy/data/snp/filter/climate/chrZ.filtered.climate.miss.recode.vcf --chr chromZ_scaffold0025_wholechromosome --BEAGLE-GL --out /work/MikheyevU/elroy/data/snp/filter/beagle/chrZ.climate
