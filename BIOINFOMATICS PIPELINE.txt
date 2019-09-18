@@ -237,7 +237,7 @@ pcangsd.py -beagle {input}.BEAGLE.GL.gz -o {output} -threads 10
 #COMPUTE THE COVARIANCE MATRIX AND OUTPUT INBREEDING COEFFICIENT VALUES PER INDIVIDUAL. 
 #INBREEDING VALUES INCORPORATE POPULATION STRUCTURE AND COMPUTED USING COVARIANCE MATRIX.
 #INBREED 2 OPTION IS RECOMMENDED FOR LOW DEPTH CASES.
-pcangsd.py -beagle {input}.BEAGLE.GL.gz -inbreed 2 -o {output} -threads 10
+pcangsd.py -beagle {input}.BEAGLE.GL.gz -inbreed 1 -o {output} -threads 10
 
 ### ===============================================
 ### ESTIMATE ADMIXTURE — NGSADMIX
