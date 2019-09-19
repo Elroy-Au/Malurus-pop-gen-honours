@@ -395,55 +395,6 @@ admixdata6 <- data.frame(Lat,Long,K1,K2,K3,K4,K5,K6)
 a + geom_scatterpie(aes(x = Long, y = Lat), data = admixdata6, cols = c("K1", "K2", "K3", "K4", "K5", "K6")) + scale_fill_manual(values=c("#F39C12", "#C39BD3", "#82E0AA", "#F7DC6F", "#EC7063", "#85C1E9")) + theme_light()
 ```
 
-### ================================== ###
-### MIXED MODELS                       ###
-### ================================== ###
-
-```{r}
-
-# load libraries
-library(sommer)       # mixed models 
-library(ecodist)      # mixed models
-library(geosphere)    # distance matrix
-library(readxl)
-
-# load data 
-
-# excel sheet containing inbreeding values, year, latitude, longitude 
-inbreedtestdata <- read_excel("inbreedtestdata.xlsx")
-
-# text file containing the variance-covariance genetic matrix
-# genetic matrix calculated using PCangsd 
-genmatrix <- read.table("covariance-matrix.txt")
-G <- as.matrix(genmatrix)
-
-# text file containing the distance matrix 
-distancem <- read.table("distance-matrix.txt")
-D <- as.matrix(distancem)
-```
-
-```{r}
-# how the distance matrix was calculated 
-
-longitude <- inbreedtestdata$LONGITUDE
-latitude <- inbreedtestdata$LATITUDE
-coord <- data.frame(longitude,latitude)
-coordmatrix <- as.matrix(coord)
-# calculate distance in metres using shortest distance between 
-# 2 points method in geosphere package
-distance <- distm(coordmatrix, fun=distGeo)
-```
-
-```{r}
-
-# run a MRM (Multiple Regression on distance Matrices) model in ecodist
-# using matrices and non-matrices 
-
-MRM(dist(INBREEDING) ~ as.dist(G) + as.dist(D) + dist(Year), data=inbreedtestdata, nperm=500)
-
-MRM(as.dist(G) ~ as.dist(D) + dist(Year), data=inbreedtestdata, nperm=500)
-```
-
 ### =============================================== ###
 ### CALCULATING CLIMATE VARIABLES - RATE OF CHANGE  ###
 ### =============================================== ###
@@ -562,10 +513,101 @@ write.csv(Model.sample,"ChangeRain.csv")
 ```{r}
 # Calculate the correlation matrix to test for correlations between the variables
 # Import the data 
-climaterate <- read.csv("/Users/Elroy/Documents/University/Honours 2019/Everything/BIOINFOMATICS/ElroyRateDataCor.csv", header = T)
+climate.corr <- read.csv("ElroyCorDataSummary.csv", header = T)
 
 # Create the correlation matrix and write it into a new csv file
-write.csv(cor(climaterate[,2:5], use="pairwise.complete.obs"),"corr.ElroyRateData.csv")
+write.csv(cor(climate.corr[,2:17], use="pairwise.complete.obs"), "ElroyClimateCorMatrix.csv")
 ```
 
+### ================================== ###
+### CLIMATE VARIABLES PCA              ###
+### ================================== ###
 
+```{r}
+
+# load dataset
+# this dataset only contains the variables calculated for samples with values for all
+# climate variables, i.e. there are no missing values (NA)
+climate.var <- read.csv("ClimateVariablesPCA.csv")
+
+# compute the principal components. 
+PCA <- prcomp(climate.var, scale. = T)
+biplot(PCA, scale=0)
+```
+
+### ================================== ###
+### MIXED MODELS                       ###
+### ================================== ###
+
+```{r}
+
+# load libraries
+library(sommer)       # mixed models 
+library(ecodist)      # mixed models
+library(geosphere)    # distance matrix
+library(readxl)
+
+# load data 
+
+# excel sheet containing inbreeding values, year, latitude, longitude 
+inbreedtestdata <- read_excel("inbreedtestdata.xlsx")
+
+# text file containing the variance-covariance genetic matrix
+# genetic matrix calculated using PCangsd 
+genmatrix <- read.table("covariance-matrix.txt")
+G <- as.matrix(genmatrix)
+
+# text file containing the distance matrix 
+distancem <- read.table("distance-matrix.txt")
+D <- as.matrix(distancem)
+```
+
+```{r}
+# how the distance matrix was calculated 
+
+longitude <- inbreedtestdata$LONGITUDE
+latitude <- inbreedtestdata$LATITUDE
+coord <- data.frame(longitude,latitude)
+coordmatrix <- as.matrix(coord)
+# calculate distance in metres using shortest distance between 
+# 2 points method in geosphere package
+distance <- distm(coordmatrix, fun=distGeo)
+```
+
+```{r}
+
+# run a mixed model in sommer 
+# this is incomplete -- don't have a way of adding the distance matrix yet 
+# list(D) seems to be incorrect
+
+mix1 <- mmer(fixed=INBREEDING~Year, 
+             random=~vs(ID,Gu=G) #+ vs(ID, list(D)), 
+             rcov=~units, 
+             data=inbreedtestdata, tolparinv=1e-02)
+
+# run a MRM (Multiple Regression on distance Matrices) model in ecodist
+# using matrices
+
+MRM(dist(INBREEDING) ~ as.dist(G) + as.dist(D) + dist(Year), data=inbreedtestdata, nperm=500)
+
+MRM(as.dist(G) ~ as.dist(D) + dist(Year), data=inbreedtestdata, nperm=500)
+```
+
+```{r}
+
+# run a linear mixed model fit by maximum likelihood
+# this is preliminary model
+# t value > 2 is significant
+
+# load libraries 
+library(ggplot2)
+library('MuMIn')
+library(nlme)
+library(lme4)
+library(reshape2)
+
+# load data 
+climate.var <- read.csv("ElroyDataClimateVariables.csv")
+
+M1.lmer<-lmer (INBREEDING ~ scale(NDays35.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(Ndays5.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(TotalRain.5YrSum, scale=TRUE)  * scale(ChangeRain, scale=TRUE) + (1|YearCat) + (1|IBRA_REG_CODE_7), data = climate.var, REML=F)
+```
