@@ -30,7 +30,7 @@ vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr12.filtered.recode.vcf
 
 vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr13.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/climate.indv --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr13.filtered.climate.miss
 
-vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr14.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/climate.indv--recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr14.filtered.climate.miss
+vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr14.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/climate.indv --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr14.filtered.climate.miss
 
 vcftools --gzvcf /work/MikheyevU/elroy/data/snp/filter/chr15.redone.filtered.recode.vcf.gz --remove /work/MikheyevU/elroy/data/snp/filter/missingness/lists/climate.indv --recode --recode-INFO-all --out /work/MikheyevU/elroy/data/snp/filter/climate/chr15.filtered.climate.miss
 
