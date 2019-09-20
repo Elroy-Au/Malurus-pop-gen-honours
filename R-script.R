@@ -550,3 +550,29 @@ mix2 <- mmer(fixed=INBREEDING~Year + LATITUDE + LONGITUDE,
 # provide a summary of the model results
 
 summary(mix)
+
+
+# run a linear mixed model fit by maximum likelihood
+# this is preliminary model
+# t value > 2 is significant
+
+# load libraries 
+library(ggplot2)
+library('MuMIn')
+library(nlme)
+library(lme4)
+library(reshape2)
+
+# load data 
+climate.var <- read.csv("ElroyDataClimateVariables.csv")
+
+M1.lmer<-lmer (INBREEDING ~ scale(NDays35.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(Ndays5.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(TotalRain.5YrSum, scale=TRUE)  * scale(ChangeRain, scale=TRUE) + (1|YearCat) + (1|IBRA_REG_CODE_7), data = climate.var, REML=F)
+
+# run a mixed model in sommer 
+# this is incomplete -- don't have a way of adding the distance matrix yet 
+# list(D) seems to be incorrect
+
+mix1 <- mmer(fixed=INBREEDING~Year, 
+             random=~vs(ID,Gu=G) #+ vs(ID, list(D)), 
+             rcov=~units, 
+             data=inbreedtestdata, tolparinv=1e-02)

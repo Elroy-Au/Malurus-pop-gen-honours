@@ -3,6 +3,8 @@ title: "Malurus Pop Gen"
 author: "Elroy Au"
 date: "05/09/2019"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ### ================================== ###
@@ -525,10 +527,18 @@ write.csv(cor(climate.corr[,2:17], use="pairwise.complete.obs"), "ElroyClimateCo
 
 ```{r}
 
+#load libaries 
+library(tidyverse)
+library(readr)
+
 # load dataset
 # this dataset only contains the variables calculated for samples with values for all
 # climate variables, i.e. there are no missing values (NA)
 climate.var <- read.csv("ClimateVariablesPCA.csv")
+NDays35_ForChange <- read_csv("NDays35.ForChange.csv")
+
+# transpose data to look at amount of missing years 
+spread(NDays35_ForChange, key=SAMPLE.ID, value=NDays35, fill=NA)
 
 # compute the principal components. 
 PCA <- prcomp(climate.var, scale. = T)
@@ -536,31 +546,8 @@ biplot(PCA, scale=0)
 ```
 
 ### ================================== ###
-### MIXED MODELS                       ###
+### DISTANCE MATRIX                    ###
 ### ================================== ###
-
-```{r}
-
-# load libraries
-library(sommer)       # mixed models 
-library(ecodist)      # mixed models
-library(geosphere)    # distance matrix
-library(readxl)
-
-# load data 
-
-# excel sheet containing inbreeding values, year, latitude, longitude 
-inbreedtestdata <- read_excel("inbreedtestdata.xlsx")
-
-# text file containing the variance-covariance genetic matrix
-# genetic matrix calculated using PCangsd 
-genmatrix <- read.table("covariance-matrix.txt")
-G <- as.matrix(genmatrix)
-
-# text file containing the distance matrix 
-distancem <- read.table("distance-matrix.txt")
-D <- as.matrix(distancem)
-```
 
 ```{r}
 # how the distance matrix was calculated 
@@ -574,40 +561,34 @@ coordmatrix <- as.matrix(coord)
 distance <- distm(coordmatrix, fun=distGeo)
 ```
 
-```{r}
-
-# run a mixed model in sommer 
-# this is incomplete -- don't have a way of adding the distance matrix yet 
-# list(D) seems to be incorrect
-
-mix1 <- mmer(fixed=INBREEDING~Year, 
-             random=~vs(ID,Gu=G) #+ vs(ID, list(D)), 
-             rcov=~units, 
-             data=inbreedtestdata, tolparinv=1e-02)
-
-# run a MRM (Multiple Regression on distance Matrices) model in ecodist
-# using matrices
-
-MRM(dist(INBREEDING) ~ as.dist(G) + as.dist(D) + dist(Year), data=inbreedtestdata, nperm=500)
-
-MRM(as.dist(G) ~ as.dist(D) + dist(Year), data=inbreedtestdata, nperm=500)
-```
+### ================================== ###
+### MIXED MODELS                       ###
+### ================================== ###
 
 ```{r}
 
-# run a linear mixed model fit by maximum likelihood
-# this is preliminary model
-# t value > 2 is significant
+# Load libraries 
 
-# load libraries 
-library(ggplot2)
-library('MuMIn')
-library(nlme)
-library(lme4)
-library(reshape2)
+library(ecodist) # mixed models using distance matrices
+library(geosphere) # to create the distance matrix
+library(readxl) 
 
-# load data 
-climate.var <- read.csv("ElroyDataClimateVariables.csv")
+# Load datasets
 
-M1.lmer<-lmer (INBREEDING ~ scale(NDays35.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(Ndays5.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(TotalRain.5YrSum, scale=TRUE)  * scale(ChangeRain, scale=TRUE) + (1|YearCat) + (1|IBRA_REG_CODE_7), data = climate.var, REML=F)
+spatial.var <- read_excel("SpatialModClimVar.xlsx") # spatial analysis 
+
+# text file containing the variance-covariance genetic matrix
+# genetic matrix calculated using PCangsd 
+genmatrix <- read.table("covariance-matrix.txt")
+G <- as.matrix(genmatrix)
+
+# text file containing the distance matrix 
+distancem <- read.table("distance-matrix.txt")
+D <- as.matrix(distancem)
+
+# spatial inbreeding model
+
+MRM(dist(INBREEDING) ~ as.dist(D) + dist(Ndays35) + dist(Ndays5) + dist(Rain) + dist(Year), data=spatial.var, nperm=500)
+
+MRM(as.dist(G) ~ as.dist(D) + dist(Ndays35) + dist(Ndays5) + dist(Rain) + dist(Year), data=spatial.var, nperm=500)
 ```
