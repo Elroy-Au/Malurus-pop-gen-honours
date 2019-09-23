@@ -232,6 +232,30 @@ a <- ggplot() + geom_sf(data = australia, color = "black", fill = "white")
 a + geom_point(data=PCA, aes(x=LONGITUDE, y=LATITUDE, color = PC1), size = 2.5) + scale_color_gradient2()
 ```
 
+```{r}
+
+# create a biplot by hand
+# load libraries
+library(readxl)
+
+# load dataset 
+pca.metadata <- read_excel("Biplot Metadata.xlsx")
+
+# set pch and colour groups (grouped by geography: NSW, NT, QLD, SA, VIC, WA, NA)
+pch.group <- c(rep(0, times=10), rep(1, times=10), rep(2, times=10), rep(5, times=43), rep(3, times=1), rep(6, times=43), rep(4, times=2))
+
+col.group <- c(rep("lightgreen", times=10), rep("violet", times=10), rep("gold", times=10), rep("red", times=43), rep("pink", times=1), rep("skyblue2", times=43), rep("grey", times=2))
+
+# plot the individuals in principal component space grouped by their shape and colour for state of collection 
+plot(x=pca.metadata$PC1, y=pca.metadata$PC2, xlab="PC1 (3.18%)", ylab="PC2 (1.23%)", pch=pch.group, col="black", bg=col.group, cex=2, las=1, asp=1)
+
+# add horizontal and vertical axes at zero 
+abline(v=0, lty=2, col="grey50")
+abline(h=0, lty=2, col="grey50")
+
+
+```
+
 ### ================================== ###
 ### Linear Regression                  ###
 ### ================================== ###
@@ -550,7 +574,10 @@ biplot(PCA, scale=0)
 ### ================================== ###
 
 ```{r}
+
 # how the distance matrix was calculated 
+# load libraries
+library(geosphere) # to create the distance matrix
 
 longitude <- inbreedtestdata$LONGITUDE
 latitude <- inbreedtestdata$LATITUDE
@@ -568,14 +595,17 @@ distance <- distm(coordmatrix, fun=distGeo)
 ```{r}
 
 # Load libraries 
-
-library(ecodist) # mixed models using distance matrices
-library(geosphere) # to create the distance matrix
 library(readxl) 
+library(ecodist) # mrm mixed models using distance matrices as co-variates and response
+library(vegan) # adonis mixed models using distance matrices as response
+library('MuMIn')
+library(nlme) # linear modelling
+library(lme4) # linear modelling
+library(reshape2)
 
 # Load datasets
 
-spatial.var <- read_excel("SpatialModClimVar.xlsx") # spatial analysis 
+climate.var <- read_excel("ClimVarMod.xlsx") # spatial analysis 
 
 # text file containing the variance-covariance genetic matrix
 # genetic matrix calculated using PCangsd 
@@ -588,7 +618,19 @@ D <- as.matrix(distancem)
 
 # spatial inbreeding model
 
-MRM(dist(INBREEDING) ~ as.dist(D) + dist(Ndays35) + dist(Ndays5) + dist(Rain) + dist(Year), data=spatial.var, nperm=500)
+MRM(dist(INBREEDING) ~ as.dist(D) + as.dist(G) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=climate.var, nperm=500)
 
-MRM(as.dist(G) ~ as.dist(D) + dist(Ndays35) + dist(Ndays5) + dist(Rain) + dist(Year), data=spatial.var, nperm=500)
+MRM(dist(INBREEDING) ~ as.dist(D) + as.dist(G) + dist(ScaledNdays35ten) + dist(ScaledNdays5ten) + dist(ScaledRainten) + dist(Year), data=climate.var, nperm=500)
+
+# spatial genetics model
+
+MRM(as.dist(G) ~ as.dist(D) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=climate.var, nperm=500)
+
+# temporal inbreeding model 
+
+M1.lmer<-lmer (INBREEDING ~ scale(NDays35.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(Ndays5.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(TotalRain.5YrSum, scale=TRUE) * scale(ChangeRain, scale=TRUE) + (1|YearCat) + (1|IBRA_REG_CODE_7), data = ElroyData, REML=F)
+
+# temporal genetics model -- IS THIS OK?
+
+adonis2(G ~ ScaledChangeMeanTemp * ScaledNdays35five + ScaledChangeMeanTemp * ScaledNdays5five + ScaledRainfive * ScaledChangeRain + Year + IBRA, data = climate.var)
 ```
