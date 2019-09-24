@@ -205,10 +205,51 @@ Eigenvalues <- eigen(covmatrixfiltered)$values
 Eigenvectors <- eigen(covmatrixfiltered)$vectors  
 # calculate the principal components using a matrix multiplication 
 PC <- as.matrix(covmatrixfiltered) %*% Eigenvectors
+# transpose the data in order to get the loading of the variables for each principal component 
+PCs <- t(PC)
 
 # calculate the proportions of the variation explained by the various components
 print(round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2))
 round(cumsum(Eigenvalues)/sum(Eigenvalues) * 100, digits = 2)
+
+# take the principal component scores for individuals to create the PCA plot
+PC1 <- PC[,1]
+PC2 <- PC[,2]
+PC3 <- PC[,3]
+
+# transform into a dataframe and copied into an excel spreadsheet to form the
+# principal component values in PCA-metadata.xlsx
+PCA <- data.frame(PC1, PC2, PC3)
+```
+
+```{r}
+
+# create a biplot by hand
+# load libraries
+library(readxl)
+
+# load dataset 
+pca.metadata <- read_excel("Biplot Metadata.xlsx")
+
+# set pch and colour groups (grouped by geography: NSW, NT, QLD, SA, VIC, WA, NA)
+pch.group <- c(rep(21, times=10), rep(22, times=10), rep(23, times=10), rep(24, times=43), rep(3, times=1), rep(25, times=43), rep(4, times=2))
+
+col.group <- c(rep("lightgreen", times=10), rep("violet", times=10), rep("gold", times=10), rep("red", times=43), rep("pink", times=1), rep("skyblue2", times=43), rep("grey", times=2))
+
+# plot the individuals in principal component space grouped by their shape and colour for state of collection 
+plot(x=pca.metadata$PC1, y=pca.metadata$PC2, xlab="PC1 (3.18%)", ylab="PC2 (1.23%)", xlim=c(-1.0,1.0),ylim=c(-0.55,0.55), pch=pch.group, col="black", bg=col.group, cex=2, las=1, asp=1)
+
+# add horizontal and vertical axes at zero 
+abline(v=0, lty=2, col="grey50")
+abline(h=0, lty=2, col="grey50")
+
+# set the x and y co-ordinates of the variables, which are equivalent to
+# the loading scores of the variables (i.e. the individual samples)
+# these will form the arrows on the bi-lot and were created by transposing the 
+# principal component data made above (check PCs)
+l.x <- PCs[,1]
+l.y <- PCs[,2]
+arrows(x0=0, x1=l.x, y0=0, y1=l.y, col="red", length = 0.1, lwd = 1.5)
 ```
 
 ```{r}
@@ -230,30 +271,6 @@ ggplot (PCA, aes(x=PC1, y=PC2)) + geom_point(aes(shape = Period, color = MISSING
 australia <- st_read("australia.shp")
 a <- ggplot() + geom_sf(data = australia, color = "black", fill = "white")
 a + geom_point(data=PCA, aes(x=LONGITUDE, y=LATITUDE, color = PC1), size = 2.5) + scale_color_gradient2()
-```
-
-```{r}
-
-# create a biplot by hand
-# load libraries
-library(readxl)
-
-# load dataset 
-pca.metadata <- read_excel("Biplot Metadata.xlsx")
-
-# set pch and colour groups (grouped by geography: NSW, NT, QLD, SA, VIC, WA, NA)
-pch.group <- c(rep(0, times=10), rep(1, times=10), rep(2, times=10), rep(5, times=43), rep(3, times=1), rep(6, times=43), rep(4, times=2))
-
-col.group <- c(rep("lightgreen", times=10), rep("violet", times=10), rep("gold", times=10), rep("red", times=43), rep("pink", times=1), rep("skyblue2", times=43), rep("grey", times=2))
-
-# plot the individuals in principal component space grouped by their shape and colour for state of collection 
-plot(x=pca.metadata$PC1, y=pca.metadata$PC2, xlab="PC1 (3.18%)", ylab="PC2 (1.23%)", pch=pch.group, col="black", bg=col.group, cex=2, las=1, asp=1)
-
-# add horizontal and vertical axes at zero 
-abline(v=0, lty=2, col="grey50")
-abline(h=0, lty=2, col="grey50")
-
-
 ```
 
 ### ================================== ###
@@ -605,16 +622,21 @@ library(reshape2)
 
 # Load datasets
 
-climate.var <- read_excel("ClimVarMod.xlsx") # spatial analysis 
+climate.var <- read_excel("ClimVarMod.xlsx") 
+temp.climate.var <- read_excel("TemperateClimVarMod.xlsx") 
 
 # text file containing the variance-covariance genetic matrix
 # genetic matrix calculated using PCangsd 
 genmatrix <- read.table("covariance-matrix.txt")
+temp.genmatrix <- read.table("temperate-covariance-matrix.txt")
 G <- as.matrix(genmatrix)
+T.G <- as.matrix(temp.genmatrix)
 
 # text file containing the distance matrix 
 distancem <- read.table("distance-matrix.txt")
+temp.distance <- read.table("temperate-distance-matrix.txt")
 D <- as.matrix(distancem)
+T.D. <- as.matrix(temp.distance)
 
 # spatial inbreeding model
 
