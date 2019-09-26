@@ -196,9 +196,7 @@ library(sf)
 covmatrix <- npyLoad("PCA.cov.npy")  
 covmatrixfiltered <- npyLoad("PCA.filtered.cov.npy")
 climcovmatrix <- npyLoad("PCA.climate.cov.npy")
-```
 
-```{r}
 # calculate eigenvalues
 Eigenvalues <- eigen(covmatrixfiltered)$values         
 # calculate eigenvectors
@@ -229,15 +227,17 @@ PCA <- data.frame(PC1, PC2, PC3)
 library(readxl)
 
 # load dataset 
-pca.metadata <- read_excel("Biplot Metadata.xlsx")
+biplot.pca.metadata <- read_excel("Biplot Metadata.xlsx")
+biplot.metadata <- read_excel("PCA-metadata.xlsx")
 
 # set pch and colour groups (grouped by geography: NSW, NT, QLD, SA, VIC, WA, NA)
 pch.group <- c(rep(21, times=10), rep(22, times=10), rep(23, times=10), rep(24, times=43), rep(3, times=1), rep(25, times=43), rep(4, times=2))
 
-col.group <- c(rep("lightgreen", times=10), rep("violet", times=10), rep("gold", times=10), rep("red", times=43), rep("pink", times=1), rep("skyblue2", times=43), rep("grey", times=2))
+# red = NSW, gold = NT, green = QLD, blue = SA, black = VIC, pink = WA, black X = N.A
+col.group <- c(rep("red", times=10), rep("gold", times=10), rep("green", times=10), rep("skyblue2", times=43), rep("black", times=1), rep("violet", times=43), rep("grey", times=2))
 
 # plot the individuals in principal component space grouped by their shape and colour for state of collection 
-plot(x=pca.metadata$PC1, y=pca.metadata$PC2, xlab="PC1 (3.18%)", ylab="PC2 (1.23%)", xlim=c(-1.0,1.0),ylim=c(-0.55,0.55), pch=pch.group, col="black", bg=col.group, cex=2, las=1, asp=1)
+plot(x=biplot.pca.metadata$PC1, y=biplot.pca.metadata$PC2, xlab="PC1 (3.18%)", ylab="PC2 (1.23%)", xlim=c(-1.0,1.0),ylim=c(-0.6,0.6), pch=pch.group, col="black", bg=col.group, cex=2, las=1, asp=1)
 
 # add horizontal and vertical axes at zero 
 abline(v=0, lty=2, col="grey50")
@@ -250,6 +250,14 @@ abline(h=0, lty=2, col="grey50")
 l.x <- PCs[,1]
 l.y <- PCs[,2]
 arrows(x0=0, x1=l.x, y0=0, y1=l.y, col="red", length = 0.1, lwd = 1.5)
+
+# set text labels 
+l.pos <- l.y
+lo <- which(l.y < 0)
+hi <- which(l.y > 0)
+l.pos <- replace(l.pos, lo, "1")
+l.pos <- replace(l.pos, hi, "3")
+text(l.x, l.y, labels=metadata$`SAMPLE ID`, col="red", pos=l.pos)
 ```
 
 ```{r}
@@ -614,6 +622,7 @@ distance <- distm(coordmatrix, fun=distGeo)
 # Load libraries 
 library(readxl) 
 library(ecodist) # mrm mixed models using distance matrices as co-variates and response
+library(sommer) # sommer mixed models using distance matrices as co-variates
 library(vegan) # adonis mixed models using distance matrices as response
 library('MuMIn')
 library(nlme) # linear modelling
@@ -623,7 +632,9 @@ library(reshape2)
 # Load datasets
 
 climate.var <- read_excel("ClimVarMod.xlsx") 
-temp.climate.var <- read_excel("TemperateClimVarMod.xlsx") 
+temp.climate.var <- read_excel("TemperateClimVarMod.xlsx")
+TempElroyData <- read.csv("TempElroyData.csv")
+ElroyData <- read.csv("ElroyDataClimateVariables.csv")
 
 # text file containing the variance-covariance genetic matrix
 # genetic matrix calculated using PCangsd 
@@ -636,23 +647,75 @@ T.G <- as.matrix(temp.genmatrix)
 distancem <- read.table("distance-matrix.txt")
 temp.distance <- read.table("temperate-distance-matrix.txt")
 D <- as.matrix(distancem)
-T.D. <- as.matrix(temp.distance)
+T.D <- as.matrix(temp.distance)
 
 # spatial inbreeding model
 
 MRM(dist(INBREEDING) ~ as.dist(D) + as.dist(G) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=climate.var, nperm=500)
 
-MRM(dist(INBREEDING) ~ as.dist(D) + as.dist(G) + dist(ScaledNdays35ten) + dist(ScaledNdays5ten) + dist(ScaledRainten) + dist(Year), data=climate.var, nperm=500)
+# without tropical individuals 
+
+MRM(dist(INBREEDING) ~ as.dist(T.D) + as.dist(T.G) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=temp.climate.var, nperm=500)
 
 # spatial genetics model
 
 MRM(as.dist(G) ~ as.dist(D) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=climate.var, nperm=500)
 
+# without tropical individuals
+
+MRM(as.dist(T.G) ~ as.dist(T.D.) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=temp.climate.var, nperm=500)
+
 # temporal inbreeding model 
+
+# sommer
+# there is a problem adding Ndays5 
+mix <- mmer(fixed=INBREEDING~ScaledChangeMeanTemp*ScaledNdays35five + ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain, random=~vs(ID, Gu=G) + Year + IBRA, rcov=~units, data=climate.var, tolparinv = 1e-02)
+
+# lmer
 
 M1.lmer<-lmer (INBREEDING ~ scale(NDays35.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(Ndays5.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(TotalRain.5YrSum, scale=TRUE) * scale(ChangeRain, scale=TRUE) + (1|YearCat) + (1|IBRA_REG_CODE_7), data = ElroyData, REML=F)
 
+summary(M1.lmer)
+
+# without tropical individuals
+
+M2.lmer<-lmer (INBREEDING ~ scale(NDays35.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(Ndays5.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(TotalRain.5YrSum, scale=TRUE) * scale(ChangeRain, scale=TRUE) + (1|YearCat) + (1|IBRA_REG_CODE_7), data = TempElroyData, REML=F)
+
+summary(M2.lmer)
+
 # temporal genetics model -- IS THIS OK?
 
-adonis2(G ~ ScaledChangeMeanTemp * ScaledNdays35five + ScaledChangeMeanTemp * ScaledNdays5five + ScaledRainfive * ScaledChangeRain + Year + IBRA, data = climate.var)
+adonis2(G ~ ScaledChangeMeanTemp*ScaledNdays35five + ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain + Year + IBRA, data = climate.var)
+
+adonis2(T.G ~ ScaledChangeMeanTemp*ScaledNdays35five + ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain + Year + IBRA, data = temp.climate.var)
 ```
+
+```{r}
+
+# matrix plot dump
+plot(as.numeric(as.dist(G)), as.numeric(dist(climate.var$Year)))
+
+# hex plot dump
+library(ggplot2)
+d <- ggplot(diamonds, aes(carat, price))
+d + geom_hex()
+```
+
+```{r}
+
+# sommer test 
+# load libraries
+library(sommer)
+library(readxl)
+
+# load the test data
+climate.var.test <- read_excel("ClimVarModtester.xlsx")
+GM <- read.table("covariance-matrix-tester.txt")
+G <- as.matrix("GM")
+
+# mixed model
+
+mix <- mmer(fixed=INBREEDING~ScaledChangeMeanTemp*ScaledNdays35five + ScaledRainfive*ScaledChangeRain + ScaledChangeMeanTemp*ScaledNdays5five, random=~vs(ID, Gu=GM) + Year + IBRA, rcov=~units, data=climate.var.test, tolparinv = 1e-02)
+
+
+
