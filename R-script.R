@@ -576,3 +576,110 @@ mix1 <- mmer(fixed=INBREEDING~Year,
              random=~vs(ID,Gu=G) #+ vs(ID, list(D)), 
              rcov=~units, 
              data=inbreedtestdata, tolparinv=1e-02)
+
+# Load libraries 
+library(readxl) 
+library(ecodist) # mrm mixed models using distance matrices as co-variates and response
+library(sommer) # sommer mixed models using distance matrices as co-variates
+library(vegan) # adonis mixed models using distance matrices as response
+library('MuMIn')
+library(nlme) # linear modelling
+library(lme4) # linear modelling
+library(reshape2)
+
+# Load datasets
+
+climate.var <- read_excel("ClimVarMod.xlsx") 
+temp.climate.var <- read_excel("TemperateClimVarMod.xlsx")
+TempElroyData <- read.csv("TempElroyData.csv")
+ElroyData <- read.csv("ElroyDataClimateVariables.csv")
+
+# text file containing the variance-covariance genetic matrix
+# genetic matrix calculated using PCangsd 
+genmatrix <- read.table("covariance-matrix.txt")
+temp.genmatrix <- read.table("temperate-covariance-matrix.txt")
+G <- as.matrix(genmatrix)
+T.G <- as.matrix(temp.genmatrix)
+
+# text file containing the distance matrix 
+distancem <- read.table("distance-matrix.txt")
+temp.distance <- read.table("temperate-distance-matrix.txt")
+D <- as.matrix(distancem)
+T.D <- as.matrix(temp.distance)
+
+# spatial inbreeding model
+
+MRM(dist(INBREEDING) ~ as.dist(D) + as.dist(G) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=climate.var, nperm=500)
+
+# without tropical individuals 
+
+MRM(dist(INBREEDING) ~ as.dist(T.D) + as.dist(T.G) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=temp.climate.var, nperm=500)
+
+# spatial genetics model
+
+MRM(as.dist(G) ~ as.dist(D) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=climate.var, nperm=500)
+
+# without tropical individuals
+
+MRM(as.dist(T.G) ~ as.dist(T.D.) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=temp.climate.var, nperm=500)
+
+# temporal inbreeding model 
+
+# sommer
+# there is a problem adding Ndays5 
+mix <- mmer(fixed=INBREEDING~ScaledChangeMeanTemp*ScaledNdays35five + ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain, random=~vs(ID, Gu=G) + Year + IBRA, rcov=~units, data=climate.var, tolparinv = 1e-02)
+
+# lmer
+
+M1.lmer<-lmer (INBREEDING ~ scale(NDays35.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(Ndays5.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(TotalRain.5YrSum, scale=TRUE) * scale(ChangeRain, scale=TRUE) + (1|YearCat) + (1|IBRA_REG_CODE_7), data = ElroyData, REML=F)
+
+summary(M1.lmer)
+
+# without tropical individuals
+
+M2.lmer<-lmer (INBREEDING ~ scale(NDays35.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(Ndays5.5YrMean, scale=TRUE) * scale(ChangeMeanTemp, scale=TRUE) + scale(TotalRain.5YrSum, scale=TRUE) * scale(ChangeRain, scale=TRUE) + (1|YearCat) + (1|IBRA_REG_CODE_7), data = TempElroyData, REML=F)
+
+summary(M2.lmer)
+
+# temporal genetics model -- IS THIS OK?
+
+adonis2(G ~ ScaledChangeMeanTemp*ScaledNdays35five + ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain + Year + IBRA, data = climate.var)
+
+adonis2(T.G ~ ScaledChangeMeanTemp*ScaledNdays35five + ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain + Year + IBRA, data = temp.climate.var)
+```
+
+```{r}
+
+# matrix plot dump
+plot(as.numeric(as.dist(G)), as.numeric(dist(climate.var$Year)))
+
+# hex plot dump
+library(ggplot2)
+d <- ggplot(diamonds, aes(carat, price))
+d + geom_hex()
+```
+
+```{r}
+
+# sommer test 
+# load libraries
+library(sommer)
+library(readxl)
+
+# load the test data
+climate.var.test <- read_excel("/Users/Elroy/Documents/the cell/Workbook4.xlsx")
+GM <- read.table("/Users/Elroy/Documents/the cell/Workbook5.txt")
+G <- as.matrix(GM)
+
+# mixed model
+
+# there is a dimension mismatch between ScaledNdays5 and ScaledNdays35 effects
+
+mix <- mmer(fixed=INBREEDING~ScaledChangeMeanTemp*ScaledNdays35five + ScaledRainfive*ScaledChangeRain + ScaledChangeMeanTemp*ScaledNdays5five, random=~vs(ID, Gu=G) + Year + IBRA, rcov=~units, data=climate.var.test, tolparinv = 1e-02)
+
+
+
+
+
+
+
