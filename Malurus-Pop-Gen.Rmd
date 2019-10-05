@@ -257,7 +257,7 @@ lo <- which(l.y < 0)
 hi <- which(l.y > 0)
 l.pos <- replace(l.pos, lo, "1")
 l.pos <- replace(l.pos, hi, "3")
-text(l.x, l.y, labels=metadata$`SAMPLE ID`, col="red", pos=l.pos)
+text(l.x, l.y, labels=biplot.pca.metadata$`SAMPLE ID`, col="red", pos=l.pos)
 ```
 
 ```{r}
@@ -509,7 +509,7 @@ write.csv(Model.sample,"ChangeNdays35.csv")
 ```{r}
 #### CHANGE IN NO. DAYS UNDER 5 ####
 
-Change.NDays5 <- read.csv("NDays5.ForChange.csv", header = T)
+Change.Ndays5 <- read.csv("NDays5.ForChange.csv", header = T)
 summary(Change.Ndays5)
 
 # these are missing from this data set:  "SAM9","SAM23", "SAM24", "SAM22", "SAM10", "SAM7", "WAM55", "ANWC84", "ANWC85", "ANWC88", "ANWC90","ANWC92"
@@ -522,7 +522,7 @@ Model.sample <- data.frame()  # creates datafame fresh each time model is run, s
 for (sample in sample.list)                  #creates loop defined by curley brackets
 {                       
   sample.m1 <- lm(Ndays5 ~ scale(YearJD, scale=FALSE),  
-                 data = subset(Change.NDays5, SAMPLE.ID==sample))
+                 data = subset(Change.Ndays5, SAMPLE.ID==sample))
   #summary(sample.m1)
   sample.s1 <-cbind(sample, intercept = sample.m1$coefficients[1], coefYear = sample.m1$coefficients[2], 
                    df.residual = sample.m1$df.residual, adj.r.square = summary(sample.m1)$adj.r.squared, 
@@ -571,30 +571,6 @@ write.csv(cor(climate.corr[,2:17], use="pairwise.complete.obs"), "ElroyClimateCo
 ```
 
 ### ================================== ###
-### CLIMATE VARIABLES PCA              ###
-### ================================== ###
-
-```{r}
-
-#load libaries 
-library(tidyverse)
-library(readr)
-
-# load dataset
-# this dataset only contains the variables calculated for samples with values for all
-# climate variables, i.e. there are no missing values (NA)
-climate.var <- read.csv("ClimateVariablesPCA.csv")
-NDays35_ForChange <- read_csv("NDays35.ForChange.csv")
-
-# transpose data to look at amount of missing years 
-spread(NDays35_ForChange, key=SAMPLE.ID, value=NDays35, fill=NA)
-
-# compute the principal components. 
-PCA <- prcomp(climate.var, scale. = T)
-biplot(PCA, scale=0)
-```
-
-### ================================== ###
 ### DISTANCE MATRIX                    ###
 ### ================================== ###
 
@@ -631,6 +607,8 @@ library(ecodist)
 # CLIMATE DATA
 # tropical + temperate individuals
 climate.var <- read_excel("ClimVarMod.xlsx") 
+# tropical + temperate individuals - no missing data
+nmd.clim.var <- read_excel("ClimVarMod-NoMissingData.xlsx")
 # temperate only individuals 
 temp.climate.var <- read_excel("TemperateClimVarMod.xlsx")
 
@@ -638,6 +616,9 @@ temp.climate.var <- read_excel("TemperateClimVarMod.xlsx")
 # tropical + temperate individuals 
 genmatrix <- read.table("covariance-matrix.txt")
 G <- as.matrix(genmatrix)
+# tropical + temperate individuals - no missing data
+nmd.genetic <- read.table("covariance-matrix-nmd.txt")
+NG <- as.matrix(nmd.matrix)
 # temperate only individuals
 temp.genmatrix <- read.table("temperate-covariance-matrix.txt")
 T.G <- as.matrix(temp.genmatrix)
@@ -646,6 +627,9 @@ T.G <- as.matrix(temp.genmatrix)
 # tropical + temperate individuals
 distance <- read.table("distance-matrix.txt")
 D <- as.matrix(distance)
+# tropical + temperate individuals - no missing data
+nmd.distance <- read.table("distance-matrix-nmd.txt")
+ND <- as.matrix(distance)
 # temperate only individuals 
 temp.distance <- read.table("temperate-distance-matrix.txt")
 T.D <- as.matrix(temp.distance)
@@ -654,12 +638,18 @@ T.D <- as.matrix(temp.distance)
 # tropical + temperate
 MRM(dist(INBREEDING) ~ as.dist(D) + as.dist(G) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=climate.var, nperm=500)
 
+# tropical + temperate - no missing data 
+MRM(dist(INBREEDING) ~ as.dist(ND) + as.dist(NG) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=nmd.clim.var, nperm=500)
+
 # temperate only
 MRM(dist(INBREEDING) ~ as.dist(T.D) + as.dist(T.G) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=temp.climate.var, nperm=500)
 
 # GENETICS MODEL
 # tropical + temperate
 MRM(as.dist(G) ~ as.dist(D) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=climate.var, nperm=500)
+
+# tropical + temperate - no missing data 
+MRM(as.dist(NG) ~ as.dist(ND) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=nmd.clim.var, nperm=500)
 
 # temperate only
 MRM(as.dist(T.G) ~ as.dist(T.D) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=temp.climate.var, nperm=500)
@@ -692,12 +682,14 @@ nmd.temp.matrix <- read.table("covariance-matrix-nmd-temp.txt")
 T.G <- as.matrix(nmd.temp.matrix)
 
 # MIXED MODEL IN SOMMER
-# tropical + temperate
+# tropical + temperate - PRIMARY
 inbreed.model <- mmer(fixed = INBREEDING ~ ScaledChangeMeanTemp * ScaledNdays35five + ScaledChangeMeanTemp * ScaledNdays5five + ScaledRainfive * ScaledChangeRain, random = ~ vs(ID, Gu=G) + Year + IBRA, rcov= ~ units, data=nmd.clim.var)
 
-# temperate only
-# there is an error here - it doesn't like this covariance matrix for some reason
-inbreed.model <- mmer(fixed = INBREEDING ~ ScaledChangeMeanTemp * ScaledNdays35five + ScaledChangeMeanTemp * ScaledNdays5five + ScaledRainfive * ScaledChangeRain, random = ~ vs(ID, Gu=T.G) + Year + IBRA, rcov= ~ units, data=nmd.temp.clim.var) 
+# tropical + temperate - COLD
+inbreed.model2 <- mmer(fixed = INBREEDING ~ ScaledChangeMeanTemp * ScaledNdays5five + ScaledRainfive * ScaledChangeRain, random = ~ vs(ID, Gu=G) + Year + IBRA, rcov= ~ units, data=nmd.clim.var)
+
+# tropical + temperate - HOT
+inbreed.model3 <- mmer(fixed = INBREEDING ~ ScaledChangeMeanTemp * ScaledNdays35five + ScaledRainfive * ScaledChangeRain, random = ~ vs(ID, Gu=G) + Year + IBRA, rcov= ~ units, data=nmd.clim.var)
 ```
 
 ```{r}
@@ -719,14 +711,47 @@ nmd.temp.clim.var <- read_excel("TemperateClimVarMod-NoMissingData.xlsx")
 # tropical + temperate 
 nmd.matrix <- read.table("covariance-matrix-nmd.txt")
 G <- as.matrix(nmd.matrix)
+AG <- as.matrix(G)
+# convert any negative values to a zero as adonis2 doesn't like negatives 
+AG[AG < 0] <- 0
 # temperate only
 nmd.temp.matrix <- read.table("covariance-matrix-nmd-temp.txt")
 T.G <- as.matrix(nmd.temp.matrix)
 
 # MIXED MODEL USING ADONIS 
 # tropical + temperate 
-adonis2(G ~ ScaledChangeMeanTemp*ScaledNdays35five + ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain + Year + IBRA, data = nmd.clim.var)
+adonis2(AG ~ ScaledChangeMeanTemp*ScaledNdays35five + ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain + Year + IBRA, data = nmd.clim.var)
 
 # temperate only
 
+```
+
+### ================================== ###
+### MIXED MODELS: GRAPHS               ###
+### ================================== ###
+
+```{r}
+
+# Load libraries 
+library(ggplot2)
+library(readxl)
+
+# Load datasets
+distance <- read.table("distance-matrix.txt")
+D <- as.matrix(distance)
+genmatrix <- read.table("covariance-matrix.txt")
+G <- as.matrix(genmatrix)
+climate.var <- read_excel("ClimVarMod.xlsx")
+          
+# Create the dataframe for the hexplots 
+covariance <- as.numeric(as.dist(G))
+distance <- as.numeric(as.dist(D))
+year <- as.numeric (dist(climate.var$Year))
+hex.data <- data.frame(year, covariance, distance)
+
+# Plot
+# Genetic covariance and pairwise temporal distance between samples 
+ggplot(hex.data, aes(covariance, year)) + geom_hex() + labs(x = "Genetic Covariance", y = "Age Difference (Years)") + scale_fill_gradient(low = "gray25", high = "royalblue3") + theme_bw()
+# Genetic covariance and pairwsie spatial distance between samples 
+ggplot(hex.data, aes(covariance, distance)) + geom_hex() + labs(x = "Genetic Covariance", y = "Distance between Individuals (m)") + scale_fill_gradient(low = "gray25", high = "royalblue3") + theme_bw()
 ```

@@ -677,7 +677,29 @@ G <- as.matrix(GM)
 
 mix <- mmer(fixed=INBREEDING~ScaledChangeMeanTemp*ScaledNdays35five + ScaledRainfive*ScaledChangeRain + ScaledChangeMeanTemp*ScaledNdays5five, random=~vs(ID, Gu=G) + Year + IBRA, rcov=~units, data=climate.var.test, tolparinv = 1e-02)
 
+### ================================== ###
+### CLIMATE VARIABLES PCA              ###
+### ================================== ###
 
+{r}
+
+#load libaries 
+library(tidyverse)
+library(readr)
+
+# load dataset
+# this dataset only contains the variables calculated for samples with values for all
+# climate variables, i.e. there are no missing values (NA)
+climate.var <- read.csv("ClimateVariablesPCA.csv")
+NDays35_ForChange <- read_csv("NDays35.ForChange.csv")
+
+# transpose data to look at amount of missing years 
+spread(NDays35_ForChange, key=SAMPLE.ID, value=NDays35, fill=NA)
+
+# compute the principal components. 
+PCA <- prcomp(climate.var, scale. = T)
+biplot(PCA, scale=0)
+```
 
 
 
