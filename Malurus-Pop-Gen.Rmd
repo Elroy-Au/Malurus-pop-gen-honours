@@ -611,6 +611,8 @@ climate.var <- read_excel("ClimVarMod.xlsx")
 nmd.clim.var <- read_excel("ClimVarMod-NoMissingData.xlsx")
 # temperate only individuals 
 temp.climate.var <- read_excel("TemperateClimVarMod.xlsx")
+# temperate only individuals - no missing data 
+nmd.temp.climate.var <- read_excel("TemperateClimVarMod-NoMissingData.xlsx")
 
 # GENETIC MATRIX
 # tropical + temperate individuals 
@@ -618,10 +620,13 @@ genmatrix <- read.table("covariance-matrix.txt")
 G <- as.matrix(genmatrix)
 # tropical + temperate individuals - no missing data
 nmd.genetic <- read.table("covariance-matrix-nmd.txt")
-NG <- as.matrix(nmd.matrix)
+NG <- as.matrix(nmd.genetic)
 # temperate only individuals
-temp.genmatrix <- read.table("temperate-covariance-matrix.txt")
-T.G <- as.matrix(temp.genmatrix)
+temp.genetic <- read.table("temperate-covariance-matrix.txt")
+T.G <- as.matrix(temp.genetic)
+# temperate only individuals - no missing data
+nmd.temp.genetic <- read.table("covariance-matrix-nmd-temp.txt")
+N.T.G <- as.matrix(nmd.temp.genetic)
 
 # DISTANCE MATRIX
 # tropical + temperate individuals
@@ -629,10 +634,13 @@ distance <- read.table("distance-matrix.txt")
 D <- as.matrix(distance)
 # tropical + temperate individuals - no missing data
 nmd.distance <- read.table("distance-matrix-nmd.txt")
-ND <- as.matrix(distance)
+ND <- as.matrix(nmd.distance)
 # temperate only individuals 
 temp.distance <- read.table("temperate-distance-matrix.txt")
 T.D <- as.matrix(temp.distance)
+# temperate only individuals - no missing data
+nmd.temp.distance <- read.table("distance-matrix-nmd-temp.txt")
+N.T.D <- as.matrix(nmd.temp.distance)
 
 # INBREEDING MODEL
 # tropical + temperate
@@ -653,6 +661,10 @@ MRM(as.dist(NG) ~ as.dist(ND) + dist(ScaledNdays35five) + dist(ScaledNdays5five)
 
 # temperate only
 MRM(as.dist(T.G) ~ as.dist(T.D) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=temp.climate.var, nperm=500)
+
+# temperate only - no missing data 
+MRM(as.dist(N.T.G) ~ as.dist(N.T.D) + dist(ScaledNdays35five) + dist(ScaledNdays5five) + dist(ScaledRainfive) + dist(Year), data=nmd.temp.climate.var, nperm=500)
+
 ```
 
 ### ================================== ###
@@ -720,10 +732,109 @@ T.G <- as.matrix(nmd.temp.matrix)
 
 # MIXED MODEL USING ADONIS 
 # tropical + temperate 
-adonis2(AG ~ ScaledChangeMeanTemp*ScaledNdays35five + ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain + Year + IBRA, data = nmd.clim.var)
+temporal.model1 <- adonis2(AG ~ ScaledChangeMeanTemp*ScaledNdays35five + ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain + Year + IBRA, data = nmd.clim.var)
 
-# temperate only
+temporal.model2 <- adonis2(AG ~ ScaledChangeMeanTemp*ScaledNdays35five + ScaledRainfive*ScaledChangeRain + Year + IBRA, data = nmd.clim.var)
 
+temporal.model3 <- adonis2(AG ~ ScaledChangeMeanTemp*ScaledNdays5five + ScaledRainfive*ScaledChangeRain + Year + IBRA, data = nmd.clim.var)
+
+# Calculate AICs for adonis models 
+# Script source: https://github.com/kdyson/R_Scripts/blob/master/AICc_PERMANOVA.R
+
+AICc.PERMANOVA2 <- function(adonis2.model) {
+     
+     # check to see if object is an adonis2 model...
+     
+     if (is.na(adonis2.model$SumOfSqs[1]))
+         stop("object not output of adonis2 {vegan} ")
+     
+     # Ok, now extract appropriate terms from the adonis model Calculating AICc
+     # using residual sum of squares (RSS or SSE) since I don't think that adonis
+     # returns something I can use as a liklihood function... o wait maximum likelihood may be MSE.
+     
+     RSS <- adonis2.model$SumOfSqs[ length(adonis2.model$SumOfSqs) - 1 ]
+     MSE <- RSS / adonis2.model$Df[ length(adonis2.model$Df) - 1 ]
+     
+     nn <- adonis2.model$Df[ length(adonis2.model$Df) ] + 1
+     
+     k <- nn - adonis2.model$Df[ length(adonis2.model$Df) - 1 ]
+     
+     
+     # AIC : 2*k + n*ln(RSS)
+     # AICc: AIC + [2k(k+1)]/(n-k-1)
+     
+     # based on https://en.wikipedia.org/wiki/Akaike_information_criterion;
+     # https://www.researchgate.net/post/What_is_the_AIC_formula;
+     # http://avesbiodiv.mncn.csic.es/estadistica/ejemploaic.pdf
+     
+     # AIC.g is generalized version of AIC = 2k + n [Ln( 2(pi) RSS/n ) + 1]
+     # AIC.pi = k + n [Ln( 2(pi) RSS/(n-k) ) +1],
+     
+     AIC <- 2*k + nn*log(RSS)
+     AIC.g <- 2*k + nn * (1 + log( 2 * pi * RSS / nn))
+     AIC.MSE <- 2*k + nn * log(MSE)
+     AIC.pi <- k + nn*(1 + log( 2*pi*RSS/(nn-k) )   )
+     AICc <- AIC + (2*k*(k + 1))/(nn - k - 1)
+     AICc.MSE <- AIC.MSE + (2*k*(k + 1))/(nn - k - 1)
+     AICc.pi <- AIC.pi + (2*k*(k + 1))/(nn - k - 1)
+     
+     output <- list("AIC" = AIC, "AIC.g" = AIC.g, "AICc" = AICc,
+                    "AIC.MSE" = AIC.MSE, "AICc.MSE" = AICc.MSE,
+                    "AIC.pi" = AIC.pi, "AICc.pi" = AICc.pi, "k" = k)
+     
+     return(output)   
+     
+}
+
+AICc.PERMANOVA2(adonis2.model = temporal.model1)
+AICc.PERMANOVA2(adonis2.model = temporal.model2)
+AICc.PERMANOVA2(adonis2.model = temporal.model3)
+```
+
+### ================================== ###
+### CORRELATION COEFFICIENTS           ###
+### ================================== ###
+
+```{r}
+
+# Calculate correlation coefficients to tell directions of trends
+# Load datasets 
+distance <- read.table("distance-matrix.txt")
+D <- as.matrix(distance)
+nmd.distance <- read.table("distance-matrix-nmd.txt")
+ND <- as.matrix(nmd.distance)
+nmd.genetic <- read.table("covariance-matrix-nmd.txt")
+NG <- as.matrix(nmd.genetic)
+nmd.clim.var <- read_excel("ClimVarMod-NoMissingData.xlsx")
+# remove zeroes in covariance matrix, like for adonis 
+NG2 <- as.matrix(nmd.genetic)
+NG2[NG2 < 0] <- 0
+
+# Load variables as distance based
+covariance <- as.numeric(as.dist(NG))
+distance <- as.numeric(as.dist(ND))
+year <- as.numeric (dist(nmd.clim.var$Year))
+mean.temp <- as.numeric(dist(nmd.clim.var$ScaledChangeMeanTemp))
+rain <- as.numeric(dist(nmd.clim.var$ScaledChangeRain))
+ndasy35 <- as.numeric(dist(nmd.clim.var$ScaledNdays35five))
+ndasy5 <- as.numeric(dist(nmd.clim.var$ScaledNdays5five))
+covariance.zero <- as.numeric(as.dist(NG2))
+mean.temp.35 <- mean.temp * ndasy35
+mean.temp.5 <- mean.temp * ndasy5
+rain.change <- as.numeric(dist(nmd.clim.var$ScaledChangeRain))
+rain <- as.numeric(dist(nmd.clim.var$ScaledRainfive))
+rain.change.rain <- rain.change * rain
+
+# calculate pearson's correlation co-efficients
+cor.test(covariance.zero, year, method=c("pearson"))
+cor.test(covariance.zero, mean.temp.35, method=c("pearson"))
+cor.test(covariance.zero, mean.temp, method=c("pearson"))
+cor.test(covariance.zero, ndasy35, method=c("pearson"))
+cor.test(covariance.zero, ndasy5, method=c("pearson"))
+cor.test(covariance.zero, mean.temp.5, method=c("pearson"))
+cor.test(covariance.zero, rain.change, method=c("pearson"))
+cor.test(covariance.zero, rain, method=c("pearson"))
+cor.test(covariance.zero, rain.change.rain, method=c("pearson"))
 ```
 
 ### ================================== ###
@@ -747,11 +858,22 @@ climate.var <- read_excel("ClimVarMod.xlsx")
 covariance <- as.numeric(as.dist(G))
 distance <- as.numeric(as.dist(D))
 year <- as.numeric (dist(climate.var$Year))
-hex.data <- data.frame(year, covariance, distance)
+rain <- as.numeric(dist(climate.var$ScaledChangeRain))
+mean.temp <- as.numeric(dist(climate.var$ScaledChangeMeanTemp))
+hex.data <- data.frame(year, covariance, rain, mean.temp, distance)
 
 # Plot
 # Genetic covariance and pairwise temporal distance between samples 
-ggplot(hex.data, aes(covariance, year)) + geom_hex() + labs(x = "Genetic Covariance", y = "Age Difference (Years)") + scale_fill_gradient(low = "gray25", high = "royalblue3") + theme_bw()
+ggplot(hex.data, aes(covariance, year)) + geom_hex() + labs(x = "Genetic Covariance", y = "Age Difference (Years)") + theme_bw()
+
 # Genetic covariance and pairwsie spatial distance between samples 
-ggplot(hex.data, aes(covariance, distance)) + geom_hex() + labs(x = "Genetic Covariance", y = "Distance between Individuals (m)") + scale_fill_gradient(low = "gray25", high = "royalblue3") + theme_bw()
+ggplot(hex.data, aes(covariance, distance)) + geom_hex() + labs(x = "Genetic Covariance", y = "Distance between Individuals (m)") + theme_bw()
+
+# Genetic covariance and pairwise difference in rate of mean temperature 
+# change 
+ggplot(hex.data, aes(covariance, mean.temp)) + geom_hex() + labs(x = "Genetic Covariance", y = "Difference in Rate of Mean Temperature Change (°C)") + theme_bw()
+
+# Genetic covariance and pairwise difference in rate of change in annual 
+# rainfall
+ggplot(hex.data, aes(covariance, rain)) + geom_hex() + labs(x = "Genetic Covariance", y = "Difference in Rate of Annual Rainfall (mm)") + theme_bw()
 ```
